@@ -10,7 +10,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface;
+use Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface;
 
 /**
  * Provides a base plugin selector.
@@ -24,7 +24,7 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * The mapper.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface
+   * @var \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface
    */
   protected $pluginDefinitionMapper;
 

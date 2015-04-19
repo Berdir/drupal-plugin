@@ -34,7 +34,7 @@ class FilteredPluginManager implements CachedDiscoveryInterface, FilteredPluginM
   /**
    * The plugin definition mapper.
    *
-   * @var \Drupal\payment\Plugin\Payment\PluginDefinitionMapperInterface
+   * @var \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface
    */
   protected $pluginDefinitionMapper;
 

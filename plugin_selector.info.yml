@@ -1,0 +1,4 @@
+name: Plugin Selector
+description: Provides solutions to select and configure plugins.
+core: 8.x
+type: module
