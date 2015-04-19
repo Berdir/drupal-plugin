@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\payment\Plugin\Payment\PluginSelector\AdvancedPluginSelectorBase.
+ * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBase.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
@@ -89,7 +89,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
 
     $form['container'] = array(
       '#attributes' => array(
-        'class' => array('payment-plugin-selector-' . Html::getId($this->getPluginId())),
+        'class' => array('plugin-selector-' . Html::getId($this->getPluginId())),
       ),
       '#available_plugins' => $available_plugins,
       '#process' => array(array($this, $callback_method)),
@@ -166,7 +166,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   protected function buildPluginForm(FormStateInterface $form_state) {
     $element = array(
       '#attributes' => array(
-        'class' => array('payment-plugin-selector-' . Html::getId($this->getPluginId()) . '-payment-plugin-form'),
+        'class' => array('plugin-selector-' . Html::getId($this->getPluginId()) . '-plugin-form'),
       ),
       '#id' => $this->getElementId(),
       '#type' => 'container',
@@ -261,7 +261,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   protected function buildSelector(array $root_element, FormStateInterface $form_state, array $plugins) {
     $build['container'] = array(
       '#attributes' => array(
-        'class' => array('payment-plugin-selector-' . Html::getId($this->getPluginId() . '-selector')),
+        'class' => array('plugin-selector-' . Html::getId($this->getPluginId() . '-selector')),
       ),
       '#type' => 'container',
     );

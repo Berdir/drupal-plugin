@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\payment\Plugin\Payment\PluginSelector\SelectList.
+ * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Core\Form\FormStateInterface;
 
@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Provides a plugin selector using a <select> element.
  *
  * @PluginSelector(
- *   id = "payment_select_list",
+ *   id = "plugin_selector_select_list",
  *   label = @Translation("Drop-down selection list")
  * )
  */

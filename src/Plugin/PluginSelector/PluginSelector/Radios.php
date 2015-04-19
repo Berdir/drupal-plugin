@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\payment\Plugin\Payment\PluginSelector\Radios.
+ * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Core\Form\FormStateInterface;
 
@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Provides a plugin selector using a radio buttons.
  *
  * @PluginSelector(
- *   id = "payment_radios",
+ *   id = "plugin_selector_radios",
  *   label = @Translation("Radio buttons")
  * )
  */
@@ -53,7 +53,7 @@ class Radios extends AdvancedPluginSelectorBase {
         'wrapper' => $this->getElementId(),
       ),
       '#attached' => [
-        'library' => ['payment/plugin_selector.payment_radios'],
+        'library' => ['plugin_selector/plugin_selector.plugin_selector_radios'],
       ],
       '#default_value' => $this->getSelectedPlugin() ? $this->getSelectedPlugin()->getPluginId() : NULL,
       '#empty_value' => 'select',

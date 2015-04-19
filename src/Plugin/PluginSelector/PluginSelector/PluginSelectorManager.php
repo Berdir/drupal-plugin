@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Contains \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorManager.
+ * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManager.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Plugin\FallbackPluginManagerInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
@@ -14,7 +14,7 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 /**
  * Manages discovery and instantiation of plugin selector plugins.
  *
- * @see \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorInterface
+ * @see \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface
  */
 class PluginSelectorManager extends DefaultPluginManager implements PluginSelectorManagerInterface, FallbackPluginManagerInterface {
 
@@ -30,16 +30,16 @@ class PluginSelectorManager extends DefaultPluginManager implements PluginSelect
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/Payment/PluginSelector', $namespaces, $module_handler, '\Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorInterface', '\Drupal\payment\Annotations\PluginSelector');
-    $this->alterInfo('payment_plugin_selector');
-    $this->setCacheBackend($cache_backend, 'payment_plugin_selector');
+    parent::__construct('Plugin/PluginSelector/PluginSelector', $namespaces, $module_handler, '\Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface', '\Drupal\plugin_selector\Annotation\PluginSelector');
+    $this->alterInfo('plugin_selector_plugin_selector');
+    $this->setCacheBackend($cache_backend, 'plugin_selector_plugin_selector');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getFallbackPluginId($plugin_id, array $configuration = []) {
-    return 'payment_select_list';
+    return 'plugin_selector_select_list';
   }
 
 }

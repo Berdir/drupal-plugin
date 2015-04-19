@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorManagerInterface.
+ * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManagerInterface.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
 
@@ -22,7 +22,7 @@ interface PluginSelectorManagerInterface extends PluginManagerInterface {
    * @param array $configuration
    *   An array of configuration relevant to the plugin instance.
    *
-   * @return \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorInterface
+   * @return \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface
    */
   public function createInstance($plugin_id, array $configuration = []);
 

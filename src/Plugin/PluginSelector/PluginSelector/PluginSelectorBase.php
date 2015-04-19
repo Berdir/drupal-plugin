@@ -1,29 +1,30 @@
 <?php
 
 /**
- * Contains \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorBase.
+ * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\payment\Plugin\Payment\PluginDefinitionMapperInterface;
+use Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface;
 
 /**
  * Provides a base plugin selector.
  *
  * Plugins extending this class should provide a configuration schema that
- * extends payment.plugin_configuration.plugin_selector.payment_base.
+ * extends
+ * plugin_selector.plugin_configuration.plugin_selector.plugin_selector_base.
  */
 abstract class PluginSelectorBase extends PluginBase implements PluginSelectorInterface {
 
   /**
    * The mapper.
    *
-   * @var \Drupal\payment\Plugin\Payment\PluginDefinitionMapperInterface
+   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface
    */
   protected $pluginDefinitionMapper;
 

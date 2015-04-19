@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Contains \Drupal\payment\Plugin\Payment\PluginSelector\PluginSelectorInterface.
+ * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface.
  */
 
-namespace Drupal\payment\Plugin\Payment\PluginSelector;
+namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\payment\Plugin\Payment\PluginDefinitionMapperInterface;
+use Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface;
 
 /**
  * Defines a plugin to select and configure another plugin.
@@ -124,7 +124,7 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
    * Sets the selectable plugin manager.
    *
    * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
-   * @param \Drupal\payment\Plugin\Payment\PluginDefinitionMapperInterface $mapper
+   * @param \Drupal\plugin_selector\Plugin\PluginSelector\PluginDefinitionMapperInterface $mapper
    *   The mapper to extract metadata from the plugin manager's plugins.
    *
    * @return $this
