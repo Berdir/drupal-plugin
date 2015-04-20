@@ -1,0 +1,8 @@
+plugin_selector_test.plugin_selector.advanced_plugin_selector_base:
+  path: '/plugin_selector_test-plugin_selector-advanced_plugin_selector_base/{allowed_selectable_plugin_ids}/{plugin_id}/{tree}'
+  path: '/plugin_selector_test-plugin_selector-advanced_plugin_selector_base/none/plugin_selector_radios/0'
+  defaults:
+    _form: '\Drupal\plugin_selector_test\AdvancedPluginSelectorBasePluginSelectorForm'
+    tree: 0
+  requirements:
+    _access: 'TRUE'
