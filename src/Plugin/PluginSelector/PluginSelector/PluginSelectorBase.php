@@ -76,6 +76,7 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
    */
   public function defaultConfiguration() {
     return array(
+      'description' => NULL,
       'label' => NULL,
       'required' => FALSE,
       'collect_plugin_configuration' => TRUE,
@@ -113,6 +114,22 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
    */
   public function getLabel() {
     return $this->configuration['label'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDescription($description) {
+    $this->configuration['description'] = $description;
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDescription() {
+    return $this->configuration['description'];
   }
 
   /**

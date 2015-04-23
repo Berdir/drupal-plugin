@@ -18,7 +18,7 @@ use Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface;
 interface PluginSelectorInterface extends PluginInspectionInterface, ConfigurablePluginInterface {
 
   /**
-   * Sets the label.
+   * Sets the human-readable label.
    *
    * @param string $label
    *
@@ -27,11 +27,27 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
   public function setLabel($label);
 
   /**
-   * Gets the label.
+   * Gets the human-readable label.
    *
    * @return string
    */
   public function getLabel();
+
+  /**
+   * Sets the human-readable description.
+   *
+   * @param string $description
+   *
+   * @return $this
+   */
+  public function setDescription($description);
+
+  /**
+   * Gets the human-readable description.
+   *
+   * @return string
+   */
+  public function getDescription();
 
   /**
    * Sets whether a plugin must be selected.

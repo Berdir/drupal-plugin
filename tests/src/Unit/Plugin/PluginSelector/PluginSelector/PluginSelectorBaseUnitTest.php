@@ -77,6 +77,16 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
   }
 
   /**
+   * @covers ::setDescription
+   * @covers ::getDescription
+   */
+  public function testGetDescription() {
+    $description = $this->randomMachineName();
+    $this->assertSame($this->sut, $this->sut->setDescription($description));
+    $this->assertSame($description, $this->sut->getDescription());
+  }
+
+  /**
    * @covers ::setCollectPluginConfiguration
    * @covers ::getCollectPluginConfiguration
    */
