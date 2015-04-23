@@ -60,6 +60,7 @@ class Radios extends AdvancedPluginSelectorBase {
       '#options' => $plugin_options ,
       '#required' => $this->isRequired(),
       '#title' => $this->getlabel(),
+      '#description' => $this->getDescription(),
       '#type' => 'radios',
     );
 

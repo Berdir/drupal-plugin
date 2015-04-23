@@ -104,6 +104,8 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
     $this->sut->setSelectedPlugin($plugin);
     $selector_title = $this->randomMachineName();
     $this->sut->setLabel($selector_title);
+    $selector_description = $this->randomMachineName();
+    $this->sut->setDescription($selector_description);
 
     $element = array(
       '#parents' => array('foo', 'bar'),
@@ -133,6 +135,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       ) ,
       '#required' => FALSE,
       '#title' => $selector_title,
+      '#description' => $selector_description,
       '#type' => 'radios',
     );
     $expected_build_change = array(

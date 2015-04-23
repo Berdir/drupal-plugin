@@ -39,6 +39,7 @@ class SelectList extends AdvancedPluginSelectorBase {
       '#options' => $this->buildOptionsLevel($this->buildHierarchy()),
       '#required' => $this->isRequired(),
       '#title' => $this->getLabel(),
+      '#description' => $this->getDescription(),
       '#type' => 'select',
     );
 

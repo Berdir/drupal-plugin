@@ -100,6 +100,8 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     $this->sut->setSelectedPlugin($plugin_a);
     $selector_title = $this->randomMachineName();
     $this->sut->setLabel($selector_title);
+    $selector_description = $this->randomMachineName();
+    $this->sut->setDescription($selector_description);
 
     $element = array(
       '#parents' => array('foo', 'bar'),
@@ -132,6 +134,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
       ) ,
       '#required' => FALSE,
       '#title' => $selector_title,
+      '#description' => $selector_description,
       '#type' => 'select',
     );
     $expected_build_change = array(
