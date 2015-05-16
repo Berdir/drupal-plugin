@@ -1,0 +1,21 @@
+{
+  "name": "drupal/plugin_selector",
+  "type": "drupal-module",
+  "license": "GPL-2.0",
+  "autoload": {
+    "psr-4": {
+      "Drupal\\plugin_selector\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\plugin_selector\\": "tests/src"
+    }
+  },
+  "require" : {
+    "php": "~5.4"
+  },
+  "require-dev" : {
+    "satooshi/php-coveralls": "dev-master"
+  }
+}
