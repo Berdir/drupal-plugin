@@ -7,6 +7,8 @@
 
 namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Core\Form\FormState;
+
 /**
  * @coversDefaultClass \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase
  *
@@ -145,6 +147,23 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
     $this->assertTrue($this->sut->isRequired());
     $this->sut->setRequired(FALSE);
     $this->assertFalse($this->sut->isRequired());
+  }
+
+  /**
+   * @covers ::buildSelectorForm
+   * @covers ::setPluginManager
+   */
+  public function testBuildSelectorForm() {
+    $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $plugin_definition_mapper = $this->getMock('\Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface');
+    $this->sut->setPluginManager($plugin_manager, $plugin_definition_mapper);
+
+    $form = [];
+    $form_state = new FormState();
+
+    $form = $this->sut->buildSelectorForm($form, $form_state);
+
+    $this->assertInternalType('array', $form);
   }
 
 }
