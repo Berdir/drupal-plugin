@@ -12,6 +12,8 @@ use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\plugin_selector\Plugin\DefaultPluginDefinitionMapper
+ *
+ * @group Plugin Selector
  */
 class DefaultPluginDefinitionMapperUnitTest extends UnitTestCase {
 

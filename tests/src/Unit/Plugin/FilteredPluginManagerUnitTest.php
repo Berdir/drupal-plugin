@@ -14,6 +14,8 @@ use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\plugin_selector\Plugin\FilteredPluginManager
+ *
+ * @group Plugin Selector
  */
 class FilteredPluginManagerUnitTest extends UnitTestCase {
 
