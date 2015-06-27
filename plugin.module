@@ -11,7 +11,7 @@
 function plugin_field_formatter_info_alter(array &$info) {
   $supported_field_type_ids = [];
   /** @var \Drupal\Component\Plugin\PluginManagerInterface $field_formatter_manager */
-  $field_formatter_manager = \Drupal::service('plugin.manager.field.formatter');
+  $field_formatter_manager = \Drupal::service('plugin.manager.field.field_type');
   foreach ($field_formatter_manager->getDefinitions() as $plugin_id => $plugin_definition) {
     if (is_subclass_of($plugin_definition['class'], 'Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface')) {
       $supported_field_type_ids[] = $plugin_id;
