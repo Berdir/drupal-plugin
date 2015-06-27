@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\plugin\Tests\Plugin\Field\FieldType\PluginBagItemBaseTest.
+ * Contains \Drupal\plugin\Tests\Plugin\Field\FieldType\PluginCollectionItemBaseTest.
  */
 
 namespace Drupal\plugin\Tests\Plugin\Field\FieldType;
@@ -13,11 +13,11 @@ use Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockManager;
 use Drupal\simpletest\KernelTestBase;
 
 /**
- * Tests \Drupal\plugin\Plugin\Field\Plugin\Field\FieldType\PluginBagItemBase.
+ * Tests \Drupal\plugin\Plugin\Field\Plugin\Field\FieldType\PluginCollectionItemBase.
  *
  * @group Plugin
  */
-class PluginBagItemBaseTest extends KernelTestBase {
+class PluginCollectionItemBaseTest extends KernelTestBase {
 
   /**
    * {@inheritdoc}
@@ -27,7 +27,7 @@ class PluginBagItemBaseTest extends KernelTestBase {
   /**
    * The field item under test.
    *
-   * @var \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemBase
+   * @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemBase
    */
   protected $fieldItem;
 
@@ -37,7 +37,7 @@ class PluginBagItemBaseTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $field_definition = BaseFieldDefinition::create('plugin_test_helper_plugin_bag');
+    $field_definition = BaseFieldDefinition::create('plugin_test_helper_plugin_collection');
 
     /** @var \Drupal\Core\Field\FieldItemListInterface $field_item_list */
     $field_item_list = \Drupal::typedDataManager()->create($field_definition);

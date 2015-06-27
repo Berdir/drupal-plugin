@@ -32,7 +32,7 @@ class PluginConfiguration extends TypedData {
    */
   public function setValue($value, $notify = TRUE) {
     $value = (array) $value;
-    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemInterface $parent */
+    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface $parent */
     $parent = $this->getParent();
     $plugin_instance = $parent->getContainedPluginInstance();
     if ($plugin_instance instanceof ConfigurablePluginInterface) {
@@ -45,7 +45,7 @@ class PluginConfiguration extends TypedData {
    * {@inheritdoc}
    */
   public function getValue() {
-    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemInterface $parent */
+    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface $parent */
     $parent = $this->getParent();
     $plugin_instance = $parent->getContainedPluginInstance();
     if ($plugin_instance instanceof ConfigurablePluginInterface) {

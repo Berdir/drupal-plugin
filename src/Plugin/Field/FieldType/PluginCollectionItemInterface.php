@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Core\Field\Plugin\Field\FieldType\PluginBagItemInterface.
+ * Contains \Drupal\Core\Field\Plugin\Field\FieldType\PluginCollectionItemInterface.
  */
 
 namespace Drupal\plugin\Plugin\Field\FieldType;
@@ -11,9 +11,9 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Field\FieldItemInterface;
 
 /**
- * Defines a plugin bag field item.
+ * Defines a plugin collection field item.
  */
-interface PluginBagItemInterface extends FieldItemInterface {
+interface PluginCollectionItemInterface extends FieldItemInterface {
 
   /**
    * Returns the manager for plugins of the type contained by this item.

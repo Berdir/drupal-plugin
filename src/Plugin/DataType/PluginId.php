@@ -24,7 +24,7 @@ class PluginId extends StringData {
    */
   public function setValue($value, $notify = TRUE) {
     $value = (string) $value;
-    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemInterface $parent */
+    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface $parent */
     $parent = $this->getParent();
     $plugin_instance = $parent->getContainedPluginInstance();
     if ($value && (!$plugin_instance || $plugin_instance->getPluginId() != $value)) {
@@ -38,7 +38,7 @@ class PluginId extends StringData {
    * {@inheritdoc}
    */
   public function getValue() {
-    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemInterface $parent */
+    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface $parent */
     $parent = $this->getParent();
     $plugin_instance = $parent->getContainedPluginInstance();
     if ($plugin_instance) {

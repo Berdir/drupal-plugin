@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\plugin\Plugin\Field\FieldType\PluginBagItemBase.
+ * Contains \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemBase.
  */
 
 namespace Drupal\plugin\Plugin\Field\FieldType;
@@ -14,9 +14,9 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\MapDataDefinition;
 
 /**
- * Provides a base for plugin bag field items.
+ * Provides a base for plugin collection field items.
  */
-abstract class PluginBagItemBase extends FieldItemBase implements PluginBagItemInterface {
+abstract class PluginCollectionItemBase extends FieldItemBase implements PluginCollectionItemInterface {
 
   /**
    * {@inheritdoc}
