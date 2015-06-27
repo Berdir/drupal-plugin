@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Core\Field\Plugin\Field\FieldType\PluginCollectionItemInterface.
+ * Contains \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface.
  */
 
 namespace Drupal\plugin\Plugin\Field\FieldType;
