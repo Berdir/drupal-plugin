@@ -1,6 +1,6 @@
-Plugin Selector
-===============
-[![Build Status](https://travis-ci.org/bartfeenstra/drupal-plugin_selector.svg?branch=8.x-1.x)](https://travis-ci.org/bartfeenstra/drupal-plugin_selector) [![Coverage Status](https://coveralls.io/repos/bartfeenstra/drupal-plugin_selector/badge.svg?branch=8.x-1.x)](https://coveralls.io/r/bartfeenstra/drupal-plugin_selector?branch=8.x-1.x)
+Plugin
+======
+[![Build Status](https://travis-ci.org/bartfeenstra/drupal-plugin.svg?branch=8.x-1.x)](https://travis-ci.org/bartfeenstra/drupal-plugin) [![Coverage Status](https://coveralls.io/repos/bartfeenstra/drupal-plugin/badge.svg?branch=8.x-1.x)](https://coveralls.io/r/bartfeenstra/drupal-plugin?branch=8.x-1.x)
 
 About
 =====

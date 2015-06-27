@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin\Configurable.
+ * Contains \Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin\Configurable.
  */
 
-namespace Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin;
+namespace Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Utility\NestedArray;

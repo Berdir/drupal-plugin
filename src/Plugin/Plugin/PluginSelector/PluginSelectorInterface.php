@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface.
+ * Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface;
+use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
 
 /**
  * Defines a plugin to select and configure another plugin.
@@ -140,7 +140,7 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
    * Sets the selectable plugin manager.
    *
    * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
-   * @param \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface $mapper
+   * @param \Drupal\plugin\Plugin\PluginDefinitionMapperInterface $mapper
    *   The mapper to extract metadata from the plugin manager's plugins.
    *
    * @return $this

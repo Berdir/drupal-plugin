@@ -2,24 +2,24 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector\PluginSelectorBaseUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseUnitTest.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Core\Form\FormState;
 
 /**
- * @coversDefaultClass \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase
+ * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
 
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $sut;
 
@@ -28,7 +28,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function setUp() {
     $configuration = [];
-    $this->sut = $this->getMockBuilder('\Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase')
+    $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase')
       ->setConstructorArgs(array($configuration, $this->pluginId, $this->pluginDefinition))
       ->getMockForAbstractClass();
   }
@@ -38,7 +38,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function testConstruct() {
     $configuration = [];
-    $this->sut = $this->getMockBuilder('\Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase')
+    $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase')
       ->setConstructorArgs(array($configuration, $this->pluginId, $this->pluginDefinition))
       ->getMockForAbstractClass();
   }
@@ -155,7 +155,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function testBuildSelectorForm() {
     $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
-    $plugin_definition_mapper = $this->getMock('\Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface');
+    $plugin_definition_mapper = $this->getMock('\Drupal\plugin\Plugin\PluginDefinitionMapperInterface');
     $this->sut->setPluginManager($plugin_manager, $plugin_definition_mapper);
 
     $form = [];

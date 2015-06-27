@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios.
+ * @file Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\Radios.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Core\Form\FormStateInterface;
 
@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Provides a plugin selector using a radio buttons.
  *
  * @PluginSelector(
- *   id = "plugin_selector_radios",
+ *   id = "plugin_radios",
  *   label = @Translation("Radio buttons")
  * )
  */
@@ -53,7 +53,7 @@ class Radios extends AdvancedPluginSelectorBase {
         'wrapper' => $this->getElementId(),
       ),
       '#attached' => [
-        'library' => ['plugin_selector/plugin_selector.plugin_selector_radios'],
+        'library' => ['plugin/plugin_selector.plugin_radios'],
       ],
       '#default_value' => $this->getSelectedPlugin() ? $this->getSelectedPlugin()->getPluginId() : NULL,
       '#empty_value' => 'select',

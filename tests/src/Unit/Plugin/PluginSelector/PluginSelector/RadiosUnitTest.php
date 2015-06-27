@@ -3,24 +3,24 @@
 /**
  * @file
  * Contains
- * \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector\RadiosUnitTest.
+ * \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\RadiosUnitTest.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
-use Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\Radios;
 
 /**
- * @coversDefaultClass \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios
+ * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\Radios
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
 
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\Radios
    */
   protected $sut;
 
@@ -116,7 +116,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $expected_build_plugin_id = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios', 'ajaxSubmitConfigurationForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\Radios', 'ajaxSubmitConfigurationForm'),
         'effect' => 'fade',
         'event' => 'change',
         'progress' => 'none',
@@ -126,7 +126,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
         'wrapper' => $get_element_id_method->invokeArgs($this->sut, array($form_state)),
       ),
       '#attached' => [
-        'library' => ['plugin_selector/plugin_selector.plugin_selector_radios'],
+        'library' => ['plugin/plugin_selector.plugin_radios'],
       ],
       '#default_value' => $plugin_id,
       '#empty_value' => 'select',
@@ -140,7 +140,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
     );
     $expected_build_change = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
       ),
       '#attributes' => array(
         'class' => array('js-hide')

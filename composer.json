@@ -1,15 +1,15 @@
 {
-  "name": "drupal/plugin_selector",
+  "name": "drupal/plugin",
   "type": "drupal-module",
   "license": "GPL-2.0",
   "autoload": {
     "psr-4": {
-      "Drupal\\plugin_selector\\": "src"
+      "Drupal\\plugin\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Drupal\\Tests\\plugin_selector\\": "tests/src"
+      "Drupal\\Tests\\plugin\\": "tests/src"
     }
   },
   "require" : {

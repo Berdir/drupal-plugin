@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector\Annotation\PluginSelector.
+ * Contains \Drupal\plugin\Annotation\Plugin.
  */
 
-namespace Drupal\plugin_selector\Annotation;
+namespace Drupal\plugin\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
 

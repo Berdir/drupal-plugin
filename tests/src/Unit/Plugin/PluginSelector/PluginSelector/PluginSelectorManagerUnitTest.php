@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector\PluginSelectorManagerUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorManagerUnitTest.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
-use Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManager;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManager;
 use Drupal\Tests\UnitTestCase;
 use Zend\Stdlib\ArrayObject;
 
 /**
- * @coversDefaultClass \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManager
+ * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManager
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class PluginSelectorManagerUnitTest extends UnitTestCase {
 
@@ -49,7 +49,7 @@ class PluginSelectorManagerUnitTest extends UnitTestCase {
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManager
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManager
    */
   public $sut;
 
@@ -107,7 +107,7 @@ class PluginSelectorManagerUnitTest extends UnitTestCase {
       ->will($this->returnValue($definitions));
     $this->moduleHandler->expects($this->once())
       ->method('alter')
-      ->with('plugin_selector_plugin_selector');
+      ->with('plugin_plugin_selector');
     $this->assertSame($definitions, $this->sut->getDefinitions());
   }
 

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface.
+ * Contains \Drupal\plugin\Plugin\PluginDefinitionMapperInterface.
  */
 
-namespace Drupal\plugin_selector\Plugin;
+namespace Drupal\plugin\Plugin;
 
 /**
  * Defines a plugin definition mapper.

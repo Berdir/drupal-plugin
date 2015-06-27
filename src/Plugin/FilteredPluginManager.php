@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Contains \Drupal\plugin_selector\Plugin\FilteredPluginManager.
+ * Contains \Drupal\plugin\Plugin\FilteredPluginManager.
  */
 
-namespace Drupal\plugin_selector\Plugin;
+namespace Drupal\plugin\Plugin;
 
 use Drupal\Component\Plugin\Discovery\CachedDiscoveryInterface;
 use Drupal\Component\Plugin\Discovery\DiscoveryTrait;
@@ -34,7 +34,7 @@ class FilteredPluginManager implements CachedDiscoveryInterface, FilteredPluginM
   /**
    * The plugin definition mapper.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface
+   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
    */
   protected $pluginDefinitionMapper;
 
@@ -65,7 +65,7 @@ class FilteredPluginManager implements CachedDiscoveryInterface, FilteredPluginM
    *
    * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
    *   Another plugin manager that the filters are applied to.
-   * @param \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface $plugin_definition_mapper
+   * @param \Drupal\plugin\Plugin\PluginDefinitionMapperInterface $plugin_definition_mapper
    */
   public function __construct(PluginManagerInterface $plugin_manager, PluginDefinitionMapperInterface $plugin_definition_mapper) {
     $this->pluginManager = $plugin_manager;

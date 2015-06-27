@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManagerInterface.
+ * Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
 
@@ -22,7 +22,7 @@ interface PluginSelectorManagerInterface extends PluginManagerInterface {
    * @param array $configuration
    *   An array of configuration relevant to the plugin instance.
    *
-   * @return \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface
+   * @return \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface
    */
   public function createInstance($plugin_id, array $configuration = []);
 

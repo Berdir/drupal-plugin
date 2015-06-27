@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector_test\SelectablePluginManager.
+ * Contains \Drupal\plugin_test_helper\SelectablePluginManager.
  */
 
-namespace Drupal\plugin_selector_test;
+namespace Drupal\plugin_test_helper;
 
 use Drupal\Component\Plugin\Discovery\StaticDiscovery;
 use Drupal\Component\Plugin\Factory\DefaultFactory;
@@ -25,13 +25,13 @@ class SelectablePluginManager extends PluginManagerBase {
     $this->discovery->setDefinition('plugin_selector_configurable', array(
       'id' => 'plugin_selector_configurable',
       'label' => t('Configurable selectable plugin'),
-      'class' => 'Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin\Configurable',
+      'class' => 'Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin\Configurable',
     ));
 
     $this->discovery->setDefinition('plugin_selector_non_configurable', array(
       'id' => 'plugin_selector_non_configurable',
       'label' => t('Non-configurable selectable plugin'),
-      'class' => 'Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin\NonConfigurable',
+      'class' => 'Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin\NonConfigurable',
     ));
 
     $this->factory = new DefaultFactory($this->discovery, '\Drupal\Component\Plugin\PluginInspectionInterface');

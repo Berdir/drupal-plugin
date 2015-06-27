@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector_test\AdvancedPluginSelectorBasePluginSelectorForm.
+ * Contains \Drupal\plugin_test_helper\AdvancedPluginSelectorBasePluginSelectorForm.
  */
 
-namespace Drupal\plugin_selector_test;
+namespace Drupal\plugin_test_helper;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\plugin_selector\Plugin\DefaultPluginDefinitionMapper;
-use Drupal\plugin_selector\Plugin\FilteredPluginManager;
-use Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManagerInterface;
+use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
+use Drupal\plugin\Plugin\FilteredPluginManager;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -27,7 +27,7 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
   /**
    * The plugin selector manager.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorManagerInterface
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface
    */
   protected $pluginSelectorManager;
 
@@ -50,14 +50,14 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(new SelectablePluginManager(), $container->get('plugin.manager.plugin_selector.plugin_selector'));
+    return new static(new SelectablePluginManager(), $container->get('plugin.manager.plugin.plugin_selector'));
   }
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'plugin_selector_test_advanced_plugin_selector_base';
+    return 'plugin_test_helper_advanced_plugin_selector_base';
   }
 
   /**
@@ -101,7 +101,7 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    /** @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface $plugin_selector */
+    /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface $plugin_selector */
     $plugin_selector = $form_state->get('plugin_selector');
     $plugin_form = isset($form['tree']) ? $form['tree']['plugin'] : $form['plugin'];
     $plugin_selector->validateSelectorForm($plugin_form, $form_state);
@@ -111,7 +111,7 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    /** @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorInterface $plugin_selector */
+    /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface $plugin_selector */
     $plugin_selector = $form_state->get('plugin_selector');
     $plugin_form = isset($form['tree']) ? $form['tree']['plugin'] : $form['plugin'];
     $plugin_selector->submitSelectorForm($plugin_form, $form_state);

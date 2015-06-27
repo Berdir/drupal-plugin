@@ -23,15 +23,15 @@ install:
   - git clone --branch 8.0.x --depth 1 http://git.drupal.org/project/drupal.git
 
   # Copy the module into Drupal core.
-  - cp -Rv $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR/../drupal/modules/plugin_selector
+  - cp -Rv $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR/../drupal/modules/plugin
 
   # Install Composer dependencies.
-  - cd $TRAVIS_BUILD_DIR/../drupal/modules/plugin_selector
+  - cd $TRAVIS_BUILD_DIR/../drupal/modules/plugin
   - composer install
 
 script:
   # Run PHPUnit tests and submit code coverage statistics.
-  - cd $TRAVIS_BUILD_DIR/../drupal/modules/plugin_selector
+  - cd $TRAVIS_BUILD_DIR/../drupal/modules/plugin
   - mkdir -p build/logs
   - ../../core/vendor/bin/phpunit -c ./phpunit.xml.dist --bootstrap ../../core/tests/bootstrap.php --verbose --debug --coverage-clover ./build/logs/clover.xml || exit 1
   - php ./vendor/bin/coveralls -v -c ./.coveralls.yml

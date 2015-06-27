@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList.
+ * @file Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Core\Form\FormStateInterface;
 
@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Provides a plugin selector using a <select> element.
  *
  * @PluginSelector(
- *   id = "plugin_selector_select_list",
+ *   id = "plugin_select_list",
  *   label = @Translation("Drop-down selection list")
  * )
  */

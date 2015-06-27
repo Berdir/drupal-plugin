@@ -2,18 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\DefaultPluginDefinitionMapperUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\DefaultPluginDefinitionMapperUnitTest.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin;
+namespace Drupal\Tests\plugin\Unit\Plugin;
 
-use Drupal\plugin_selector\Plugin\DefaultPluginDefinitionMapper;
+use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Drupal\Tests\UnitTestCase;
 
 /**
- * @coversDefaultClass \Drupal\plugin_selector\Plugin\DefaultPluginDefinitionMapper
+ * @coversDefaultClass \Drupal\plugin\Plugin\DefaultPluginDefinitionMapper
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class DefaultPluginDefinitionMapperUnitTest extends UnitTestCase {
 
@@ -27,7 +27,7 @@ class DefaultPluginDefinitionMapperUnitTest extends UnitTestCase {
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\DefaultPluginDefinitionMapper
+   * @var \Drupal\plugin\Plugin\DefaultPluginDefinitionMapper
    */
   protected $sut;
 

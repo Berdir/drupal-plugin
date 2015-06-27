@@ -2,23 +2,23 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector\PluginSelectorBaseUnitTestBase.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseUnitTestBase.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Tests\UnitTestCase;
 
 /**
  * Provides a base for tests for classes that extend
- * \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase.
+ * \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase.
  */
 abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
 
   /**
    * The mapper.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $mapper;
 
@@ -53,7 +53,7 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $sut;
 
@@ -62,7 +62,7 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
    *
    */
   public function setUp() {
-    $this->mapper = $this->getMock('\Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface');
+    $this->mapper = $this->getMock('\Drupal\plugin\Plugin\PluginDefinitionMapperInterface');
 
     $this->pluginId = $this->randomMachineName();
 

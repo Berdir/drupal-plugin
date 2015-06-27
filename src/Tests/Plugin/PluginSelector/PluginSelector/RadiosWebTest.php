@@ -2,24 +2,24 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector\Tests\Plugin\PluginSelector\PluginSelector\RadiosWebTest.
+ * Contains \Drupal\plugin\Tests\Plugin\Plugin\Plugin\RadiosWebTest.
  */
 
-namespace Drupal\plugin_selector\Tests\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Tests\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\simpletest\WebTestBase;
 
 /**
- * \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\Radios web test.
+ * \Drupal\plugin\Plugin\Plugin\PluginSelector\Radios web test.
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class RadiosWebTest extends WebTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = array('filter', 'plugin_selector_test');
+  public static $modules = array('filter', 'plugin_test_helper');
 
   /**
    * Tests the element.
@@ -30,7 +30,7 @@ class RadiosWebTest extends WebTestBase {
   }
 
   protected function buildFormPath(array $allowed_selectable_plugin_ids, $tree) {
-    return sprintf('plugin_selector_test-plugin_selector-advanced_plugin_selector_base/%s/plugin_selector_radios/%d', implode(',', $allowed_selectable_plugin_ids), (int) $tree);
+    return sprintf('plugin_test_helper-plugin_selector-advanced_plugin_selector_base/%s/plugin_radios/%d', implode(',', $allowed_selectable_plugin_ids), (int) $tree);
   }
 
   /**
@@ -87,7 +87,7 @@ class RadiosWebTest extends WebTestBase {
 
     $state = \Drupal::state();
     /** @var \Drupal\Component\Plugin\PluginInspectionInterface|\Drupal\Component\Plugin\ConfigurablePluginInterface $selected_plugin */
-    $selected_plugin = $state->get('plugin_selector_test_advanced_plugin_selector_base');
+    $selected_plugin = $state->get('plugin_test_helper_advanced_plugin_selector_base');
     $this->assertEqual($selected_plugin->getPluginId(), 'plugin_selector_configurable');
     $this->assertEqual($selected_plugin->getConfiguration(), [
       'foo' => $foo,

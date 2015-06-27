@@ -3,24 +3,24 @@
 /**
  * @file
  * Contains
- * \Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector\SelectListUnitTest.
+ * \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\SelectListUnitTest.
  */
 
-namespace Drupal\Tests\plugin_selector\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
-use Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList;
 
 /**
- * @coversDefaultClass \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList
+ * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList
  *
- * @group Plugin Selector
+ * @group Plugin
  */
 class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
 
   /**
    * The class under test.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList
+   * @var \Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList
    */
   protected $sut;
 
@@ -118,7 +118,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $expected_build_plugin_id = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\SelectList', 'ajaxSubmitConfigurationForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList', 'ajaxSubmitConfigurationForm'),
         'effect' => 'fade',
         'event' => 'change',
         'trigger_as' => array(
@@ -139,7 +139,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     );
     $expected_build_change = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
       ),
       '#attributes' => array(
         'class' => array('js-hide')

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Contains \Drupal\plugin_selector\Plugin.
+ * Contains \Drupal\plugin\Plugin.
  */
 
-namespace Drupal\plugin_selector\Plugin;
+namespace Drupal\plugin\Plugin;
 
 /**
  * Defines a filtered plugin manager.

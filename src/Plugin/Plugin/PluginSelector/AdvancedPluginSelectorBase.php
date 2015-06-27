@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBase.
+ * @file Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;

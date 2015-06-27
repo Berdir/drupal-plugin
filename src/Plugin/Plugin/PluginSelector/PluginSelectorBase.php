@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Contains \Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector\PluginSelectorBase.
+ * Contains \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase.
  */
 
-namespace Drupal\plugin_selector\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface;
+use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface;
 
 /**
  * Provides a base plugin selector.
@@ -24,7 +25,7 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * The mapper.
    *
-   * @var \Drupal\plugin_selector\Plugin\PluginDefinitionMapperInterface
+   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
    */
   protected $pluginDefinitionMapper;
 

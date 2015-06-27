@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin\NonConfigurable.
+ * Contains \Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin\NonConfigurable.
  */
 
-namespace Drupal\plugin_selector_test\Plugin\PluginSelectorTest\SelectablePlugin;
+namespace Drupal\plugin_test_helper\Plugin\PluginSelectorTest\SelectablePlugin;
 
 use Drupal\Core\Plugin\PluginBase;
 

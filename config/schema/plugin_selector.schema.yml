@@ -1,4 +1,4 @@
-plugin_selector.plugin_configuration.plugin_selector.plugin_selector_base:
+plugin.plugin_configuration.selector.selector_base:
   type: mapping
   mapping:
     collect_plugin_configuration:
@@ -14,8 +14,8 @@ plugin_selector.plugin_configuration.plugin_selector.plugin_selector_base:
       label: Required
       type: boolean
 
-plugin_selector.plugin_configuration.plugin_selector.plugin_selector_radios:
-  type: plugin_selector.plugin_configuration.plugin_selector.plugin_selector_base
+plugin.plugin_configuration.selector.plugin_radios:
+  type: plugin.plugin_configuration.selector.selector_base
 
-plugin_selector.plugin_configuration.plugin_selector.plugin_selector_select_list:
-  type: plugin_selector.plugin_configuration.plugin_selector.plugin_selector_base
+plugin.plugin_configuration.selector.plugin_select_list:
+  type: plugin.plugin_configuration.selector.selector_base

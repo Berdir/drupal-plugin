@@ -8,7 +8,7 @@
     <ini name="memory_limit" value="-1"/>
   </php>
   <testsuites>
-    <testsuite name="Plugin Selector Unit Test Suite">
+    <testsuite name="Plugin Unit Test Suite">
       <directory>./tests</directory>
     </testsuite>
   </testsuites>
