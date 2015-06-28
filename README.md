@@ -1,14 +1,17 @@
-Plugin
-======
-[![Build Status](https://travis-ci.org/bartfeenstra/drupal-plugin.svg?branch=8.x-1.x)](https://travis-ci.org/bartfeenstra/drupal-plugin) [![Coverage Status](https://coveralls.io/repos/bartfeenstra/drupal-plugin/badge.svg?branch=8.x-1.x)](https://coveralls.io/r/bartfeenstra/drupal-plugin?branch=8.x-1.x)
+# Plugin
+[![Build Status](https://travis-ci.org/bartfeenstra/drupal-plugin.svg?branch=8.x-2.x)](https://travis-ci.org/bartfeenstra/drupal-plugin) [![Coverage Status](https://coveralls.io/repos/bartfeenstra/drupal-plugin/badge.svg?branch=8.x-2.x)](https://coveralls.io/r/bartfeenstra/drupal-plugin?branch=8.x-2.x)
 
-About
-=====
+## About
+The plugin module complements Drupal core's 
+[plugin system](http://drupal.org/developing/api/8/plugins) in several ways:
 
-Plugin selectors allow users to select plugins of a particular type and
-configure them using the plugins' configuration forms.
+* Plugin definition mappers provide an API for handling untyped array plugin
+  definitions. See [this issue](http://drupal.org/node/2458789) for an effort to
+  fix this in core's plugin system.
+* Plugin selectors allow users to select plugins of a particular type and
+  configure them using the plugins' configuration forms.
+* Filtered plugin manager decorators to easily filter/limit the plugins a
+  manager can provide.
+* A plugin collection field type that allows plugin instances to be stored on
+  content entities.
 
-This module is a tool for other modules to build user interfaces. Using plugin
-selectors, your users can easily select and configure your plugins and you 
-won't have to write any complex form API integration; the plugin selectors will 
-do that for you.
