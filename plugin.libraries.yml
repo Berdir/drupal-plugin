@@ -1,0 +1,5 @@
+plugin_selector.payment_radios:
+  version: VERSION
+  css:
+    component:
+      css/payment.css: {}
