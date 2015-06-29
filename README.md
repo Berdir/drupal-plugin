@@ -14,4 +14,5 @@ The plugin module complements Drupal core's
   manager can provide.
 * A plugin collection field type that allows plugin instances to be stored on
   content entities.
+* Plugin type discovery through the `plugin.plugin_type_manager` service.
 

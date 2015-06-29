@@ -1,4 +1,7 @@
 services:
+  plugin.plugin_type_manager:
+    class: Drupal\plugin\PluginTypeManager
+    arguments: ['@service_container', '@module_handler']
   plugin.manager.plugin.plugin_selector:
     class: Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManager
     arguments: ['@container.namespaces', '@cache.discovery', '@module_handler']
