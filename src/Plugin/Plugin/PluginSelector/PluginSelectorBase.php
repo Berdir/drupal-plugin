@@ -10,8 +10,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
-use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface;
+use Drupal\plugin\PluginTypeInterface;
 
 /**
  * Provides a base plugin selector.
@@ -23,25 +22,25 @@ use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface;
 abstract class PluginSelectorBase extends PluginBase implements PluginSelectorInterface {
 
   /**
-   * The mapper.
+   * The previously selected plugins.
    *
-   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
+   * @var \Drupal\Component\Plugin\PluginInspectionInterface[]
    */
-  protected $pluginDefinitionMapper;
+  protected $previouslySelectedPlugins = [];
 
   /**
    * The plugin manager of which to select plugins.
    *
    * @var \Drupal\Component\Plugin\PluginManagerInterface
    */
-  protected $pluginManager;
+  protected $selectablePluginManager;
 
   /**
-   * The previously selected plugins.
+   * The plugin type of which to select plugins.
    *
-   * @var \Drupal\Component\Plugin\PluginInspectionInterface[]
+   * @var \Drupal\plugin\PluginTypeInterface
    */
-  protected $previouslySelectedPlugins = [];
+  protected $selectablePluginType;
 
   /**
    * The selected plugin.
@@ -222,9 +221,9 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * {@inheritdoc}
    */
-  public function setPluginManager(PluginManagerInterface $plugin_manager, PluginDefinitionMapperInterface $mapper) {
-    $this->pluginDefinitionMapper = $mapper;
-    $this->pluginManager = $plugin_manager;
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL) {
+    $this->selectablePluginManager = $plugin_manager ?: $plugin_type->getPluginManager();
+    $this->selectablePluginType = $plugin_type;
 
     return $this;
   }
@@ -233,8 +232,8 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
    * {@inheritdoc}
    */
   public function buildSelectorForm(array $form, FormStateInterface $form_state) {
-    if (!$this->pluginManager || !$this->pluginDefinitionMapper) {
-      throw new \RuntimeException('A plugin manager and mapper must be set through static::setPluginManager() first.');
+    if (!$this->selectablePluginType) {
+      throw new \RuntimeException('A plugin type must be set through static::setSelectablePluginType() first.');
     }
 
     return [];

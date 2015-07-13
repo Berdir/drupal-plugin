@@ -7,6 +7,7 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\plugin\PluginType;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -14,13 +15,6 @@ use Drupal\Tests\UnitTestCase;
  * \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase.
  */
 abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
-
-  /**
-   * The mapper.
-   *
-   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface|\PHPUnit_Framework_MockObject_MockObject
-   */
-  protected $mapper;
 
   /**
    * The plugin definition of the class under test.
@@ -37,11 +31,18 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
   protected $pluginId;
 
   /**
-   * The plugin manager of which to select plugins.
+   * The plugin manager through which to select plugins.
    *
    * @var \Drupal\Component\Plugin\PluginManagerInterface|\PHPUnit_Framework_MockObject_MockObject
    */
-  protected $pluginManager;
+  protected $selectablePluginManager;
+
+  /**
+   * The plugin type of which to select plugins.
+   *
+   * @var \Drupal\plugin\PluginTypeInterface|\PHPUnit_Framework_MockObject_MockObject
+   */
+  protected $selectablePluginType;
 
   /**
    * The selected plugin.
@@ -66,7 +67,14 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
 
     $this->pluginId = $this->randomMachineName();
 
-    $this->pluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $this->selectablePluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+
+    $plugin_type_definition = [
+      'id' => $this->randomMachineName(),
+      'label' => $this->randomMachineName(),
+      'provider' => $this->randomMachineName(),
+    ];
+    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->selectablePluginManager);
 
     $this->selectedPlugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
   }

@@ -11,6 +11,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
+use Drupal\plugin\PluginTypeInterface;
 
 /**
  * Defines a plugin to select and configure another plugin.
@@ -137,15 +138,17 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
   public function setSelectedPlugin(PluginInspectionInterface $plugin);
 
   /**
-   * Sets the selectable plugin manager.
+   * Sets the selectable plugin type.
    *
-   * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
-   * @param \Drupal\plugin\Plugin\PluginDefinitionMapperInterface $mapper
-   *   The mapper to extract metadata from the plugin manager's plugins.
+   * @param \Drupal\plugin\PluginTypeInterface $plugin_type
+   *   The type of which to select plugins.
+   * @param \Drupal\Component\Plugin\PluginManagerInterface|null $plugin_manager
+   *   The plugin manager used to discover selectable plugins, or NULL to use
+   *   the plugin type's default plugin manager.
    *
    * @return $this
    */
-  public function setPluginManager(PluginManagerInterface $plugin_manager, PluginDefinitionMapperInterface $mapper);
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL);
 
   /**
    * Builds the selector form.

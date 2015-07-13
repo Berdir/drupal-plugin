@@ -51,7 +51,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     $this->stringTranslation = $this->getStringTranslationStub();
 
     $this->sut = new SelectList([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy);
-    $this->sut->setPluginManager($this->pluginManager, $this->mapper);
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
   }
 
   /**
@@ -89,14 +89,6 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     ];
     $plugin_b = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
 
-    $map = [
-      [$plugin_definition_a, $plugin_label_a],
-      [$plugin_definition_b, $plugin_label_b],
-    ];
-    $this->mapper->expects($this->atLeastOnce())
-      ->method('getPluginLabel')
-      ->willReturnMap($map);
-
     $this->sut->setSelectedPlugin($plugin_a);
     $selector_title = $this->randomMachineName();
     $this->sut->setLabel($selector_title);
@@ -109,7 +101,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
     $available_plugins = [$plugin_a, $plugin_b];
 
-    $this->pluginManager->expects($this->atLeastOnce())
+    $this->selectablePluginManager->expects($this->atLeastOnce())
       ->method('getDefinitions')
       ->willReturn([
         $plugin_id_a => $plugin_definition_a,

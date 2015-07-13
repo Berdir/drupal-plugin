@@ -57,7 +57,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase')
       ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
       ->getMockForAbstractClass();
-    $this->sut->setPluginManager($this->pluginManager, $this->mapper);
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
   }
 
   /**
@@ -137,7 +137,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $form = [];
     $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
 
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
       ->will($this->returnValue([]));
 
@@ -173,16 +173,11 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ],
     ];
 
-    $this->mapper->expects($this->atLeastOnce())
-      ->method('getPluginId')
-      ->with($plugin_definitions[0])
-      ->willReturn($plugin_definitions[0]['id']);
-
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('createInstance')
       ->with($plugin_id)
       ->willReturn($plugin);
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
       ->willReturn($plugin_definitions);
 
@@ -224,21 +219,13 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     ];
 
     $map = [
-      [$plugin_definitions[0], $plugin_definitions[0]['id']],
-      [$plugin_definitions[1], $plugin_definitions[1]['id']],
-    ];
-    $this->mapper->expects($this->atLeastOnce())
-      ->method('getPluginId')
-      ->willReturnMap($map);
-
-    $map = [
       [$plugin_id_a, [], $plugin_a],
       [$plugin_id_b, [], $plugin_b],
     ];
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('createInstance')
       ->willReturnMap($map);
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
       ->will($this->returnValue($plugin_definitions));
 
@@ -312,7 +299,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       array($plugin_id_a, [], $plugin_a),
       array($plugin_id_b, [], $plugin_b),
     );
-    $this->pluginManager->expects($this->exactly(2))
+    $this->selectablePluginManager->expects($this->exactly(2))
       ->method('createInstance')
       ->will($this->returnValueMap($map));
 
@@ -580,7 +567,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->setMethods(array('buildPluginForm', 'buildSelector'))
       ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
       ->getMockForAbstractClass();
-    $this->sut->setPluginManager($this->pluginManager, $this->mapper);
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
     $plugin_selector->expects($this->once())
       ->method('buildPluginForm')
       ->with($form_state)

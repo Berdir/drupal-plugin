@@ -73,9 +73,9 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
     }
 
     $available_plugins = [];
-    foreach ($this->pluginManager->getDefinitions() as $plugin_definition) {
-      $plugin_id = $this->pluginDefinitionMapper->getPluginId($plugin_definition);
-      $available_plugins[] = $this->pluginManager->createInstance($plugin_id);
+    foreach ($this->selectablePluginManager->getDefinitions() as $plugin_definition) {
+      $plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginId($plugin_definition);
+      $available_plugins[] = $this->selectablePluginManager->createInstance($plugin_id);
     }
     if (count($available_plugins) == 0) {
       $callback_method = 'buildNoAvailablePlugins';
@@ -114,7 +114,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
         $this->setSelectedPlugin($this->getPreviouslySelectedPlugins()[$plugin_id]);
       }
       else {
-        $this->setSelectedPlugin($this->pluginManager->createInstance($plugin_id));
+        $this->setSelectedPlugin($this->selectablePluginManager->createInstance($plugin_id));
       }
       // If a (different) plugin was chosen and its form must be displayed,
       // rebuild the form.

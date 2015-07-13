@@ -61,4 +61,11 @@ interface PluginTypeInterface {
    */
   public function getPluginManager();
 
+  /**
+   * Gets the plugin definition mapper.
+   *
+   * @return \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
+   */
+  public function getPluginDefinitionMapper();
+
 }

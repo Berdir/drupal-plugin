@@ -51,7 +51,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
     $this->stringTranslation = $this->getStringTranslationStub();
 
     $this->sut = new Radios([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy);
-    $this->sut->setPluginManager($this->pluginManager, $this->mapper);
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
   }
 
   /**
@@ -61,7 +61,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
     $form = [];
     $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
 
-    $this->pluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
       ->will($this->returnValue([]));
 

@@ -15,6 +15,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Drupal\plugin\Plugin\FilteredPluginManager;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface;
+use Drupal\plugin\PluginTypeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -32,17 +33,17 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
   protected $pluginSelectorManager;
 
   /**
-   * A plugin manager.
+   * A selectable plugin type.
    *
-   * @var \Drupal\Component\Plugin\PluginManagerInterface.
+   * @var \Drupal\plugin\PluginTypeInterface
    */
-  protected $pluginManager;
+  protected $selectablePluginType;
 
   /**
    * Constructs a new class instance.
    */
-  function __construct(PluginManagerInterface $plugin_manager, PluginSelectorManagerInterface $plugin_selector_manager) {
-    $this->pluginManager = $plugin_manager;
+  function __construct(PluginTypeInterface $selectable_plugin_type, PluginSelectorManagerInterface $plugin_selector_manager) {
+    $this->selectablePluginType = $selectable_plugin_type;
     $this->pluginSelectorManager = $plugin_selector_manager;
   }
 
@@ -50,7 +51,10 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(new SelectablePluginManager(), $container->get('plugin.manager.plugin.plugin_selector'));
+    /** @var \Drupal\plugin\PluginTypeManagerInterface $plugin_type_manager */
+    $plugin_type_manager = $container->get('plugin.plugin_type_manager');
+
+    return new static($plugin_type_manager->getPluginType('plugin_test_helper.selectable'), $container->get('plugin.manager.plugin.plugin_selector'));
   }
 
   /**
@@ -68,11 +72,10 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
       $plugin_selector = $form_state->get('plugin_selector');
     }
     else {
-      $plugin_definition_mapper = new DefaultPluginDefinitionMapper();
-      $plugin_manager = new FilteredPluginManager($this->pluginManager, $plugin_definition_mapper);
-      $plugin_manager->setPluginIdFilter(explode(',', $allowed_selectable_plugin_ids));
+      $selectable_plugin_manager = new FilteredPluginManager($this->selectablePluginType->getPluginManager(), $this->selectablePluginType->getPluginDefinitionMapper());
+      $selectable_plugin_manager->setPluginIdFilter(explode(',', $allowed_selectable_plugin_ids));
       $plugin_selector = $this->pluginSelectorManager->createInstance($plugin_id);
-      $plugin_selector->setPluginManager($plugin_manager, $plugin_definition_mapper);
+      $plugin_selector->setSelectablePluginType($this->selectablePluginType, $selectable_plugin_manager);
       $plugin_selector->setRequired();
       $form_state->set('plugin_selector', $plugin_selector);
     }

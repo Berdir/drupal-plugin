@@ -38,7 +38,7 @@ class Radios extends AdvancedPluginSelectorBase {
     /** @var \Drupal\Component\Plugin\PluginInspectionInterface[] $plugins */
     $plugin_options = [];
     foreach ($plugins as $plugin) {
-      $plugin_options[$plugin->getPluginId()] = $this->pluginDefinitionMapper->getPluginLabel($plugin->getPluginDefinition());
+      $plugin_options[$plugin->getPluginId()] = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginLabel($plugin->getPluginDefinition());
     }
     natcasesort($plugin_options);
     $element['container']['plugin_id'] = array(

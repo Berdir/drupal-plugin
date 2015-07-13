@@ -1,0 +1,3 @@
+plugin_test_helper.selectable:
+  label: Selectable plugin
+  plugin_manager_service_id: plugin.manager.plugin_test_helper.selectable

@@ -7,6 +7,7 @@
 
 namespace Drupal\plugin;
 
+use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\TranslationWrapper;
 use Drupal\Component\Plugin\PluginManagerInterface;
@@ -41,6 +42,13 @@ class PluginType implements PluginTypeInterface {
   protected $description;
 
   /**
+   * The plugin definition mapper.
+   *
+   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
+   */
+  protected $pluginDefinitionMapper;
+
+  /**
    * The plugin type provider.
    *
    * @var string
@@ -61,10 +69,16 @@ class PluginType implements PluginTypeInterface {
    *
    * @param mixed[] $definition
    */
-  protected function __construct(array $definition, PluginManagerInterface $plugin_manager) {
+  public function __construct(array $definition, PluginManagerInterface $plugin_manager) {
     $this->id = $definition['id'];
     $this->label = $definition['label'] = new TranslationWrapper($definition['label']);
     $this->description = $definition['description'] = isset($definition['description']) ? new TranslationWrapper($definition['description']) : NULL;
+    if (isset($definition['plugin_definition_mapper_class'])) {
+      $this->pluginDefinitionMapper = new $definition['plugin_definition_mapper_class']();
+    }
+    else {
+      $this->pluginDefinitionMapper = new DefaultPluginDefinitionMapper();
+    }
     $this->pluginManager = $plugin_manager;
     $this->provider = $definition['provider'];
   }
@@ -109,6 +123,13 @@ class PluginType implements PluginTypeInterface {
    */
   public function getPluginManager() {
     return $this->pluginManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPluginDefinitionMapper() {
+    return $this->pluginDefinitionMapper;
   }
 
 }

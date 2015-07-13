@@ -51,7 +51,7 @@ class DefaultPluginDefinitionMapper implements PluginDefinitionMapperInterface {
    * {@inheritdoc}
    */
   public function getPluginDefinitionProperty(array $plugin_definition, $name) {
-    if (array_key_exists($name, $plugin_definition)) {
+    if ($this->hasPluginDefinitionProperty($plugin_definition, $name)) {
       return $plugin_definition[$name];
     }
     else {

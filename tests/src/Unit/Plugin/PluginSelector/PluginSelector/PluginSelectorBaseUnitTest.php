@@ -27,6 +27,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    * {@inheritdoc}
    */
   public function setUp() {
+    parent::setUp();
     $configuration = [];
     $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase')
       ->setConstructorArgs(array($configuration, $this->pluginId, $this->pluginDefinition))
@@ -151,12 +152,10 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
 
   /**
    * @covers ::buildSelectorForm
-   * @covers ::setPluginManager
+   * @covers ::setSelectablePluginType
    */
   public function testBuildSelectorForm() {
-    $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
-    $plugin_definition_mapper = $this->getMock('\Drupal\plugin\Plugin\PluginDefinitionMapperInterface');
-    $this->sut->setPluginManager($plugin_manager, $plugin_definition_mapper);
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
 
     $form = [];
     $form_state = new FormState();

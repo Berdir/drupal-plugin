@@ -56,10 +56,10 @@ class SelectList extends AdvancedPluginSelectorBase {
   protected function buildHierarchy() {
     $parents = [];
     $children = [];
-    $definitions = $this->pluginManager->getDefinitions();
+    $definitions = $this->selectablePluginManager->getDefinitions();
     uasort($definitions, array($this, 'sort'));
     foreach ($definitions as $plugin_id => $definition) {
-      $parent_plugin_id = $this->pluginDefinitionMapper->getParentPluginId($definition);
+      $parent_plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getParentPluginId($definition);
       if ($parent_plugin_id) {
         $children[$parent_plugin_id][] = $plugin_id;
       }
@@ -105,11 +105,11 @@ class SelectList extends AdvancedPluginSelectorBase {
    *   Keys are plugin IDs.
    */
   protected function buildOptionsLevel(array $hierarchy, $depth = 0) {
-    $definitions = $this->pluginManager->getDefinitions();
+    $definitions = $this->selectablePluginManager->getDefinitions();
     $options = [];
     $prefix = $depth ? str_repeat('-', $depth) . ' ' : '';
     foreach ($hierarchy as $plugin_id => $child_plugin_ids) {
-      $options[$plugin_id] = $prefix . $this->pluginDefinitionMapper->getPluginLabel($definitions[$plugin_id]);
+      $options[$plugin_id] = $prefix . $this->selectablePluginType->getPluginDefinitionMapper()->getPluginLabel($definitions[$plugin_id]);
       $options += $this->buildOptionsLevel($child_plugin_ids, $depth + 1);
     }
 
@@ -120,7 +120,7 @@ class SelectList extends AdvancedPluginSelectorBase {
    * Implements uasort() callback to sort plugin definitions by label.
    */
   protected function sort(array $definition_a, array $definition_b) {
-    return strcmp($this->pluginDefinitionMapper->getPluginLabel($definition_a), $this->pluginDefinitionMapper->getPluginLabel($definition_b));
+    return strcmp($this->selectablePluginType->getPluginDefinitionMapper()->getPluginLabel($definition_a), $this->selectablePluginType->getPluginDefinitionMapper()->getPluginLabel($definition_b));
   }
 
 }

@@ -37,6 +37,7 @@ class PluginTypeManager implements PluginTypeManagerInterface {
    */
   protected $pluginTypeDefinitionDefaults = [
     'class' => '\Drupal\plugin\PluginType',
+    'plugin_definition_mapper_class' => '\Drupal\plugin\Plugin\DefaultPluginDefinitionMapper',
   ];
 
   /**
@@ -90,16 +91,19 @@ class PluginTypeManager implements PluginTypeManagerInterface {
 
       // Get the plugin type definitions.
       $plugin_types_data_discovery = new YamlDiscovery('plugin_type', $this->moduleHandler->getModuleDirectories());
-      $plugin_types_data_by_module = $plugin_types_data_discovery->findAll();
+      $plugin_type_definitions_by_module = $plugin_types_data_discovery->findAll();
 
       // For every definition, set defaults and instantiate an object.
-      foreach ($plugin_types_data_by_module as $module => $plugin_types_data) {
-        foreach ($plugin_types_data as $plugin_type_id => $plugin_type_data) {
-          $plugin_type_data += $this->pluginTypeDefinitionDefaults;
-          $plugin_type_data['id'] = $plugin_type_id;
+      foreach ($plugin_type_definitions_by_module as $module => $plugin_type_definitions) {
+        $plugin_type_definition_defaults = [
+            'provider' => $module
+          ] + $this->pluginTypeDefinitionDefaults;
+        foreach ($plugin_type_definitions as $plugin_type_id => $plugin_type_definition) {
+          $plugin_type_definition += $plugin_type_definition_defaults;
+          $plugin_type_definition['id'] = $plugin_type_id;
           /** @var \Drupal\plugin\PluginTypeInterface $class */
-          $class = $plugin_type_data['class'];
-          $this->pluginTypes[$plugin_type_id] = $class::createFromDefinition($this->container, $plugin_type_data);
+          $class = $plugin_type_definition['class'];
+          $this->pluginTypes[$plugin_type_id] = $class::createFromDefinition($this->container, $plugin_type_definition);
         }
       }
     }
