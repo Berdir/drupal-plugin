@@ -43,6 +43,13 @@ class DefaultPluginDefinitionMapper implements PluginDefinitionMapperInterface {
   /**
    * {@inheritdoc}
    */
+  public function getPluginProvider(array $plugin_definition) {
+    return $this->hasPluginDefinitionProperty($plugin_definition, 'provider') ? $this->getPluginDefinitionProperty($plugin_definition, 'provider') : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function hasPluginDefinitionProperty(array $plugin_definition, $name) {
     return array_key_exists($name, $plugin_definition);
   }

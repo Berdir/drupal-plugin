@@ -55,10 +55,13 @@ class PluginTypeTest extends UnitTestCase {
       'plugin_manager_service_id' => $this->randomMachineName(),
     ];
 
+    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+
     $this->pluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
 
     $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
     $map = [
+      ['class_resolver', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $class_resolver],
       ['string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->getStringTranslationStub()],
       [$this->pluginTypeDefinition['plugin_manager_service_id'], ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginManager],
     ];

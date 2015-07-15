@@ -112,8 +112,11 @@ EOT;
         'module_b' => vfsStream::url('modules/module_b'),
       ));
 
+    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+
     $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
     $map = [
+      ['class_resolver', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $class_resolver],
       ['string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->getStringTranslationStub()],
       [$this->pluginTypeDefinitions[$plugin_type_id_a]['plugin_manager_service_id'], ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginManagers[$plugin_type_id_a]],
       [$this->pluginTypeDefinitions[$plugin_type_id_b]['plugin_manager_service_id'], ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginManagers[$plugin_type_id_b]],

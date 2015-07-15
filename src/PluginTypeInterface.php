@@ -68,4 +68,11 @@ interface PluginTypeInterface {
    */
   public function getPluginDefinitionMapper();
 
+  /**
+   * Gets the operations provider.
+   *
+   * @return \Drupal\plugin\PluginTypeOperationsProviderInterface
+   */
+  public function getOperationsProvider();
+
 }

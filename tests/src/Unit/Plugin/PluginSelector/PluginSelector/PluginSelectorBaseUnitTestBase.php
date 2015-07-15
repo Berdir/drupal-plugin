@@ -67,6 +67,8 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
 
     $this->pluginId = $this->randomMachineName();
 
+    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+
     $this->selectablePluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
 
     $plugin_type_definition = [
@@ -74,7 +76,7 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
       'label' => $this->randomMachineName(),
       'provider' => $this->randomMachineName(),
     ];
-    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->getStringTranslationStub(), $this->selectablePluginManager);
+    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->getStringTranslationStub(), $class_resolver, $this->selectablePluginManager);
 
     $this->selectedPlugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
   }

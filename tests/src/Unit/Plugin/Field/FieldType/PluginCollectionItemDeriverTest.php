@@ -64,6 +64,8 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
   function testGetDerivativeDefinitions() {
     $string_translation = $this->getStringTranslationStub();
 
+    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+
     $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
 
     $provider = $this->randomMachineName();
@@ -77,7 +79,7 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
       'description' => $plugin_type_description_a,
       'provider' => $this->randomMachineName(),
     ];
-    $plugin_type_a = new PluginType($plugin_type_definition_a, $string_translation, $plugin_manager);
+    $plugin_type_a = new PluginType($plugin_type_definition_a, $string_translation, $class_resolver, $plugin_manager);
     $plugin_type_id_b = $this->randomMachineName();
     $plugin_type_label_b = $this->randomMachineName();
     $plugin_type_description_b = '';
@@ -87,7 +89,7 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
       'description' => $plugin_type_description_b,
       'provider' => $this->randomMachineName(),
     ];
-    $plugin_type_b = new PluginType($plugin_type_definition_b, $string_translation, $plugin_manager);
+    $plugin_type_b = new PluginType($plugin_type_definition_b, $string_translation, $class_resolver, $plugin_manager);
 
     $plugin_types = [$plugin_type_a, $plugin_type_b];
 

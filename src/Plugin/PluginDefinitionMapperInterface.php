@@ -53,6 +53,15 @@ interface PluginDefinitionMapperInterface {
   public function getPluginDescription(array $plugin_definition);
 
   /**
+   * Gets the provider for a plugin.
+   *
+   * @param array $plugin_definition
+   *
+   * @return string|null
+   */
+  public function getPluginProvider(array $plugin_definition);
+
+  /**
    * Checks if the plugin has an arbitrary property.
    *
    * @param array $plugin_definition
