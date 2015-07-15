@@ -33,7 +33,7 @@ class PluginSelectorTest extends WebTestBase {
     // Test the widget when setting a default field value.
     $field_name = strtolower($this->randomMachineName());
     $selectable_plugin_type_id = 'block';
-    $field_type = 'plugin_collection:' . $selectable_plugin_type_id;
+    $field_type = 'plugin:' . $selectable_plugin_type_id;
     $default_selected_plugin_id = 'broken';
     $this->drupalPostForm('admin/config/people/accounts/fields/add-field', [
       'label' => $this->randomString(),

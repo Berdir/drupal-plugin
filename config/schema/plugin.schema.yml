@@ -24,8 +24,8 @@ plugin.plugin_configuration.plugin_selector.plugin_select_list:
 plugin.plugin_configuration.*:
   type: ignore
 
-# The "plugin_collection" field type schema.
-"field.value.plugin_collection:*":
+# The "plugin" field type schema.
+"field.value.plugin:*":
   label: Plugin collection field value
   mapping:
     plugin_type_id:

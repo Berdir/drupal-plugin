@@ -16,7 +16,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @FieldType(
  *   default_widget = "plugin_selector:plugin_select_list",
  *   default_formatter = "plugin_label",
- *   id = "plugin_collection",
+ *   id = "plugin",
  *   label = @Translation("Plugin collection"),
  *   category = @Translation("Plugin"),
  *   deriver = "\Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemDeriver",
