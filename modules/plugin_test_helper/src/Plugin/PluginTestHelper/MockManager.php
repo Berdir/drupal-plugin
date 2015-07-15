@@ -22,15 +22,19 @@ class MockManager extends PluginManagerBase {
   public function __construct() {
     $this->discovery = new StaticDiscovery();
 
-    $this->discovery->setDefinition('plugin_test_helper_plugin', array(
+    $plugin_id = 'plugin_test_helper_plugin';
+    $this->discovery->setDefinition($plugin_id, [
+      'id' => $plugin_id,
       'label' => t('Plugin'),
       'class' => 'Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockPlugin',
-    ));
+    ]);
 
-    $this->discovery->setDefinition('plugin_test_helper_configurable_plugin', array(
+    $configurable_plugin_id = 'plugin_test_helper_configurable_plugin';
+    $this->discovery->setDefinition($configurable_plugin_id, [
+      'id' => $configurable_plugin_id,
       'label' => t('Configurable plugin'),
       'class' => 'Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockConfigurablePlugin',
-    ));
+    ]);
 
     $this->factory = new DefaultFactory($this->discovery);
   }

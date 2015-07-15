@@ -13,5 +13,4 @@ use Drupal\Core\Plugin\PluginBase;
  * Provides a mock plugin.
  */
 class MockPlugin extends PluginBase {
-
 }

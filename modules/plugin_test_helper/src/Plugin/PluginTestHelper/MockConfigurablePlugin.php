@@ -2,21 +2,24 @@
 
 /**
  * @file
- * Contains \Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockPlugin.
+ * Contains \Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockConfigurablePlugin\Configurable.
  */
 
 namespace Drupal\plugin_test_helper\Plugin\PluginTestHelper;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\Plugin\PluginFormInterface;
 
 /**
  * Provides a configurable mock plugin.
  */
-class MockConfigurablePlugin extends PluginBase implements ConfigurablePluginInterface {
+class MockConfigurablePlugin extends PluginBase implements ConfigurablePluginInterface, PluginFormInterface {
 
   /**
-   * Constructs a Drupal\Component\Plugin\PluginBase object.
+   * Constructs a new instance.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -26,23 +29,14 @@ class MockConfigurablePlugin extends PluginBase implements ConfigurablePluginInt
    *   The plugin implementation definition.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition) {
-    $this->configuration = $configuration;
-    $this->pluginId = $plugin_id;
-    $this->pluginDefinition = $plugin_definition;
+    parent::__construct($configuration + $this->defaultConfiguration(), $plugin_id, $plugin_definition);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function defaultConfiguration() {
+  public function calculateDependencies() {
     return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setConfiguration(array $configuration) {
-    $this->configuration = $configuration + $this->defaultConfiguration();
   }
 
   /**
@@ -55,8 +49,44 @@ class MockConfigurablePlugin extends PluginBase implements ConfigurablePluginInt
   /**
    * {@inheritdoc}
    */
-  public function calculateDependencies() {
-    return [];
+  public function setConfiguration(array $configuration) {
+    $this->configuration = $configuration + $this->defaultConfiguration();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'foo' => 'Foo',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form['foo'] = [
+      '#type' => 'textfield',
+      '#title' => 'Foo value',
+      '#default_value' => $this->configuration['foo'],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    $values = NestedArray::getValue($form_state->getValues(), $form['#parents']);
+    $this->configuration['foo'] = $values['foo'];
   }
 
 }

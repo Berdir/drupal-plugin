@@ -50,14 +50,14 @@ class RadiosWebTest extends WebTestBase {
     $this->assertText(t('There are no available options.'));
 
     // Test the presence of default elements with one available plugin.
-    $path = $this->buildFormPath(['plugin_selector_configurable'], $tree);
+    $path = $this->buildFormPath(['plugin_test_helper_configurable_plugin'], $tree);
     $this->drupalGet($path);
     $this->assertNoFieldByName($name_prefix . '[select][container][plugin_id]');
     $this->assertNoFieldByName($name_prefix . '[select][container][change]', t('Choose'));
     $this->assertNoText(t('There are no available options.'));
 
     // Test the presence of default elements with multiple available plugins.
-    $path = $this->buildFormPath(['plugin_selector_configurable', 'plugin_selector_non_configurable'], $tree);
+    $path = $this->buildFormPath(['plugin_test_helper_plugin', 'plugin_test_helper_configurable_plugin'], $tree);
     $this->drupalGet($path);
     $this->assertFieldByName($name_prefix . '[select][container][plugin_id]');
     $this->assertFieldByName($name_prefix . '[select][container][change]', t('Choose'));
@@ -65,14 +65,14 @@ class RadiosWebTest extends WebTestBase {
 
     // Choose a plugin.
     $this->drupalPostForm(NULL, array(
-      $name_prefix . '[select][container][plugin_id]' => 'plugin_selector_non_configurable',
+      $name_prefix . '[select][container][plugin_id]' => 'plugin_test_helper_plugin',
     ), t('Choose'));
     $this->assertFieldByName($name_prefix . '[select][container][plugin_id]');
     $this->assertFieldByName($name_prefix . '[select][container][change]', t('Choose'));
 
     // Change the plugin.
     $this->drupalPostForm(NULL, array(
-      $name_prefix . '[select][container][plugin_id]' => 'plugin_selector_configurable',
+      $name_prefix . '[select][container][plugin_id]' => 'plugin_test_helper_configurable_plugin',
     ), t('Choose'));
     $this->assertFieldByName($name_prefix . '[select][container][plugin_id]');
     $this->assertFieldByName($name_prefix . '[select][container][change]', t('Choose'));
@@ -80,7 +80,7 @@ class RadiosWebTest extends WebTestBase {
     // Submit the form.
     $foo = $this->randomString();
     $this->drupalPostForm(NULL, array(
-      $name_prefix . '[select][container][plugin_id]' => 'plugin_selector_configurable',
+      $name_prefix . '[select][container][plugin_id]' => 'plugin_test_helper_configurable_plugin',
       $name_prefix . '[plugin_form][foo]' => $foo,
 
     ), t('Submit'));
@@ -88,7 +88,7 @@ class RadiosWebTest extends WebTestBase {
     $state = \Drupal::state();
     /** @var \Drupal\Component\Plugin\PluginInspectionInterface|\Drupal\Component\Plugin\ConfigurablePluginInterface $selected_plugin */
     $selected_plugin = $state->get('plugin_test_helper_advanced_plugin_selector_base');
-    $this->assertEqual($selected_plugin->getPluginId(), 'plugin_selector_configurable');
+    $this->assertEqual($selected_plugin->getPluginId(), 'plugin_test_helper_configurable_plugin');
     $this->assertEqual($selected_plugin->getConfiguration(), [
       'foo' => $foo,
     ]);
