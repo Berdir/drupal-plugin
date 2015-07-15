@@ -143,21 +143,66 @@ EOT;
 
   /**
    * @covers ::hasPluginType
+   *
+   * @dataProvider providerHasPluginType
    */
-  public function testHasPluginType() {
-    foreach ($this->pluginTypeDefinitions as $plugin_type_id => $plugin_type_definition) {
-      $this->assertTrue($this->sut->hasPluginType($plugin_type_id));
+  public function testHasPluginType($expected, $plugin_type_id, $module_exists) {
+    $this->moduleHandler->expects($this->atLeastOnce())
+      ->method('moduleExists')
+      ->willReturn(isset($this->pluginTypeDefinitions[$plugin_type_id]) && $module_exists);
+
+    $this->assertSame($expected, $this->sut->hasPluginType($plugin_type_id));
+  }
+
+  /**
+   * Provides data to self::testHasPluginType().
+   */
+  public function providerHasPluginType () {
+    $data = [];
+
+    foreach ($this->pluginTypeDefinitions as $plugin_type_definition) {
+      $data[] = [TRUE, $plugin_type_definition['id'], TRUE];
+      $data[] = [FALSE, $plugin_type_definition['id'], FALSE];
     }
+    $data[] = [FALSE, $this->randomMachineName(), TRUE];
+    $data[] = [FALSE, $this->randomMachineName(), FALSE];
+
+    return $data;
   }
 
   /**
    * @covers ::getPluginType
+   *
+   * @dataProvider providerGetPluginType
    */
-  public function testGetPluginType() {
-    foreach ($this->pluginTypeDefinitions as $plugin_type_id => $plugin_type_definition) {
-      $plugin_type = $this->sut->getPluginType($plugin_type_id);
-      $this->assertPluginTypeIntegrity($plugin_type_id, $plugin_type_definition, $this->pluginManagers[$plugin_type_id], $plugin_type);
+  public function testGetPluginType($expected_success, $plugin_type_id, $module_exists) {
+    $this->moduleHandler->expects($this->atLeastOnce())
+      ->method('moduleExists')
+      ->willReturn(isset($this->pluginTypeDefinitions[$plugin_type_id]) && $module_exists);
+
+    if ($expected_success) {
+      $this->assertInstanceOf('\Drupal\plugin\PluginTypeInterface', $this->sut->getPluginType($plugin_type_id));
     }
+    else {
+      $this->setExpectedException('\InvalidArgumentException');
+      $this->sut->getPluginType($plugin_type_id);
+    }
+  }
+
+  /**
+   * Provides data to self::testGetPluginType().
+   */
+  public function providerGetPluginType () {
+    $data = [];
+
+    foreach ($this->pluginTypeDefinitions as $plugin_type_definition) {
+      $data[] = [TRUE, $plugin_type_definition['id'], TRUE];
+      $data[] = [FALSE, $plugin_type_definition['id'], FALSE];
+    }
+    $data[] = [FALSE, $this->randomMachineName(), TRUE];
+    $data[] = [FALSE, $this->randomMachineName(), FALSE];
+
+    return $data;
   }
 
   /**

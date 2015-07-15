@@ -53,6 +53,7 @@ class PluginTypeTest extends UnitTestCase {
       'description' => $this->getRandomGenerator()->string(),
       'provider' => $this->randomMachineName(),
       'plugin_manager_service_id' => $this->randomMachineName(),
+      'field_type' => (bool) mt_rand(0, 1),
     ];
 
     $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
@@ -113,6 +114,13 @@ class PluginTypeTest extends UnitTestCase {
    */
   public function testGetPluginManager() {
     $this->assertSame($this->pluginManager, $this->sut->getPluginManager());
+  }
+
+  /**
+   * @covers ::isFieldType
+   */
+  public function testGetFieldType() {
+    $this->assertSame($this->pluginTypeDefinition['field_type'], $this->sut->isFieldType());
   }
 
 }

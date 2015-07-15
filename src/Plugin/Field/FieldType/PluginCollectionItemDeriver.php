@@ -46,11 +46,13 @@ class PluginCollectionItemDeriver extends DeriverBase implements ContainerDerive
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     foreach ($this->pluginTypeManager->getPluginTypes() as $plugin_type) {
-      $this->derivatives[$plugin_type->getId()] = array(
-          'description' => $plugin_type->getDescription(),
-          'label' => $plugin_type->getLabel(),
-          'plugin_type_id' => $plugin_type->getId(),
-        ) + $base_plugin_definition;
+      if ($plugin_type->isFieldType()) {
+        $this->derivatives[$plugin_type->getId()] = array(
+            'description' => $plugin_type->getDescription(),
+            'label' => $plugin_type->getLabel(),
+            'plugin_type_id' => $plugin_type->getId(),
+          ) + $base_plugin_definition;
+      }
     }
 
     return parent::getDerivativeDefinitions($base_plugin_definition);

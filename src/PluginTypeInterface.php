@@ -75,4 +75,11 @@ interface PluginTypeInterface {
    */
   public function getOperationsProvider();
 
+  /**
+   * Gets whether plugin type can be used as a field type.
+   *
+   * @return bool
+   */
+  public function isFieldType();
+
 }

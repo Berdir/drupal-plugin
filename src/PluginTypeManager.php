@@ -100,10 +100,12 @@ class PluginTypeManager implements PluginTypeManagerInterface {
           ] + $this->pluginTypeDefinitionDefaults;
         foreach ($plugin_type_definitions as $plugin_type_id => $plugin_type_definition) {
           $plugin_type_definition += $plugin_type_definition_defaults;
-          $plugin_type_definition['id'] = $plugin_type_id;
-          /** @var \Drupal\plugin\PluginTypeInterface $class */
-          $class = $plugin_type_definition['class'];
-          $this->pluginTypes[$plugin_type_id] = $class::createFromDefinition($this->container, $plugin_type_definition);
+          if ($plugin_type_definition['provider'] == 'core' || $this->moduleHandler->moduleExists($plugin_type_definition['provider'])) {
+            $plugin_type_definition['id'] = $plugin_type_id;
+            /** @var \Drupal\plugin\PluginTypeInterface $class */
+            $class = $plugin_type_definition['class'];
+            $this->pluginTypes[$plugin_type_id] = $class::createFromDefinition($this->container, $plugin_type_definition);
+          }
         }
       }
     }

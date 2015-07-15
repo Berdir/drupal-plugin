@@ -30,6 +30,13 @@ class PluginType implements PluginTypeInterface {
   protected $id;
 
   /**
+   * Whether this plugin type can be used as a field type.
+   *
+   * @var bool
+   */
+  protected $fieldType = TRUE;
+
+  /**
    * The human-readable label.
    *
    * @var \Drupal\Core\StringTranslation\TranslationWrapper|string
@@ -91,6 +98,9 @@ class PluginType implements PluginTypeInterface {
     $this->id = $definition['id'];
     $this->label = $definition['label'] = (new TranslationWrapper($definition['label']))->setStringTranslation($string_translation);
     $this->description = $definition['description'] = isset($definition['description']) ? (new TranslationWrapper($definition['description']))->setStringTranslation($string_translation) : NULL;
+    if (array_key_exists('field_type', $definition)) {
+      $this->fieldType = $definition['field_type'];
+    }
     if (isset($definition['plugin_definition_mapper_class'])) {
       $this->pluginDefinitionMapper = new $definition['plugin_definition_mapper_class']();
     }
@@ -157,6 +167,13 @@ class PluginType implements PluginTypeInterface {
    */
   public function getOperationsProvider() {
     return $this->operationsProvider;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isFieldType() {
+    return $this->fieldType;
   }
 
 }

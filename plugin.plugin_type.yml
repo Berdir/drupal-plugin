@@ -1,8 +1,27 @@
+plugin_selector:
+  label: Plugin selector
+  plugin_manager_service_id: plugin.manager.plugin.plugin_selector
+
+# Drupal core's plugin types.
 block:
   label: Block
   provider: block
   plugin_manager_service_id: plugin.manager.block
   plugin_definition_mapper_class: \Drupal\plugin\Plugin\BlockPluginDefinitionMapper
-plugin_selector:
-  label: Plugin selector
-  plugin_manager_service_id: plugin.manager.plugin.plugin_selector
+field_type:
+  label: Field type/item
+  provider: core
+  plugin_manager_service_id: plugin.manager.field.field_type
+  field_type: false
+field_widget:
+  label: Field widget
+  provider: core
+  plugin_manager_service_id: plugin.manager.field.widget
+field_formatter:
+  label: Field formatter
+  provider: core
+  plugin_manager_service_id: plugin.manager.field.formatter
+search:
+  label: Search method
+  provider: search
+  plugin_manager_service_id: plugin.manager.search
