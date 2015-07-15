@@ -59,6 +59,7 @@ class PluginTypeTest extends UnitTestCase {
 
     $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
     $map = [
+      ['string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->getStringTranslationStub()],
       [$this->pluginTypeDefinition['plugin_manager_service_id'], ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginManager],
     ];
     $this->container->expects($this->atLeastOnce())

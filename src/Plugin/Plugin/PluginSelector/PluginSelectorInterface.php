@@ -138,6 +138,13 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
   public function setSelectedPlugin(PluginInspectionInterface $plugin);
 
   /**
+   * Resets the selected plugin.
+   *
+   * @return $this
+   */
+  public function resetSelectedPlugin();
+
+  /**
    * Sets the selectable plugin type.
    *
    * @param \Drupal\plugin\PluginTypeInterface $plugin_type

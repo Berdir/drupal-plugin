@@ -16,11 +16,11 @@ use Drupal\Core\Field\FieldItemInterface;
 interface PluginCollectionItemInterface extends FieldItemInterface {
 
   /**
-   * Returns the manager for plugins of the type contained by this item.
+   * Returns the type of the plugins contained by this item.
    *
-   * @return \Drupal\Component\Plugin\PluginManagerInterface
+   * @return \Drupal\plugin\PluginTypeInterface
    */
-  public function getPluginManager();
+  public function getPluginType();
 
   /**
    * Validates a plugin instance.

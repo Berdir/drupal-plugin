@@ -221,6 +221,15 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * {@inheritdoc}
    */
+  public function resetSelectedPlugin() {
+    $this->selectedPlugin = NULL;
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL) {
     $this->selectablePluginManager = $plugin_manager ?: $plugin_type->getPluginManager();
     $this->selectablePluginType = $plugin_type;

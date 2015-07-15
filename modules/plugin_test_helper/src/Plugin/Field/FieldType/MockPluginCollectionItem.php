@@ -23,8 +23,11 @@ class MockPluginCollectionItem extends PluginCollectionItemBase {
   /**
    * {@inheritdoc}
    */
-  public function getPluginManager() {
-    return new MockManager();
+  public function getPluginType() {
+    /** @var \Drupal\plugin\PluginTypeManagerInterface $plugin_type_manager */
+    $plugin_type_manager = \Drupal::service('plugin.plugin_type_manager');
+
+    return $plugin_type_manager->getPluginType('plugin_test_helper.mock');
   }
 
 }

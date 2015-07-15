@@ -80,8 +80,6 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
-    $get_element_id_method = new \ReflectionMethod($this->sut, 'getElementId');
-    $get_element_id_method->setAccessible(TRUE);
 
     $plugin_id = $this->randomMachineName();
     $plugin_label = $this->randomMachineName();
@@ -116,14 +114,13 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $expected_build_plugin_id = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\Radios', 'ajaxSubmitConfigurationForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\Radios', 'ajaxRebuildForm'),
         'effect' => 'fade',
         'event' => 'change',
         'progress' => 'none',
         'trigger_as' => array(
           'name' => 'foo[bar][select][container][change]',
         ),
-        'wrapper' => $get_element_id_method->invokeArgs($this->sut, array($form_state)),
       ),
       '#attached' => [
         'library' => ['plugin/plugin_selector.plugin_radios'],
@@ -147,7 +144,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       ),
       '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
       '#name' => 'foo[bar][select][container][change]',
-      '#submit' => array(array($this->sut, 'rebuildForm')),
+      '#submit' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );

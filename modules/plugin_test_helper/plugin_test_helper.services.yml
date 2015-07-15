@@ -1,3 +1,5 @@
 services:
   plugin.manager.plugin_test_helper.selectable:
     class: Drupal\plugin_test_helper\SelectablePluginManager
+  plugin.manager.plugin_test_helper.mock:
+    class: Drupal\plugin_test_helper\Plugin\PluginTestHelper\MockManager

@@ -8,6 +8,8 @@ namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\PageCache\ResponsePolicyInterface;
@@ -77,27 +79,72 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
       $plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginId($plugin_definition);
       $available_plugins[] = $this->selectablePluginManager->createInstance($plugin_id);
     }
-    if (count($available_plugins) == 0) {
-      $callback_method = 'buildNoAvailablePlugins';
-    }
-    elseif (count($available_plugins) == 1) {
-      $callback_method = 'buildOneAvailablePlugin';
-    }
-    else {
-      $callback_method = 'buildMultipleAvailablePlugins';
-    }
 
+    $plugin_selector_form_state_key = static::setPluginSelector($form_state, $this);
     $form['container'] = array(
       '#attributes' => array(
-        'class' => array('plugin-selector-' . Html::getId($this->getPluginId())),
+        'class' => array('plugin-selector-' . Html::getClass($this->getPluginId())),
       ),
       '#available_plugins' => $available_plugins,
-      '#process' => array(array($this, $callback_method)),
+      '#plugin_selector_form_state_key' => $plugin_selector_form_state_key,
+      '#process' => [[get_class(), 'processBuildSelectorForm']],
       '#tree' => TRUE,
       '#type' => 'container',
     );
 
     return $form;
+  }
+
+  /**
+   * Stores a plugin selector in the form state.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface
+   * @param \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface
+   *
+   * @return string[]
+   *   The form state storage key that contains the plugin selector.
+   *
+   * @throws \InvalidArgumentException
+   */
+  protected static function setPluginSelector(FormStateInterface $form_state, PluginSelectorInterface $plugin_selector) {
+    do {
+      $key = [get_class(), mt_rand()];
+    } while ($form_state->has($key));
+
+    $form_state->set($key, $plugin_selector);
+
+    return $key;
+  }
+
+  /**
+   * Gets a plugin selector from the form state.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @param string[] $form_state_key
+   *   The key under which the plugin selector is stored.
+   *
+   * @return \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface
+   */
+  protected static function getPluginSelector(FormStateInterface $form_state, array $form_state_key) {
+    return $form_state->get($form_state_key);
+  }
+
+  /**
+   * Implements a Form API #process callback.
+   */
+  public static function processBuildSelectorForm(array $element, FormStateInterface $form_state, array $form) {
+    /** @var static $plugin_selector */
+    $plugin_selector = static::getPluginSelector($form_state, $element['#plugin_selector_form_state_key']);
+
+    if (count($element['#available_plugins']) == 0) {
+      return $plugin_selector->buildNoAvailablePlugins($element, $form_state);
+    }
+    elseif (count($element['#available_plugins']) == 1) {
+      return $plugin_selector->buildOneAvailablePlugin($element, $form_state);
+    }
+    else {
+      return $plugin_selector->buildMultipleAvailablePlugins($element, $form_state);
+    }
   }
 
   /**
@@ -113,9 +160,13 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
       if (isset($this->getPreviouslySelectedPlugins()[$plugin_id])) {
         $this->setSelectedPlugin($this->getPreviouslySelectedPlugins()[$plugin_id]);
       }
-      else {
+      elseif ($plugin_id) {
         $this->setSelectedPlugin($this->selectablePluginManager->createInstance($plugin_id));
       }
+      else {
+        $this->resetSelectedPlugin();
+      }
+
       // If a (different) plugin was chosen and its form must be displayed,
       // rebuild the form.
       if ($this->getCollectPluginConfiguration() && $this->getSelectedPlugin() instanceof PluginFormInterface) {
@@ -141,7 +192,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   /**
    * Implements form API's #submit.
    */
-  public function rebuildForm(array $form, FormStateInterface $form_state) {
+  public static function rebuildForm(array $form, FormStateInterface $form_state) {
     $form_state->setRebuild();
   }
 
@@ -153,7 +204,10 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
     $form_parents = array_slice($triggering_element['#array_parents'], 0, -3);
     $root_element = NestedArray::getValue($form, $form_parents);
 
-    return $root_element['plugin_form'];
+    $response = new AjaxResponse();
+    $response->addCommand(new ReplaceCommand(sprintf('[data-drupal-selector="%s"]', $root_element['plugin_form']['#attributes']['data-drupal-selector']), $root_element['plugin_form']));
+
+    return $response;
   }
 
   /**
@@ -166,9 +220,8 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   protected function buildPluginForm(FormStateInterface $form_state) {
     $element = array(
       '#attributes' => array(
-        'class' => array('plugin-selector-' . Html::getId($this->getPluginId()) . '-plugin-form'),
+        'class' => [Html::getClass(sprintf('plugin-selector-%s-plugin-form', $this->getPluginId()))],
       ),
-      '#id' => $this->getElementId(),
       '#type' => 'container',
     );
     $selectedPlugin = $this->getSelectedPlugin();
@@ -180,11 +233,9 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   }
 
   /**
-   * Implements a form #process callback.
-   *
    * Builds the form elements for when there are no available plugins.
    */
-  public function buildNoAvailablePlugins(array $element, FormStateInterface $form_state, array $form) {
+  public function buildNoAvailablePlugins(array $element, FormStateInterface $form_state) {
     $element['select']['container'] = array(
       '#type' => 'container',
     );
@@ -202,11 +253,9 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   }
 
   /**
-   * Implements a form #process callback.
-   *
    * Builds the form elements for one plugin.
    */
-  public function buildOneAvailablePlugin(array $element, FormStateInterface $form_state, array $form) {
+  public function buildOneAvailablePlugin(array $element, FormStateInterface $form_state) {
     $plugin = reset($element['#available_plugins']);
 
     // Use the only available plugin if no other was configured before, or the
@@ -232,11 +281,9 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   }
 
   /**
-   * Implements a form #process callback.
-   *
    * Builds the form elements for multiple plugins.
    */
-  public function buildMultipleAvailablePlugins(array $element, FormStateInterface $form_state, array $form) {
+  public function buildMultipleAvailablePlugins(array $element, FormStateInterface $form_state) {
     $plugins = $element['#available_plugins'];
 
     $element['select'] = $this->buildSelector($element, $form_state, $plugins);
@@ -261,7 +308,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
   protected function buildSelector(array $root_element, FormStateInterface $form_state, array $plugins) {
     $build['container'] = array(
       '#attributes' => array(
-        'class' => array('plugin-selector-' . Html::getId($this->getPluginId() . '-selector')),
+        'class' => array('plugin-selector-' . Html::getClass($this->getPluginId() . '-selector')),
       ),
       '#type' => 'container',
     );
@@ -279,25 +326,12 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
       ),
       '#limit_validation_errors' => array(array_merge($root_element['#parents'], array('select', 'plugin_id'))),
       '#name' => $change_button_name,
-      '#submit' => array(array($this, 'rebuildForm')),
+      '#submit' => array(array(get_class(), 'rebuildForm')),
       '#type' => 'submit',
       '#value' => $this->t('Choose'),
     );
 
     return $build;
-  }
-
-  /**
-   * Retrieves the element's ID from the form's state.
-   *
-   * @return string
-   */
-  protected function getElementId() {
-    if (!$this->elementId) {
-      $this->elementId = Html::getUniqueId($this->getPluginId());
-    }
-
-    return $this->elementId;
   }
 
 }

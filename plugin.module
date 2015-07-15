@@ -8,7 +8,28 @@
 /**
  * Implements hook_field_formatter_info_alter().
  */
-function plugin_field_formatter_info_alter(array &$info) {
+function plugin_field_formatter_info_alter(array &$field_formatter_definitions) {
+  $field_formatter_definitions['plugin_label']['field_types'] = _plugin_collection_field_type_ids();
+}
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function plugin_field_widget_info_alter(array &$field_widget_definitions) {
+  $field_type_ids = _plugin_collection_field_type_ids();
+  foreach ($field_widget_definitions as $plugin_id => $field_widget_definition) {
+    if (strpos($plugin_id, 'plugin_selector:') === 0) {
+      $field_widget_definitions[$plugin_id]['field_types'] = $field_type_ids;
+    }
+  }
+}
+
+/**
+ * Gets the IDs of plugin item collection field types.
+ *
+ * @return string[]
+ */
+function _plugin_collection_field_type_ids() {
   $supported_field_type_ids = [];
   /** @var \Drupal\Component\Plugin\PluginManagerInterface $field_formatter_manager */
   $field_formatter_manager = \Drupal::service('plugin.manager.field.field_type');
@@ -17,5 +38,6 @@ function plugin_field_formatter_info_alter(array &$info) {
       $supported_field_type_ids[] = $plugin_id;
     }
   }
-  $info['plugin_label']['field_types'] = $supported_field_type_ids;
+
+  return $supported_field_type_ids;
 }

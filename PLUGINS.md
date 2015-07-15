@@ -13,7 +13,7 @@ using `\Drupal\plugin\Annotations\PluginSelector`.
 
 If a plugin provides configuration, it must also provide a configuration schema
 for this configuration of which the type is
-`plugin.plugin_configuration.selector.[plugin_id]`, where `[plugin_id]` is the 
-plugin's ID.
+`plugin.plugin_configuration.plugin_selector.[plugin_id]`, where `[plugin_id]` 
+is the plugin's ID.
 
 See the drupal.org handbook for more information about configuration schemas.

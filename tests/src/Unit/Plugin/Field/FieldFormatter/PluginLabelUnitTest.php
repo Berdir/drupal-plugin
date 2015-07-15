@@ -8,6 +8,7 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter;
 
+use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Drupal\plugin\Plugin\Field\FieldFormatter\PluginLabel;
 use Drupal\Tests\UnitTestCase;
 
@@ -76,12 +77,28 @@ class PluginLabelUnitTest extends UnitTestCase {
       ->method('getContainedPluginInstance')
       ->willReturn($plugin_instance_b);
 
-    $iterator = new \ArrayIterator([$item_a, $item_b]);
-    $items = $this->getMockBuilder('Drupal\Core\Field\FieldItemList')
+    /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface[]|\PHPUnit_Framework_MockObject_MockObject[] $items */
+    $items = [$item_a, $item_b];
+
+    $plugin_definition_mapper = new DefaultPluginDefinitionMapper();
+
+    $plugin_type = $this->getMock('\Drupal\plugin\PluginTypeInterface');
+    $plugin_type->expects($this->atLeastOnce())
+      ->method('getPluginDefinitionMapper')
+      ->willReturn($plugin_definition_mapper);
+
+    foreach ($items as $item) {
+      $item->expects($this->atLeastOnce())
+        ->method('getPluginType')
+        ->willReturn($plugin_type);
+    }
+
+    $iterator = new \ArrayIterator($items);
+    $item_list = $this->getMockBuilder('Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemList')
       ->disableOriginalConstructor()
-      ->setMethods(array('getEntity', 'getIterator'))
+      ->setMethods(['getEntity', 'getIterator'])
       ->getMock();
-    $items->expects($this->atLeastOnce())
+    $item_list->expects($this->atLeastOnce())
       ->method('getIterator')
       ->will($this->returnValue($iterator));
 
@@ -94,7 +111,7 @@ class PluginLabelUnitTest extends UnitTestCase {
       ],
     ];
 
-    $this->assertSame($expected_build, $this->sut->viewElements($items));
+    $this->assertSame($expected_build, $this->sut->viewElements($item_list));
   }
 
 }

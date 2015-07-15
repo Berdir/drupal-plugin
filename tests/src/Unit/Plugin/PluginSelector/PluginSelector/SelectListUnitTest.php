@@ -68,8 +68,6 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
-    $get_element_id_method = new \ReflectionMethod($this->sut, 'getElementId');
-    $get_element_id_method->setAccessible(TRUE);
 
     $plugin_id_a = $this->randomMachineName();
     $plugin_label_a = $this->randomMachineName();
@@ -110,16 +108,15 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $expected_build_plugin_id = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList', 'ajaxSubmitConfigurationForm'),
+        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList', 'ajaxRebuildForm'),
         'effect' => 'fade',
         'event' => 'change',
         'trigger_as' => array(
           'name' => 'foo[bar][select][container][change]',
         ),
-        'wrapper' => $get_element_id_method->invokeArgs($this->sut, array($form_state)),
       ),
       '#default_value' => $plugin_id_a,
-      '#empty_value' => 'select',
+      '#empty_value' => '',
       '#options' => array(
         $plugin_id_a => $plugin_label_a,
         $plugin_id_b => $plugin_label_b,
@@ -138,7 +135,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
       ),
       '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
       '#name' => 'foo[bar][select][container][change]',
-      '#submit' => array(array($this->sut, 'rebuildForm')),
+      '#submit' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );

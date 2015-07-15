@@ -2,6 +2,7 @@ block:
   label: Block
   provider: block
   plugin_manager_service_id: plugin.manager.block
-plugin.selector:
+  plugin_definition_mapper_class: \Drupal\plugin\Plugin\BlockPluginDefinitionMapper
+plugin_selector:
   label: Plugin selector
   plugin_manager_service_id: plugin.manager.plugin.plugin_selector

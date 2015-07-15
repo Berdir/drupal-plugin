@@ -132,6 +132,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
   /**
    * @covers ::buildSelectorForm
+   * @covers ::setPluginSelector
    */
   public function testBuildSelectorFormWithoutAvailablePlugins() {
     $form = [];
@@ -142,6 +143,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->will($this->returnValue([]));
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
+    unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
       'container' => array(
@@ -149,7 +151,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [],
-        '#process' => array(array($this->sut, 'buildNoAvailablePlugins')),
+        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -159,6 +161,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
   /**
    * @covers ::buildSelectorForm
+   * @covers ::setPluginSelector
    */
   public function testBuildSelectorFormWithOneAvailablePlugin() {
     $form = [];
@@ -182,6 +185,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->willReturn($plugin_definitions);
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
+    unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
       'container' => array(
@@ -189,7 +193,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [$plugin],
-        '#process' => array(array($this->sut, 'buildOneAvailablePlugin')),
+        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -199,6 +203,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
   /**
    * @covers ::buildSelectorForm
+   * @covers ::setPluginSelector
    */
   public function testBuildSelectorFormWithMultipleAvailablePlugins() {
     $form = [];
@@ -230,6 +235,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->will($this->returnValue($plugin_definitions));
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
+    unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
       'container' => array(
@@ -237,7 +243,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => array($plugin_a, $plugin_b),
-        '#process' => array(array($this->sut, 'buildMultipleAvailablePlugins')),
+        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -397,50 +403,6 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->method('setRebuild');
     $this->sut->validateSelectorForm($form, $form_state);
     $this->assertSame($plugin_a, $this->sut->getSelectedPlugin());
-  }
-
-  /**
-   * @covers ::ajaxRebuildForm
-   */
-  public function testAjaxRebuildForm() {
-    $form = array(
-      'foo' => array(
-        'bar' => array(
-          'container' => array(
-            'select' => array(
-              'container' => array(
-                'change' => array(
-                  '#array_parents' => array('foo', 'bar', 'container', 'select', 'container', 'change'),
-                ),
-              ),
-            ),
-            'plugin_form' => array(
-              $this->randomMachineName() => [],
-            ),
-          ),
-        ),
-      ),
-    );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
-    $form_state->expects($this->atLeastOnce())
-      ->method('getTriggeringElement')
-      ->willReturn($form['foo']['bar']['container']['select']['container']['change']);
-
-    $build = $this->sut->ajaxRebuildForm($form, $form_state);
-    $this->assertSame($form['foo']['bar']['container']['plugin_form'], $build);
-  }
-
-  /**
-   * @covers ::getElementId
-   */
-  public function testGetElementId() {
-    $method = new \ReflectionMethod($this->sut, 'getElementId');
-    $method->setAccessible(TRUE);
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
-
-    $element_id = $method->invokeArgs($this->sut, array($form_state));
-    $this->assertInternalType('integer', strlen($element_id));
-    $this->assertSame($element_id, $method->invokeArgs($this->sut, array($form_state)));
   }
 
   /**
@@ -606,8 +568,6 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
-    $get_element_id_method = new \ReflectionMethod($this->sut, 'getElementId');
-    $get_element_id_method->setAccessible(TRUE);
 
     $plugin_id = $this->randomMachineName();
     $plugin_label = $this->randomMachineName();
@@ -636,7 +596,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ),
       '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
       '#name' => 'foo[bar][select][container][change]',
-      '#submit' => array(array($this->sut, 'rebuildForm')),
+      '#submit' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );

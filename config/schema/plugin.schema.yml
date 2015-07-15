@@ -1,4 +1,4 @@
-plugin.plugin_configuration.selector.selector_base:
+plugin.plugin_configuration.plugin_selector.plugin_selector_base:
   type: mapping
   mapping:
     collect_plugin_configuration:
@@ -14,8 +14,27 @@ plugin.plugin_configuration.selector.selector_base:
       label: Required
       type: boolean
 
-plugin.plugin_configuration.selector.plugin_radios:
-  type: plugin.plugin_configuration.selector.selector_base
+plugin.plugin_configuration.plugin_selector.plugin_radios:
+  type: plugin.plugin_configuration.plugin_selector.plugin_selector_base
 
-plugin.plugin_configuration.selector.plugin_select_list:
-  type: plugin.plugin_configuration.selector.selector_base
+plugin.plugin_configuration.plugin_selector.plugin_select_list:
+  type: plugin.plugin_configuration.plugin_selector.plugin_selector_base
+
+# Fallback plugin configuration in case no more specific schemas are available.
+plugin.plugin_configuration.*:
+  type: ignore
+
+# The "plugin_collection" field type schema.
+"field.value.plugin_collection:*":
+  label: Plugin collection field value
+  mapping:
+    plugin_type_id:
+      label: Plugin type ID
+      type: string
+    plugin_id:
+      label: Plugin ID
+      type: string
+    plugin_configuration:
+      label: Plugin configuration
+      type: plugin.plugin_configuration.[%parent.plugin_type_id].[%parent.plugin_id]:
+  type: mapping

@@ -11,12 +11,22 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\Core\TypedData\DataDefinitionInterface;
 use Drupal\Core\TypedData\MapDataDefinition;
+use Drupal\Core\TypedData\TypedDataInterface;
 
 /**
  * Provides a base for plugin collection field items.
  */
 abstract class PluginCollectionItemBase extends FieldItemBase implements PluginCollectionItemInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(DataDefinitionInterface $definition, $name = NULL, TypedDataInterface $parent = NULL) {
+    parent::__construct($definition, $name, $parent);
+    $this->get('plugin_type_id')->setValue($this->getPluginType()->getId());
+  }
 
   /**
    * {@inheritdoc}
@@ -38,8 +48,9 @@ abstract class PluginCollectionItemBase extends FieldItemBase implements PluginC
    * {@inheritdoc}
    */
   public function validatePluginInstance(PluginInspectionInterface $plugin_instance) {
-    if (!$this->getPluginManager()->hasDefinition($plugin_instance->getPluginId())) {
-      throw new \Exception(sprintf('Plugin manager %s does not have a definition for plugin %s.', get_class($this->getPluginManager()), $plugin_instance->getPluginId()));
+    $plugin_manager = $this->getPluginType()->getPluginManager();
+    if (!$plugin_manager->hasDefinition($plugin_instance->getPluginId())) {
+      throw new \Exception(sprintf('Plugin manager %s does not have a definition for plugin %s.', get_class($plugin_manager), $plugin_instance->getPluginId()));
     }
   }
 
@@ -47,7 +58,8 @@ abstract class PluginCollectionItemBase extends FieldItemBase implements PluginC
    * {@inheritdoc}
    */
   public function createContainedPluginInstance($plugin_id, array $plugin_configuration = []) {
-    $plugin_instance = $this->getPluginManager()
+    $plugin_instance = $this->getPluginType()
+      ->getPluginManager()
       ->createInstance($plugin_id, $plugin_configuration);
     $this->validatePluginInstance($plugin_instance);
 
@@ -107,6 +119,9 @@ abstract class PluginCollectionItemBase extends FieldItemBase implements PluginC
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
+    $properties['plugin_type_id'] = DataDefinition::create('string')
+      ->setLabel(t('Plugin type ID'))
+      ->setReadOnly(TRUE);
     $properties['plugin_id'] = DataDefinition::create('plugin_id')
       ->setLabel(t('Plugin ID'));
     $properties['plugin_configuration'] = MapDataDefinition::create('plugin_configuration')

@@ -7,6 +7,7 @@
 
 namespace Drupal\plugin;
 
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\TranslationWrapper;
@@ -68,11 +69,18 @@ class PluginType implements PluginTypeInterface {
    * Constructs a new instance.
    *
    * @param mixed[] $definition
+   *   The plugin type definition.
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
+   *   The string translator.
+   * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
+   *   The plugin type's plugin manager.
+   *
+   * @param mixed[] $definition
    */
-  public function __construct(array $definition, PluginManagerInterface $plugin_manager) {
+  public function __construct(array $definition, TranslationInterface $string_translation, PluginManagerInterface $plugin_manager) {
     $this->id = $definition['id'];
-    $this->label = $definition['label'] = new TranslationWrapper($definition['label']);
-    $this->description = $definition['description'] = isset($definition['description']) ? new TranslationWrapper($definition['description']) : NULL;
+    $this->label = $definition['label'] = (new TranslationWrapper($definition['label']))->setStringTranslation($string_translation);
+    $this->description = $definition['description'] = isset($definition['description']) ? (new TranslationWrapper($definition['description']))->setStringTranslation($string_translation) : NULL;
     if (isset($definition['plugin_definition_mapper_class'])) {
       $this->pluginDefinitionMapper = new $definition['plugin_definition_mapper_class']();
     }
@@ -87,7 +95,7 @@ class PluginType implements PluginTypeInterface {
    * {@inheritdoc}
    */
   public static function createFromDefinition(ContainerInterface $container, array $definition) {
-    return new static($definition, $container->get($definition['plugin_manager_service_id']));
+    return new static($definition, $container->get('string_translation'), $container->get($definition['plugin_manager_service_id']));
   }
 
   /**

@@ -74,7 +74,7 @@ abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
       'label' => $this->randomMachineName(),
       'provider' => $this->randomMachineName(),
     ];
-    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->selectablePluginManager);
+    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->getStringTranslationStub(), $this->selectablePluginManager);
 
     $this->selectedPlugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
   }
