@@ -37,7 +37,7 @@ class PluginCollectionItemBaseTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $field_definition = BaseFieldDefinition::create('plugin_test_helper_plugin_collection');
+    $field_definition = BaseFieldDefinition::create('plugin:plugin_test_helper_mock');
 
     /** @var \Drupal\Core\Field\FieldItemListInterface $field_item_list */
     $field_item_list = \Drupal::typedDataManager()->create($field_definition);

@@ -54,7 +54,7 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
     /** @var \Drupal\plugin\PluginTypeManagerInterface $plugin_type_manager */
     $plugin_type_manager = $container->get('plugin.plugin_type_manager');
 
-    return new static($plugin_type_manager->getPluginType('plugin_test_helper.selectable'), $container->get('plugin.manager.plugin.plugin_selector'));
+    return new static($plugin_type_manager->getPluginType('plugin_test_helper_selectable'), $container->get('plugin.manager.plugin.plugin_selector'));
   }
 
   /**
