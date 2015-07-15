@@ -5,6 +5,10 @@
  * Contains hook implementations.
  */
 
+function plugin_field_info_alter(array &$field_type_definitions) {
+  $field_type_definitions['plugin:block']['default_formatter'] = 'plugin_block_built';
+}
+
 /**
  * Implements hook_field_formatter_info_alter().
  */
