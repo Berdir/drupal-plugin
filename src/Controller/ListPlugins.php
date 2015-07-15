@@ -92,6 +92,9 @@ class ListPlugins extends ControllerBase {
     ];
     $plugin_definition_mapper = $plugin_type->getPluginDefinitionMapper();
     $plugin_definitions = $plugin_type->getPluginManager()->getDefinitions();
+    uasort($plugin_definitions, function (array $plugin_definition_a, array $plugin_definition_b) use ($plugin_definition_mapper) {
+      return strnatcasecmp($plugin_definition_mapper->getPluginLabel($plugin_definition_a), $plugin_definition_mapper->getPluginLabel($plugin_definition_b));
+    });
     foreach ($plugin_definitions as $plugin_id => $plugin_definition) {
 
       $build[$plugin_id]['label'] = [

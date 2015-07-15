@@ -10,6 +10,7 @@ namespace Drupal\plugin\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\plugin\PluginTypeInterface;
 use Drupal\plugin\PluginTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -68,6 +69,9 @@ class ListPluginTypes extends ControllerBase {
       '#type' => 'table',
     ];
     $plugin_types = $this->pluginTypeManager->getPluginTypes();
+    uasort($plugin_types, function (PluginTypeInterface $plugin_type_a, PluginTypeInterface $plugin_type_b) {
+      return strnatcasecmp($plugin_type_a->getLabel(), $plugin_type_b->getLabel());
+    });
     foreach ($plugin_types as $plugin_type_id => $plugin_type) {
       $operations_provider = $plugin_type->getOperationsProvider();
       $operations = $operations_provider ? $operations_provider->getOperations($plugin_type_id) : [];
