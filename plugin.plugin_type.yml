@@ -8,6 +8,10 @@ block:
   provider: block
   plugin_manager_service_id: plugin.manager.block
   plugin_definition_mapper_class: \Drupal\plugin\Plugin\BlockPluginDefinitionMapper
+entity_reference_selector:
+  label: Entity reference selector
+  provider: core
+  plugin_manager_service_id: plugin.manager.entity_reference_selection
 field_type:
   label: Field type/item
   provider: core
@@ -21,7 +25,227 @@ field_formatter:
   label: Field formatter
   provider: core
   plugin_manager_service_id: plugin.manager.field.formatter
+archiver:
+  label: Archiver
+  provider: core
+  plugin_manager_service_id: plugin.manager.archiver
+action:
+  label: Action
+  provider: core
+  plugin_manager_service_id: plugin.manager.action
+menu_link:
+  label: Menu link
+  provider: core
+  plugin_manager_service_id: plugin.manager.menu.link
+menu_local_action:
+  label: Local action
+  provider: core
+  plugin_manager_service_id: plugin.manager.menu.local_action
+menu_local_task:
+  label: Local task
+  provider: core
+  plugin_manager_service_id: plugin.manager.menu.local_task
+menu_lcontextual_link:
+  label: Contextual link
+  provider: core
+  plugin_manager_service_id: plugin.manager.menu.contextual_link
+display_variant:
+  label: Display variant
+  provider: core
+  plugin_manager_service_id: plugin.manager.display_variant
+queue_worker:
+  label: Queue worker
+  provider: core
+  plugin_manager_service_id: plugin.manager.queue_worker
+mail:
+  label: Mail backend
+  provider: core
+  plugin_manager_service_id: plugin.manager.mail
+condition:
+  label: Condition
+  provider: core
+  plugin_manager_service_id: plugin.manager.condition
+element:
+  label: Renderable element
+  provider: core
+  plugin_manager_service_id: plugin.manager.element_info
+
+# Aggregator's plugin types.
+aggregator_fetcher:
+  label: Aggregator fetcher
+  provider: aggregator
+  plugin_manager_service_id: plugin.manager.aggregator.fetcher
+aggregator_parser:
+  label: Aggregator parser
+  provider: aggregator
+  plugin_manager_service_id: plugin.manager.aggregator.parser
+aggregator_processor:
+  label: Aggregator processor
+  provider: aggregator
+  plugin_manager_service_id: plugin.manager.aggregator.processor
+
+# CKEditor's plugin types.
+ckeditor_plugin:
+  label: CKEditor plugin
+  provider: ckeditor
+  plugin_manager_service_id: plugin.manager.ckeditor.plugin
+
+# Configuration Translation's plugin types.
+config_translation_mapper:
+  label: Configuration translation mapper
+  provider: config_translation
+  plugin_manager_service_id: plugin.manager.config_translation.mapper
+
+# Editor's plugin types.
+editor:
+  label: Editor
+  provider: editor
+  plugin_manager_service_id: plugin.manager.editor
+
+# Filter's plugin types.
+filter:
+  label: Filter
+  provider: filter
+  plugin_manager_service_id: plugin.manager.filter
+
+# Image's plugin types.
+image_effect:
+  label: Image effect
+  provider: image
+  plugin_manager_service_id: plugin.manager.image.effect
+
+# Language's plugin types.
+language_negotiation_method:
+  label: Language negotiation method
+  provider: language
+  plugin_manager_service_id: plugin.manager.language_negotiation_method
+
+# Migrate's plugin types.
+migrate_source:
+  label: Migration source
+  provider: migrate
+  plugin_manager_service_id: plugin.manager.migrate.source
+migrate_process:
+  label: Migration process
+  provider: migrate
+  plugin_manager_service_id: plugin.manager.migrate.process
+migrate_destination:
+  label: Migration destination
+  provider: migrate
+  plugin_manager_service_id: plugin.manager.migrate.destination
+migrate_id_map:
+  label: Migration ID map
+  provider: migrate
+  plugin_manager_service_id: plugin.manager.migrate.id_map
+
+# Migrate Drupal's plugin types.
+migrate_drupal_load:
+  label: Migration loader
+  provider: migrate_drupal
+  plugin_manager_service_id: plugin.manager.migrate.load
+migrate_drupal_cckfield:
+  label: Migration CCK source
+  provider: migrate_drupal
+  plugin_manager_service_id: plugin.manager.migrate.cckfield
+
+# Quick Edit's plugin types.
+quickedit_editor:
+  label: Quick Edit editor
+  provider: quickedit
+  plugin_manager_service_id: plugin.manager.quickedit.editor
+
+# REST's plugin types.
+rest_resource:
+  label: REST resource
+  provider: rest
+  plugin_manager_service_id: plugin.manager.rest
+
+# Search's plugin types.
 search:
   label: Search method
   provider: search
   plugin_manager_service_id: plugin.manager.search
+
+# Tour's plugin types.
+tour_tip:
+  label: Tour tip
+  provider: tour
+  plugin_manager_service_id: plugin.manager.tour.tip
+
+# Views's plugin types.
+views_access:
+  label: Views access
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.access
+views_area:
+  label: Views area
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.area
+views_argument:
+  label: Views argument
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.argument
+views_argument_default:
+  label: Views argument default
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.argument_default
+views_argument_validator:
+  label: Views argument validator
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.argument_validator
+views_cache:
+  label: Views cache
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.cache
+views_display_extender:
+  label: Views display extender
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.display_extender
+views_display:
+  label: Views display
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.display
+views_exposed_form:
+  label: Views exposed form
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.exposed_form
+views_field:
+  label: Views field
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.field
+views_filter:
+  label: Views filter
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.filter
+views_join:
+  label: Views join
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.join
+views_pager:
+  label: Views pager
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.pager
+views_query:
+  label: Views query
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.query
+views_relationship:
+  label: Views relationship
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.relationship
+views_row:
+  label: Views row
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.row
+views_sort:
+  label: Views sort
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.sort
+views_style:
+  label: Views style
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.style
+views_wizard:
+  label: Views wizard
+  provider: views
+  plugin_manager_service_id: plugin.manager.views.wizard
