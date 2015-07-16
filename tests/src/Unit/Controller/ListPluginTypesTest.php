@@ -9,6 +9,7 @@ namespace Drupal\Tests\payment\Unit\Controller;
 
 use Drupal\plugin\Controller\ListPluginTypes;
 use Drupal\plugin\PluginType;
+use Drupal\Tests\plugin\TranslationMock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -62,7 +63,7 @@ class ListPluginTypesTest extends UnitTestCase {
 
     $this->pluginTypeManager = $this->getMock('\Drupal\plugin\PluginTypeManagerInterface');
 
-    $this->stringTranslation = $this->getStringTranslationStub();
+    $this->stringTranslation = new TranslationMock();
 
     $this->sut = new ListPluginTypes($this->stringTranslation, $this->moduleHandler, $this->pluginTypeManager);
   }
