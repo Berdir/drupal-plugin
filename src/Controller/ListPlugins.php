@@ -56,7 +56,7 @@ class ListPlugins extends ListBase {
     foreach ($plugin_definitions as $plugin_id => $plugin_definition) {
 
       $build[$plugin_id]['label'] = [
-        '#markup' => $plugin_definition_mapper->getPluginLabel($plugin_definition),
+        '#markup' => $plugin_definition_mapper->getPluginLabel($plugin_definition) ?: $plugin_definition_mapper->getPluginId($plugin_definition),
       ];
       $build[$plugin_id]['description'] = [
         '#markup' => $plugin_definition_mapper->getPluginDescription($plugin_definition),
