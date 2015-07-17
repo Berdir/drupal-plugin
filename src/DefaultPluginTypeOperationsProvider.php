@@ -8,6 +8,7 @@
 namespace Drupal\plugin;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -18,6 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DefaultPluginTypeOperationsProvider implements PluginTypeOperationsProviderInterface, ContainerInjectionInterface {
 
+  use DependencySerializationTrait;
   use StringTranslationTrait;
 
   /**
