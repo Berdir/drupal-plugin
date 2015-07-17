@@ -26,15 +26,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements ContainerFactoryPluginInterface {
 
   /**
-   * The form element ID.
-   *
-   * @see self::getElementId
-   *
-   * @var string
-   */
-  protected $elementId;
-
-  /**
    * The response policy.
    *
    * @var \Drupal\Core\PageCache\ResponsePolicyInterface
