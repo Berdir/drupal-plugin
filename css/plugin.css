@@ -1,22 +1,22 @@
-/* @group payment_radios plugin selector */
+/* @group plugin_radios plugin selector */
 
-.payment-plugin-selector-payment-radios-selector {
+.plugin-plugin-selector-plugin-radios-selector {
     float: left;
     min-width: 200px;
     width: 25%;
 }
 
-.payment-plugin-selector-payment-radios-payment-method-form {
+.plugin-plugin-selector-plugin-radios-plugin-method-form {
     float: left;
     min-width: 400px;
     width: 75%;
 }
 
-[dir="rtl"] .payment-plugin-selector-payment-radios-selector {
+[dir="rtl"] .plugin-plugin-selector-plugin-radios-selector {
     float: right; /* LTR */
 }
 
-[dir="rtl"] .payment-plugin-selector-payment-radios-payment-method-form {
+[dir="rtl"] .plugin-plugin-selector-plugin-radios-plugin-method-form {
     float: right; /* LTR */
 }
 

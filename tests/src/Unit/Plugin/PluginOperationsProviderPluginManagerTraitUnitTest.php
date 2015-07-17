@@ -14,7 +14,7 @@ use Drupal\Tests\UnitTestCase;
 /**
  * @coversDefaultClass \Drupal\plugin\Plugin\PluginOperationsProviderPluginManagerTrait
  *
- * @group Payment
+ * @group Plugin
  */
 class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
 

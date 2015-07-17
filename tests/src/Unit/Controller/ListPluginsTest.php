@@ -5,7 +5,7 @@
  * Contains \Drupal\Tests\plugin\Unit\Controller\ListPluginsTest.
  */
 
-namespace Drupal\Tests\payment\Unit\Controller;
+namespace Drupal\Tests\plugin\Unit\Controller;
 
 use Drupal\plugin\Controller\ListPlugins;
 use Drupal\plugin\PluginType;
@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @coversDefaultClass \Drupal\plugin\Controller\ListPlugins
  *
- * @group Payment
+ * @group Plugin
  */
 class ListPluginsTest extends UnitTestCase {
 
@@ -41,9 +41,9 @@ class ListPluginsTest extends UnitTestCase {
   protected $moduleHandler;
 
   /**
-   * The payment type plugin manager used for testing.
+   * The plugin type manager.
    *
-   * @var \Drupal\payment\Plugin\Payment\Type\PaymentTypeManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\plugin\PluginTypeManagerInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $pluginTypeManager;
 

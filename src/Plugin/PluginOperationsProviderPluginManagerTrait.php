@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Contains \Drupal\payment\Plugin\Payment\OperationsProviderPluginManagerTrait.
+ * Contains \Drupal\plugin\Plugin\OperationsProviderPluginManagerTrait.
  */
 
 namespace Drupal\plugin\Plugin;
 
 /**
- * Implements \Drupal\payment\Plugin\Payment\OperationsProviderProviderInterface for plugin managers.
+ * Implements \Drupal\plugin\PluginOperationsProviderProviderInterface for plugin managers.
  *
  * Classes using this trait MUST implement
  * \Drupal\Component\Plugin\Discovery\DiscoveryInterface and SHOULD implement
- * \Drupal\payment\Plugin\Payment\OperationsProviderProviderInterface.
+ * \Drupal\plugin\PluginOperationsProviderProviderInterface.
  */
 trait PluginOperationsProviderPluginManagerTrait {
 
