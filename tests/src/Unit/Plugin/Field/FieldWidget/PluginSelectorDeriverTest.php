@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Plugin\Field\FieldWidget.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Field\FieldWidget.
  */
 
-namespace Drupal\Tests\plugin\Plugin\Field\FieldWidget;
+namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldWidget;
 
 use Drupal\plugin\Plugin\Field\FieldWidget\PluginSelectorDeriver;
 use Drupal\plugin\PluginType;

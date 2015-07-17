@@ -8,7 +8,6 @@
 namespace Drupal\Tests\plugin\Unit;
 
 use Drupal\plugin\DefaultPluginTypeOperationsProvider;
-use Drupal\Tests\plugin\OperationsProviderTestTrait;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DefaultPluginTypeOperationsProviderTest extends UnitTestCase {
 
-  use OperationsProviderTestTrait;
+  use \Drupal\Tests\plugin\Unit\OperationsProviderTestTrait;
 
   /**
    * The string translator.

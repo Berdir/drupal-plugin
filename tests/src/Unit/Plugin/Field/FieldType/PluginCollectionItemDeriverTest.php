@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Plugin\Field\FieldType.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Field\FieldType.
  */
 
-namespace Drupal\Tests\plugin\Plugin\Field\FieldType;
+namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldType;
 
 use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemDeriver;
 use Drupal\plugin\PluginType;

@@ -5,7 +5,7 @@
  * Contains \Drupal\Tests\plugin\OperationsProviderTestTrait.
  */
 
-namespace Drupal\Tests\plugin;
+namespace Drupal\Tests\plugin\Unit;
 
 /**
  * Provides assertions to test operations links integrity.
