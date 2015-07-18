@@ -107,7 +107,7 @@ class PluginSelectorManagerUnitTest extends UnitTestCase {
       ->will($this->returnValue($definitions));
     $this->moduleHandler->expects($this->once())
       ->method('alter')
-      ->with('plugin_plugin_selector');
+      ->with('plugin_selector');
     $this->assertSame($definitions, $this->sut->getDefinitions());
   }
 

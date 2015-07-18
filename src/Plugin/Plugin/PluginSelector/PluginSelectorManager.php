@@ -31,8 +31,8 @@ class PluginSelectorManager extends DefaultPluginManager implements PluginSelect
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct('Plugin/Plugin/PluginSelector', $namespaces, $module_handler, '\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface', '\Drupal\plugin\Annotation\PluginSelector');
-    $this->alterInfo('plugin_plugin_selector');
-    $this->setCacheBackend($cache_backend, 'plugin_plugin_selector');
+    $this->alterInfo('plugin_selector');
+    $this->setCacheBackend($cache_backend, 'plugin_selector');
   }
 
   /**
