@@ -1,8 +1,7 @@
 Plugin offers the following plugin types for which plugins can be provided by 
 other modules:
 
-PLUGIN SELECTOR
-===============
+# Plugin selector
 Plugin selectors allow users to select and configure a plugins. They are
 classes that implement
 `\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface` 
