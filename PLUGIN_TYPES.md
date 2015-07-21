@@ -15,8 +15,8 @@ default class takes the following:
   that implements `\Drupal\plugin\Plugin\PluginDefinitionMapperInterface`. 
   Defaults to `\Drupal\plugin\Plugin\DefaultPluginDefinitionMapper`.
 
-A configuration schema MUST be provided for all configurable plugin types. The 
-schemas MUST be named like 
+A configuration schema MAY be provided for all configurable plugin types. If a 
+schema is provided, its name MUST be like
 `plugin.plugin_configuration.$plugin_type_id.$plugin_id`, where 
 `$plugin_type_id` is the plugin type ID as specified in 
 `$module.plugin_type.yml` and `$plugin_id` is the ID of a specific plugin, or an 
