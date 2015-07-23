@@ -14,6 +14,9 @@ default class takes the following:
 - plugin_definition_mapper_class (optional): the fully qualified name of a class 
   that implements `\Drupal\plugin\Plugin\PluginDefinitionMapperInterface`. 
   Defaults to `\Drupal\plugin\Plugin\DefaultPluginDefinitionMapper`.
+- operations_provider_class (optional): the fully qualified name of a class that
+  implements `\Drupal\plugin\PluginTypeOperationsProviderInterface`. Defaults to
+  `\Drupal\plugin\DefaultPluginTypeOperationsProvider`.
 
 A configuration schema MAY be provided for all configurable plugin types. If a 
 schema is provided, its name MUST be like
