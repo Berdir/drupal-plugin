@@ -30,7 +30,7 @@ class PluginOperationsProviderPluginManagerTraitTest extends UnitTestCase {
    *
    * @var \Drupal\plugin\Plugin\PluginOperationsProviderPluginManagerTrait
    */
-  public $trait;
+  public $sut;
 
   /**
    * {@inheritdoc}
@@ -55,15 +55,15 @@ class PluginOperationsProviderPluginManagerTraitTest extends UnitTestCase {
 
     $operations_provider = new \stdClass();
 
-    $this->trait = new PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider($this->classResolver, $plugin_definitions);
+    $this->sut = new PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider($this->classResolver, $plugin_definitions);
 
     $this->classResolver->expects($this->any())
       ->method('getInstanceFromDefinition')
       ->with($plugin_definitions['foo']['operations_provider'])
       ->willReturn($operations_provider);
 
-    $this->assertSame($operations_provider, $this->trait->getOperationsProvider('foo'));
-    $this->assertNull($this->trait->getOperationsProvider('bar'));
+    $this->assertSame($operations_provider, $this->sut->getOperationsProvider('foo'));
+    $this->assertNull($this->sut->getOperationsProvider('bar'));
   }
 
 }
