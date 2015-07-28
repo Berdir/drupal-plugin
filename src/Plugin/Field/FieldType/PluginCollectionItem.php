@@ -7,9 +7,6 @@
 
 namespace Drupal\plugin\Plugin\Field\FieldType;
 
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Form\FormStateInterface;
-
 /**
  * Provides a plugin collection field.
  *

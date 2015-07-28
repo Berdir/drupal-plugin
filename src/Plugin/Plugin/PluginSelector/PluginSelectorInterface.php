@@ -10,7 +10,6 @@ use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
 use Drupal\plugin\PluginTypeInterface;
 
 /**

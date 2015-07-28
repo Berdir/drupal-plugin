@@ -8,8 +8,8 @@
 namespace Drupal\plugin\Plugin\Field\FieldType;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\DataDefinitionInterface;
 use Drupal\Core\TypedData\MapDataDefinition;

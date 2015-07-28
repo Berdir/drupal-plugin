@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DefaultPluginTypeOperationsProviderTest extends UnitTestCase {
 
-  use \Drupal\Tests\plugin\Unit\OperationsProviderTestTrait;
+  use OperationsProviderTestTrait;
 
   /**
    * The string translator.

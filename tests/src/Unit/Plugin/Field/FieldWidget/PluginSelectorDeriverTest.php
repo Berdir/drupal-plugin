@@ -9,7 +9,6 @@ namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldWidget;
 
 use Drupal\plugin\Plugin\Field\FieldWidget\PluginSelectorDeriver;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface;
-use Drupal\plugin\PluginType;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

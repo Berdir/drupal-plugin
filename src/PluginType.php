@@ -7,13 +7,13 @@
 
 namespace Drupal\plugin;
 
+use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\Core\StringTranslation\TranslationWrapper;
 use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\StringTranslation\TranslationWrapper;
-use Drupal\Component\Plugin\PluginManagerInterface;
-use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 
 /**
  * Provides a plugin type.
