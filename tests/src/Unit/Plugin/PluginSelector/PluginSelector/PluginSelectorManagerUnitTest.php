@@ -19,28 +19,28 @@ use Zend\Stdlib\ArrayObject;
 class PluginSelectorManagerUnitTest extends UnitTestCase {
 
   /**
-   * The cache backend used for testing.
+   * The cache backend.
    *
    * @var \Drupal\Core\Cache\CacheBackendInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   public $cache;
 
   /**
-   * The plugin discovery used for testing.
+   * The plugin discovery.
    *
    * @var \Drupal\Component\Plugin\Discovery\DiscoveryInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $discovery;
 
   /**
-   * The plugin factory used for testing.
+   * The plugin factory.
    *
    * @var \Drupal\Component\Plugin\Factory\FactoryInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $factory;
 
   /**
-   * The module handler used for testing.
+   * The module handler.
    *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface|\PHPUnit_Framework_MockObject_MockObject
    */

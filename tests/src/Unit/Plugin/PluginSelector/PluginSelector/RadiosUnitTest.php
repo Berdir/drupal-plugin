@@ -32,7 +32,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
   protected $responsePolicy;
 
   /**
-   * The string translation service.
+   * The string translator.
    *
    * @var \Drupal\Core\StringTranslation\TranslationInterface|\PHPUnit_Framework_MockObject_MockObject
    */

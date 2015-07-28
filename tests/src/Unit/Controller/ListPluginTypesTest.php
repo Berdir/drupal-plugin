@@ -28,16 +28,16 @@ class ListPluginTypesTest extends UnitTestCase {
   protected $sut;
 
   /**
-   * The current user used for testing.
+   * The current user.
    *
    * @var \Drupal\Core\Session\AccountInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $currentUser;
 
   /**
-   * The module handler used for testing.
+   * The module handler.
    *
-   * @var \Drupal\Core\Session\AccountInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $moduleHandler;
 
@@ -49,7 +49,7 @@ class ListPluginTypesTest extends UnitTestCase {
   protected $pluginTypeManager;
 
   /**
-   * The string translation service.
+   * The string translator.
    *
    * @var \Drupal\Core\StringTranslation\TranslationInterface
    */
