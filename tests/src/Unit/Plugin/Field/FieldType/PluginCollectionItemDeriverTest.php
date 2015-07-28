@@ -7,8 +7,11 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldType;
 
+use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemDeriver;
 use Drupal\plugin\PluginType;
+use Drupal\plugin\PluginTypeManagerInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -36,7 +39,7 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
   public function setUp() {
     parent::setUp();
 
-    $this->pluginTypeManager = $this->getMock('\Drupal\plugin\PluginTypeManagerInterface');
+    $this->pluginTypeManager = $this->getMock(PluginTypeManagerInterface::class);
 
     $this->sut = new PluginCollectionItemDeriver($this->pluginTypeManager);
   }
@@ -46,7 +49,7 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
    * @covers ::__construct
    */
   function testCreate() {
-    $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $container = $this->getMock(ContainerInterface::class);
     $map = [
       ['plugin.plugin_type_manager', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginTypeManager],
     ];
@@ -55,7 +58,7 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
       ->willReturnMap($map);
 
     $sut = PluginCollectionItemDeriver::create($container, $this->randomMachineName());
-    $this->assertInstanceOf('\Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemDeriver', $sut);
+    $this->assertInstanceOf(PluginCollectionItemDeriver::class, $sut);
   }
 
   /**
@@ -64,9 +67,9 @@ class PluginCollectionItemDeriverTest extends UnitTestCase {
   function testGetDerivativeDefinitions() {
     $string_translation = $this->getStringTranslationStub();
 
-    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
-    $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $plugin_manager = $this->getMock(PluginManagerInterface::class);
 
     $provider = $this->randomMachineName();
 

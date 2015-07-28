@@ -9,6 +9,9 @@ namespace Drupal\Tests\plugin\Unit;
 
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\plugin\PluginTypeInterface;
 use Drupal\plugin\PluginTypeManager;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
@@ -96,15 +99,15 @@ EOT;
     ];
 
     $this->pluginManagers = [
-      $plugin_type_id_a => $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface'),
-      $plugin_type_id_b => $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface'),
+      $plugin_type_id_a => $this->getMock(PluginManagerInterface::class),
+      $plugin_type_id_b => $this->getMock(PluginManagerInterface::class),
     ];
 
     vfsStreamWrapper::register();
     $root = new vfsStreamDirectory('modules');
     vfsStreamWrapper::setRoot($root);
 
-    $this->moduleHandler = $this->getMock('Drupal\Core\Extension\ModuleHandlerInterface');
+    $this->moduleHandler = $this->getMock(ModuleHandlerInterface::class);
     $this->moduleHandler->expects($this->any())
       ->method('getModuleDirectories')
       ->willReturn(array(
@@ -112,9 +115,9 @@ EOT;
         'module_b' => vfsStream::url('modules/module_b'),
       ));
 
-    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
-    $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $this->container = $this->getMock(ContainerInterface::class);
     $map = [
       ['class_resolver', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $class_resolver],
       ['string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->getStringTranslationStub()],
@@ -181,7 +184,7 @@ EOT;
       ->willReturn(isset($this->pluginTypeDefinitions[$plugin_type_id]) && $module_exists);
 
     if ($expected_success) {
-      $this->assertInstanceOf('\Drupal\plugin\PluginTypeInterface', $this->sut->getPluginType($plugin_type_id));
+      $this->assertInstanceOf(PluginTypeInterface::class, $this->sut->getPluginType($plugin_type_id));
     }
     else {
       $this->setExpectedException('\InvalidArgumentException');
@@ -232,7 +235,7 @@ EOT;
    * @param mixed $plugin_type
    */
   protected function assertPluginTypeIntegrity($plugin_type_id, $plugin_type_definition, PluginManagerInterface $plugin_manager, $plugin_type) {
-    $this->assertInstanceOf('\Drupal\plugin\PluginTypeInterface', $plugin_type);
+    $this->assertInstanceOf(PluginTypeInterface::class, $plugin_type);
     $this->assertSame($plugin_type_id, $plugin_type->getId());
     $this->assertSame($plugin_type_definition['label'], $plugin_type->getLabel()->getUntranslatedString());
     $this->assertSame($plugin_type_definition['description'], $plugin_type->getDescription()->getUntranslatedString());

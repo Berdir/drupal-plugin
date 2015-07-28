@@ -8,6 +8,9 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Component\Plugin\PluginInspectionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList;
 
 /**
@@ -44,7 +47,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->responsePolicy = $this->getMockBuilder('\Drupal\Core\PageCache\ResponsePolicy\KillSwitch')
+    $this->responsePolicy = $this->getMockBuilder(KillSwitch::class)
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -75,7 +78,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
       'id' => $plugin_id_a,
       'label' => $plugin_label_a,
     ];
-    $plugin_a = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_a->expects($this->atLeastOnce())
       ->method('getPluginId')
       ->willReturn($plugin_id_a);
@@ -85,7 +88,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
       'id' => $plugin_id_b,
       'label' => $plugin_label_b,
     ];
-    $plugin_b = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_b = $this->getMock(PluginInspectionInterface::class);
 
     $this->sut->setSelectedPlugin($plugin_a);
     $selector_title = $this->randomMachineName();
@@ -96,7 +99,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
     $element = array(
       '#parents' => array('foo', 'bar'),
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $available_plugins = [$plugin_a, $plugin_b];
 
     $this->selectablePluginManager->expects($this->atLeastOnce())

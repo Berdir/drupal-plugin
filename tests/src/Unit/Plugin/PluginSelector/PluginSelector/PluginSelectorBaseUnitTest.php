@@ -7,7 +7,9 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormState;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase;
 
 /**
  * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase
@@ -29,7 +31,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
   public function setUp() {
     parent::setUp();
     $configuration = [];
-    $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase')
+    $this->sut = $this->getMockBuilder(PluginSelectorBase::class)
       ->setConstructorArgs(array($configuration, $this->pluginId, $this->pluginDefinition))
       ->getMockForAbstractClass();
   }
@@ -39,7 +41,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function testConstruct() {
     $configuration = [];
-    $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase')
+    $this->sut = $this->getMockBuilder(PluginSelectorBase::class)
       ->setConstructorArgs(array($configuration, $this->pluginId, $this->pluginDefinition))
       ->getMockForAbstractClass();
   }
@@ -104,7 +106,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    * @covers ::getPreviouslySelectedPlugins
    */
   public function testGetPreviouslySelectedPlugins() {
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $this->sut->setPreviouslySelectedPlugins([$plugin]);
     $this->assertSame([$plugin], $this->sut->getPreviouslySelectedPlugins());
   }
@@ -117,7 +119,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function testGetKeepPreviouslySelectedPlugins() {
     $keep = (bool) mt_rand(0, 1);
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $this->sut->setPreviouslySelectedPlugins([$plugin]);
     $this->assertSame($this->sut, $this->sut->setKeepPreviouslySelectedPlugins($keep));
     $this->assertSame($keep, $this->sut->getKeepPreviouslySelectedPlugins());
@@ -133,7 +135,7 @@ class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
    * @covers ::getSelectedPlugin
    */
   public function testGetSelectedPlugin() {
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $this->assertSame($this->sut, $this->sut->setSelectedPlugin($plugin));
     $this->assertSame($plugin, $this->sut->getSelectedPlugin());
   }

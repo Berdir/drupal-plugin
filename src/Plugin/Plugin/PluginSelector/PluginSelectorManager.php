@@ -10,6 +10,7 @@ use Drupal\Component\Plugin\FallbackPluginManagerInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\plugin\Annotation\PluginSelector;
 
 /**
  * Manages discovery and instantiation of plugin selector plugins.
@@ -30,7 +31,7 @@ class PluginSelectorManager extends DefaultPluginManager implements PluginSelect
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/Plugin/PluginSelector', $namespaces, $module_handler, '\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorInterface', '\Drupal\plugin\Annotation\PluginSelector');
+    parent::__construct('Plugin/Plugin/PluginSelector', $namespaces, $module_handler, PluginSelectorInterface::class, PluginSelector::class);
     $this->alterInfo('plugin_selector');
     $this->setCacheBackend($cache_backend, 'plugin_selector');
   }

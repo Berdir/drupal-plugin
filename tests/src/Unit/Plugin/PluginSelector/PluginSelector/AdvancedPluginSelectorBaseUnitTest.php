@@ -11,7 +11,10 @@ namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormState;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Plugin\PluginFormInterface;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -48,13 +51,13 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
   public function setUp() {
     parent::setUp();
 
-    $this->responsePolicy = $this->getMockBuilder('\Drupal\Core\PageCache\ResponsePolicy\KillSwitch')
+    $this->responsePolicy = $this->getMockBuilder(KillSwitch::class)
       ->disableOriginalConstructor()
       ->getMock();
 
     $this->stringTranslation = $this->getStringTranslationStub();
 
-    $this->sut = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase')
+    $this->sut = $this->getMockBuilder(AdvancedPluginSelectorBase::class)
       ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
       ->getMockForAbstractClass();
     $this->sut->setSelectablePluginType($this->selectablePluginType);
@@ -65,7 +68,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    * @covers ::__construct
    */
   function testCreate() {
-    $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $container = $this->getMock(ContainerInterface::class);
     $map = array(
       ['page_cache_kill_switch', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->responsePolicy],
       array('string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->stringTranslation),
@@ -77,20 +80,20 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase $class */
     $class = get_class($this->sut);
     $plugin = $class::create($container, [], $this->pluginId, $this->pluginDefinition);
-    $this->assertInstanceOf('\Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', $plugin);
+    $this->assertInstanceOf(AdvancedPluginSelectorBase::class, $plugin);
   }
 
   /**
    * @covers ::buildPluginForm
    */
   public function testBuildPluginForm() {
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
     $plugin_form = array(
       '#foo' => $this->randomMachineName(),
     );
 
-    $plugin = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBaseUnitTestPluginFormPlugin');
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin->expects($this->once())
       ->method('buildConfigurationForm')
       ->with([], $form_state)
@@ -115,7 +118,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
   public function testBuildPluginFormWithoutPluginForm() {
     $form_state = new FormState();
 
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $plugin->expects($this->never())
       ->method('buildConfigurationForm');
 
@@ -136,7 +139,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    */
   public function testBuildSelectorFormWithoutAvailablePlugins() {
     $form = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
     $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
@@ -151,7 +154,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [],
-        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
+        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -165,10 +168,10 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    */
   public function testBuildSelectorFormWithOneAvailablePlugin() {
     $form = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
     $plugin_id = $this->randomMachineName();
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
 
     $plugin_definitions = [
       [
@@ -193,7 +196,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [$plugin],
-        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
+        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -207,12 +210,12 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    */
   public function testBuildSelectorFormWithMultipleAvailablePlugins() {
     $form = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
     $plugin_id_a = $this->randomMachineName();
-    $plugin_a = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_id_b = $this->randomMachineName();
-    $plugin_b = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_b = $this->getMock(PluginInspectionInterface::class);
 
     $plugin_definitions = [
       [
@@ -243,7 +246,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => array($plugin_a, $plugin_b),
-        '#process' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'processBuildSelectorForm']],
+        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -262,9 +265,9 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
         ),
       ),
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
-    $plugin = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBaseUnitTestPluginFormPlugin');
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin->expects($this->once())
       ->method('submitConfigurationForm')
       ->with($form['container']['plugin_form'], $form_state);
@@ -290,11 +293,11 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ),
     );
 
-    $plugin_a = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBaseUnitTestPluginFormPlugin');
+    $plugin_a = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin_a->expects($this->any())
       ->method('getPluginId')
       ->will($this->returnValue($plugin_id_a));
-    $plugin_b = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBaseUnitTestPluginFormPlugin');
+    $plugin_b = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin_b->expects($this->never())
       ->method('validateConfigurationForm');
     $plugin_b->expects($this->any())
@@ -311,7 +314,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     // The plugin is set for the first time. The plugin form must not be
     // validated, as there is no input for it yet.
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form_state->expects($this->atLeastOnce())
       ->method('getValues')
       ->willReturn(array(
@@ -334,7 +337,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     // The form is validated, but the plugin remains unchanged, and as such
     // should validate its own form as well.
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form_state->expects($this->atLeastOnce())
       ->method('getValues')
       ->willReturn(array(
@@ -360,7 +363,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     // The plugin has changed. The plugin form must not be validated, as there
     // is no input for it yet.
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form_state->expects($this->atLeastOnce())
       ->method('getValues')
       ->willReturn(array(
@@ -383,7 +386,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     // Change the plugin ID back to the original. No new plugin may be
     // instantiated, nor must the plugin form be validated.
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form_state->expects($this->atLeastOnce())
       ->method('getValues')
       ->willReturn(array(
@@ -410,7 +413,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    */
   public function testRebuildForm() {
     $form = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form_state->expects($this->once())
       ->method('setRebuild')
       ->with(TRUE);
@@ -423,7 +426,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    */
   public function testBuildNoAvailablePlugins() {
     $element = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form = [];
 
     $label = $this->randomMachineName();
@@ -459,7 +462,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       '#type' => $this->randomMachineName(),
     );
 
-    $plugin = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\AdvancedPluginSelectorBaseUnitTestPluginFormPlugin');
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginId')
       ->will($this->returnValue($plugin_id));
@@ -470,7 +473,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $element = array(
       '#available_plugins' => array($plugin),
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form = [];
 
     $label = $this->randomMachineName();
@@ -508,12 +511,12 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    * @covers ::buildMultipleAvailablePlugins
    */
   public function testbuildMultipleAvailablePlugins() {
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
 
     $element = array(
       '#available_plugins' => array($plugin),
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $form = [];
 
     $plugin_form = array(
@@ -525,7 +528,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     );
 
     /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject $plugin_selector */
-    $plugin_selector = $this->getMockBuilder('\Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase')
+    $plugin_selector = $this->getMockBuilder(AdvancedPluginSelectorBase::class)
       ->setMethods(array('buildPluginForm', 'buildSelector'))
       ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
       ->getMockForAbstractClass();
@@ -553,7 +556,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
    * @covers ::getSelectedPlugin
    */
   public function testGetPlugin() {
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $this->assertSame($this->sut, $this->sut->setSelectedPlugin($plugin));
     $this->assertSame($plugin, $this->sut->getSelectedPlugin());
   }
@@ -571,7 +574,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     $plugin_id = $this->randomMachineName();
     $plugin_label = $this->randomMachineName();
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $plugin->expects($this->any())
       ->method('getPluginId')
       ->will($this->returnValue($plugin_id));
@@ -584,19 +587,19 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $element = array(
       '#parents' => array('foo', 'bar'),
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $available_plugins = array($plugin);
 
     $expected_build_change = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
+        'callback' => array(AdvancedPluginSelectorBase::class, 'ajaxRebuildForm'),
       ),
       '#attributes' => array(
         'class' => array('js-hide')
       ),
       '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
       '#name' => 'foo[bar][select][container][change]',
-      '#submit' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'rebuildForm']],
+      '#submit' => [[AdvancedPluginSelectorBase::class, 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );

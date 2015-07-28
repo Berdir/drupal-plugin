@@ -6,6 +6,7 @@
  */
 
 namespace Drupal\Tests\plugin\Unit;
+use Drupal\Core\Url;
 
 /**
  * Provides assertions to test operations links integrity.
@@ -23,7 +24,7 @@ trait OperationsProviderTestTrait {
       \PHPUnit_Framework_Assert::assertNotEmpty($link['title']);
 
       \PHPUnit_Framework_Assert::assertArrayHasKey('url', $link);
-      \PHPUnit_Framework_Assert::assertInstanceOf('\Drupal\Core\Url', $link['url']);
+      \PHPUnit_Framework_Assert::assertInstanceOf(Url::class, $link['url']);
     }
   }
 

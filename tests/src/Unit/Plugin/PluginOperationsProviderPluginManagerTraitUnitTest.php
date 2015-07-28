@@ -36,7 +36,7 @@ class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   public function setUp() {
-    $this->classResolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $this->classResolver = $this->getMock(ClassResolverInterface::class);
   }
 
   /**
@@ -46,7 +46,7 @@ class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
     $plugin_definitions = array(
       'foo' => array(
         'id' => 'foo',
-        'operations_provider' => '\Drupal\Tests\plugin\Unit\Plugin\PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider',
+        'operations_provider' => PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider::class,
       ),
       'bar' => array(
         'id' => 'bar',
@@ -55,7 +55,7 @@ class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
 
     $operations_provider = new \stdClass();
 
-    $this->trait = new OperationsProviderPluginManagerTraitUnitTestPluginManager($this->classResolver, $plugin_definitions);
+    $this->trait = new PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider($this->classResolver, $plugin_definitions);
 
     $this->classResolver->expects($this->any())
       ->method('getInstanceFromDefinition')
@@ -68,7 +68,7 @@ class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
 
 }
 
-class OperationsProviderPluginManagerTraitUnitTestPluginManager {
+class PluginOperationsProviderPluginManagerTraitUnitTestOperationsProvider {
 
   use PluginOperationsProviderPluginManagerTrait;
 

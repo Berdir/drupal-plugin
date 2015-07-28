@@ -7,6 +7,10 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
+use Drupal\Component\Plugin\Factory\FactoryInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManager;
 use Drupal\Tests\UnitTestCase;
 use Zend\Stdlib\ArrayObject;
@@ -57,13 +61,13 @@ class PluginSelectorManagerUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   public function setUp() {
-    $this->discovery = $this->getMock('\Drupal\Component\Plugin\Discovery\DiscoveryInterface');
+    $this->discovery = $this->getMock(DiscoveryInterface::class);
 
-    $this->factory = $this->getMock('\Drupal\Component\Plugin\Factory\FactoryInterface');
+    $this->factory = $this->getMock(FactoryInterface::class);
 
-    $this->moduleHandler = $this->getMock('\Drupal\Core\Extension\ModuleHandlerInterface');
+    $this->moduleHandler = $this->getMock(ModuleHandlerInterface::class);
 
-    $this->cache = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $this->cache = $this->getMock(CacheBackendInterface::class);
 
     $namespaces = new ArrayObject();
 

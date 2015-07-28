@@ -8,8 +8,11 @@
 namespace Drupal\Tests\plugin\Unit\Plugin;
 
 use Drupal\Component\Plugin\Discovery\CachedDiscoveryInterface;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\plugin\Plugin\FilteredPluginManager;
+use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -41,9 +44,9 @@ class FilteredPluginManagerUnitTest extends UnitTestCase {
   protected $sut;
 
   public function setUp() {
-    $this->pluginDefinitionMapper = $this->getMock('\Drupal\plugin\Plugin\PluginDefinitionMapperInterface');
+    $this->pluginDefinitionMapper = $this->getMock(PluginDefinitionMapperInterface::class);
 
-    $this->pluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $this->pluginManager = $this->getMock(PluginManagerInterface::class);
 
     $this->sut = new FilteredPluginManager($this->pluginManager, $this->pluginDefinitionMapper);
   }
@@ -124,7 +127,7 @@ class FilteredPluginManagerUnitTest extends UnitTestCase {
     $plugin_definition_a = [
       'id' => $plugin_id_a,
     ];
-    $plugin_a = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_id_b = $this->randomMachineName();
     $plugin_definition_b = [
       'id' => $plugin_id_b,
@@ -156,7 +159,7 @@ class FilteredPluginManagerUnitTest extends UnitTestCase {
 
     $this->assertSame($plugin_a, $this->sut->createInstance($plugin_id_a));
 
-    $this->setExpectedException('\Drupal\Component\Plugin\Exception\PluginNotFoundException');
+    $this->setExpectedException(PluginNotFoundException::class);
 
     $this->sut->createInstance($plugin_id_b);
   }
@@ -185,7 +188,7 @@ class FilteredPluginManagerUnitTest extends UnitTestCase {
    * @covers ::clearCachedDefinitions
    */
   public function testClearCachedDefinitionsWithCachedDiscoveryPluginManager() {
-    $this->pluginManager = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\FilteredPluginManagerUnitTestCachedDiscoveryPluginManager');
+    $this->pluginManager = $this->getMockForAbstractClass(FilteredPluginManagerUnitTestCachedDiscoveryPluginManager::class);
 
     $this->sut = new FilteredPluginManager($this->pluginManager, $this->pluginDefinitionMapper);
 
@@ -209,7 +212,7 @@ class FilteredPluginManagerUnitTest extends UnitTestCase {
    * @covers ::useCaches
    */
   public function testUseCachesWithCachedDiscoveryPluginManager() {
-    $this->pluginManager = $this->getMockForAbstractClass('\Drupal\Tests\plugin\Unit\Plugin\FilteredPluginManagerUnitTestCachedDiscoveryPluginManager');
+    $this->pluginManager = $this->getMockForAbstractClass(FilteredPluginManagerUnitTestCachedDiscoveryPluginManager::class);
 
     $this->sut = new FilteredPluginManager($this->pluginManager, $this->pluginDefinitionMapper);
 

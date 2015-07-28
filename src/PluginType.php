@@ -101,13 +101,9 @@ class PluginType implements PluginTypeInterface {
     if (array_key_exists('field_type', $definition)) {
       $this->fieldType = $definition['field_type'];
     }
-    if (isset($definition['plugin_definition_mapper_class'])) {
-      $this->pluginDefinitionMapper = new $definition['plugin_definition_mapper_class']();
-    }
-    else {
-      $this->pluginDefinitionMapper = new DefaultPluginDefinitionMapper();
-    }
-    $operations_provider_class = isset($definition['operations_provider_class']) ? $definition['operations_provider_class'] : '\Drupal\plugin\DefaultPluginTypeOperationsProvider';
+    $plugin_definition_mapper_class = isset($definition['plugin_definition_mapper_class']) ? $definition['plugin_definition_mapper_class'] : DefaultPluginDefinitionMapper::class;
+    $this->pluginDefinitionMapper = new $plugin_definition_mapper_class();
+    $operations_provider_class = isset($definition['operations_provider_class']) ? $definition['operations_provider_class'] : DefaultPluginTypeOperationsProvider::class;
     $this->operationsProvider = $class_resolver->getInstanceFromDefinition($operations_provider_class);
     $this->pluginManager = $plugin_manager;
     $this->provider = $definition['provider'];

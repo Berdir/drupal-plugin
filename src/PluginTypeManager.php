@@ -9,6 +9,7 @@ namespace Drupal\plugin;
 
 use Drupal\Component\Discovery\YamlDiscovery;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,8 +37,8 @@ class PluginTypeManager implements PluginTypeManagerInterface {
    * @var mixed[]
    */
   protected $pluginTypeDefinitionDefaults = [
-    'class' => '\Drupal\plugin\PluginType',
-    'plugin_definition_mapper_class' => '\Drupal\plugin\Plugin\DefaultPluginDefinitionMapper',
+    'class' => PluginType::class,
+    'plugin_definition_mapper_class' => DefaultPluginDefinitionMapper::class,
   ];
 
   /**

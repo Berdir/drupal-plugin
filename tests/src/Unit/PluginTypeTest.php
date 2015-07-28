@@ -7,6 +7,8 @@
 
 namespace Drupal\Tests\plugin\Unit;
 
+use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\plugin\PluginType;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,11 +58,11 @@ class PluginTypeTest extends UnitTestCase {
       'field_type' => (bool) mt_rand(0, 1),
     ];
 
-    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
-    $this->pluginManager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $this->pluginManager = $this->getMock(PluginManagerInterface::class);
 
-    $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $this->container = $this->getMock(ContainerInterface::class);
     $map = [
       ['class_resolver', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $class_resolver],
       ['string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->getStringTranslationStub()],

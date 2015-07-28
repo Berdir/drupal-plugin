@@ -8,8 +8,13 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Plugin\PluginInspectionInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Drupal\plugin\Plugin\Field\FieldFormatter\PluginLabel;
+use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface;
+use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemList;
+use Drupal\plugin\PluginTypeInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -37,7 +42,7 @@ class PluginLabelUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp() {
-    $this->fieldDefinition = $this->getMock('\Drupal\Core\Field\FieldDefinitionInterface');
+    $this->fieldDefinition = $this->getMock(FieldDefinitionInterface::class);
 
     $this->sut = new PluginLabel('plugin_label', [], $this->fieldDefinition, [], $this->randomMachineName(), $this->randomMachineName(), []);
   }
@@ -57,22 +62,22 @@ class PluginLabelUnitTest extends UnitTestCase {
       'label' => $plugin_label_b,
     ];
 
-    $plugin_instance_a = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_instance_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_instance_a->expects($this->atLeastOnce())
       ->method('getPluginDefinition')
       ->willReturn($plugin_definition_a);
 
-    $plugin_instance_b = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin_instance_b = $this->getMock(PluginInspectionInterface::class);
     $plugin_instance_b->expects($this->atLeastOnce())
       ->method('getPluginDefinition')
       ->willReturn($plugin_definition_b);
 
-    $item_a = $this->getMock('\Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface');
+    $item_a = $this->getMock(PluginCollectionItemInterface::class);
     $item_a->expects($this->atLeastOnce())
       ->method('getContainedPluginInstance')
       ->willReturn($plugin_instance_a);
 
-    $item_b = $this->getMock('\Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface');
+    $item_b = $this->getMock(PluginCollectionItemInterface::class);
     $item_b->expects($this->atLeastOnce())
       ->method('getContainedPluginInstance')
       ->willReturn($plugin_instance_b);
@@ -82,7 +87,7 @@ class PluginLabelUnitTest extends UnitTestCase {
 
     $plugin_definition_mapper = new DefaultPluginDefinitionMapper();
 
-    $plugin_type = $this->getMock('\Drupal\plugin\PluginTypeInterface');
+    $plugin_type = $this->getMock(PluginTypeInterface::class);
     $plugin_type->expects($this->atLeastOnce())
       ->method('getPluginDefinitionMapper')
       ->willReturn($plugin_definition_mapper);
@@ -94,7 +99,7 @@ class PluginLabelUnitTest extends UnitTestCase {
     }
 
     $iterator = new \ArrayIterator($items);
-    $item_list = $this->getMockBuilder('Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemList')
+    $item_list = $this->getMockBuilder(PluginCollectionItemList::class)
       ->disableOriginalConstructor()
       ->setMethods(['getEntity', 'getIterator'])
       ->getMock();

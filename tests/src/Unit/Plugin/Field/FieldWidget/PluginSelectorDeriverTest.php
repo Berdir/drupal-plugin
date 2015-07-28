@@ -8,6 +8,7 @@
 namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldWidget;
 
 use Drupal\plugin\Plugin\Field\FieldWidget\PluginSelectorDeriver;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface;
 use Drupal\plugin\PluginType;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -36,7 +37,7 @@ class PluginSelectorDeriverTest extends UnitTestCase {
   public function setUp() {
     parent::setUp();
 
-    $this->pluginSelectorManager = $this->getMock('\Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorManagerInterface');
+    $this->pluginSelectorManager = $this->getMock(PluginSelectorManagerInterface::class);
 
     $this->sut = new PluginSelectorDeriver($this->pluginSelectorManager);
   }
@@ -46,7 +47,7 @@ class PluginSelectorDeriverTest extends UnitTestCase {
    * @covers ::__construct
    */
   function testCreate() {
-    $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $container = $this->getMock(ContainerInterface::class);
     $map = [
       ['plugin.manager.plugin.plugin_selector', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginSelectorManager],
     ];
@@ -55,7 +56,7 @@ class PluginSelectorDeriverTest extends UnitTestCase {
       ->willReturnMap($map);
 
     $sut = PluginSelectorDeriver::create($container, $this->randomMachineName());
-    $this->assertInstanceOf('\Drupal\plugin\Plugin\Field\FieldWidget\PluginSelectorDeriver', $sut);
+    $this->assertInstanceOf(PluginSelectorDeriver::class, $sut);
   }
 
   /**

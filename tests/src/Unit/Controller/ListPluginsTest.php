@@ -7,8 +7,12 @@
 
 namespace Drupal\Tests\plugin\Unit\Controller;
 
+use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\plugin\Controller\ListPlugins;
 use Drupal\plugin\PluginType;
+use Drupal\plugin\PluginTypeManagerInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -58,9 +62,9 @@ class ListPluginsTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp() {
-    $this->moduleHandler = $this->getMock('\Drupal\Core\Extension\ModuleHandlerInterface');
+    $this->moduleHandler = $this->getMock(ModuleHandlerInterface::class);
 
-    $this->pluginTypeManager = $this->getMock('\Drupal\plugin\PluginTypeManagerInterface');
+    $this->pluginTypeManager = $this->getMock(PluginTypeManagerInterface::class);
 
     $this->stringTranslation = $this->getStringTranslationStub();
 
@@ -72,7 +76,7 @@ class ListPluginsTest extends UnitTestCase {
    * @covers ::__construct
    */
   function testCreate() {
-    $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+    $container = $this->getMock(ContainerInterface::class);
     $map = [
       ['module_handler', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->moduleHandler],
       ['plugin.plugin_type_manager', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pluginTypeManager],
@@ -83,16 +87,16 @@ class ListPluginsTest extends UnitTestCase {
       ->will($this->returnValueMap($map));
 
     $sut = ListPlugins::create($container);
-    $this->assertInstanceOf('\Drupal\plugin\Controller\ListPlugins', $sut);
+    $this->assertInstanceOf(ListPlugins::class, $sut);
   }
 
   /**
    * @covers ::title
    */
   public function testTitle() {
-    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
-    $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $plugin_manager = $this->getMock(PluginManagerInterface::class);
 
     $plugin_type_id = $this->randomMachineName();
     $plugin_type_label = $this->randomMachineName();
@@ -117,9 +121,9 @@ class ListPluginsTest extends UnitTestCase {
    * @covers ::execute
    */
   public function testExecute() {
-    $class_resolver = $this->getMock('\Drupal\Core\DependencyInjection\ClassResolverInterface');
+    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
-    $plugin_manager = $this->getMock('\Drupal\Component\Plugin\PluginManagerInterface');
+    $plugin_manager = $this->getMock(PluginManagerInterface::class);
 
     $plugin_id_a = $this->randomMachineName();
     $plugin_label_a = $this->randomMachineName();

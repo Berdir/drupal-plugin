@@ -8,6 +8,10 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Component\Plugin\PluginInspectionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
+use Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\Radios;
 
 /**
@@ -44,7 +48,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->responsePolicy = $this->getMockBuilder('\Drupal\Core\PageCache\ResponsePolicy\KillSwitch')
+    $this->responsePolicy = $this->getMockBuilder(KillSwitch::class)
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -59,7 +63,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
    */
   public function testBuildSelectorFormWithoutAvailablePlugins() {
     $form = [];
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
 
     $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
@@ -87,7 +91,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       'id' => $plugin_id,
       'label' => $plugin_label,
     ];
-    $plugin = $this->getMock('\Drupal\Component\Plugin\PluginInspectionInterface');
+    $plugin = $this->getMock(PluginInspectionInterface::class);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginDefinition')
       ->willReturn($plugin_definition);
@@ -95,7 +99,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       ->method('getPluginId')
       ->will($this->returnValue($plugin_id));
 
-    $this->mapper->expects($this->any())
+    $this->pluginDefinitionMapper->expects($this->any())
       ->method('getPluginLabel')
       ->willReturn($plugin_label);
 
@@ -109,12 +113,12 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       '#parents' => array('foo', 'bar'),
       '#title' => $selector_title,
     );
-    $form_state = $this->getMock('\Drupal\Core\Form\FormStateInterface');
+    $form_state = $this->getMock(FormStateInterface::class);
     $available_plugins = array($plugin);
 
     $expected_build_plugin_id = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\Radios', 'ajaxRebuildForm'),
+        'callback' => array(Radios::class, 'ajaxRebuildForm'),
         'effect' => 'fade',
         'event' => 'change',
         'progress' => 'none',
@@ -137,14 +141,14 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
     );
     $expected_build_change = array(
       '#ajax' => array(
-        'callback' => array('Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'ajaxRebuildForm'),
+        'callback' => array(AdvancedPluginSelectorBase::class, 'ajaxRebuildForm'),
       ),
       '#attributes' => array(
         'class' => array('js-hide')
       ),
       '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
       '#name' => 'foo[bar][select][container][change]',
-      '#submit' => [['Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase', 'rebuildForm']],
+      '#submit' => [[AdvancedPluginSelectorBase::class, 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );
