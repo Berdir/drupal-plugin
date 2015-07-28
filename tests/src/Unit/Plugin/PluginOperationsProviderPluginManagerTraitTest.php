@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\PluginOperationsProviderPluginManagerTraitUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\PluginOperationsProviderPluginManagerTraitTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin;
@@ -16,7 +16,7 @@ use Drupal\Tests\UnitTestCase;
  *
  * @group Plugin
  */
-class PluginOperationsProviderPluginManagerTraitUnitTest extends UnitTestCase {
+class PluginOperationsProviderPluginManagerTraitTest extends UnitTestCase {
 
   /**
    * The class resolver.

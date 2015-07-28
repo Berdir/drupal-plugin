@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\FilteredPluginManagerUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\FilteredPluginManagerTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin;
@@ -20,7 +20,7 @@ use Drupal\Tests\UnitTestCase;
  *
  * @group Plugin
  */
-class FilteredPluginManagerUnitTest extends UnitTestCase {
+class FilteredPluginManagerTest extends UnitTestCase {
 
   /**
    * The plugin definition mapper.

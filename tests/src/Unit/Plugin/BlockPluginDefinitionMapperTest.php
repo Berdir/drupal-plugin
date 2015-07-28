@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\BlockPluginDefinitionMapperUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\BlockPluginDefinitionMapperTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin;
@@ -15,7 +15,7 @@ use Drupal\Tests\UnitTestCase;
  *
  * @group Plugin
  */
-class BlockPluginDefinitionMapperUnitTest extends UnitTestCase {
+class BlockPluginDefinitionMapperTest extends UnitTestCase {
 
   /**
    * The plugin definition.

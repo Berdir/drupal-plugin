@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorManagerUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorManagerTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
@@ -20,7 +20,7 @@ use Zend\Stdlib\ArrayObject;
  *
  * @group Plugin
  */
-class PluginSelectorManagerUnitTest extends UnitTestCase {
+class PluginSelectorManagerTest extends UnitTestCase {
 
   /**
    * The cache backend.

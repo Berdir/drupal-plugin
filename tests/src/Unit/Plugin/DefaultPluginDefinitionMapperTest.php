@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\DefaultPluginDefinitionMapperUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\DefaultPluginDefinitionMapperTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin;
@@ -15,7 +15,7 @@ use Drupal\Tests\UnitTestCase;
  *
  * @group Plugin
  */
-class DefaultPluginDefinitionMapperUnitTest extends UnitTestCase {
+class DefaultPluginDefinitionMapperTest extends UnitTestCase {
 
   /**
    * The plugin definition.

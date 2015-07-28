@@ -3,7 +3,7 @@
 /**
  * @file
  * Contains
- * \Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter\PluginLabelUnitTest.
+ * \Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter\PluginLabelTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter;
@@ -22,7 +22,7 @@ use Drupal\Tests\UnitTestCase;
  *
  * @group Plugin
  */
-class PluginLabelUnitTest extends UnitTestCase {
+class PluginLabelTest extends UnitTestCase {
 
   /**
    * The field definition.
