@@ -67,7 +67,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
 
     $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
-      ->will($this->returnValue([]));
+      ->willReturn([]);
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
 
@@ -80,7 +80,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
   public function testBuildSelector() {
     $this->stringTranslation->expects($this->any())
       ->method('translate')
-      ->will($this->returnArgument(0));
+      ->willReturnArgument(0);
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
@@ -97,7 +97,7 @@ class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
       ->willReturn($plugin_definition);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginId')
-      ->will($this->returnValue($plugin_id));
+      ->willReturn($plugin_id);
 
     $this->pluginDefinitionMapper->expects($this->any())
       ->method('getPluginLabel')

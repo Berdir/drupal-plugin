@@ -84,7 +84,7 @@ class ListPluginsTest extends UnitTestCase {
     ];
     $container->expects($this->any())
       ->method('get')
-      ->will($this->returnValueMap($map));
+      ->willReturnMap($map);
 
     $sut = ListPlugins::create($container);
     $this->assertInstanceOf(ListPlugins::class, $sut);

@@ -105,7 +105,7 @@ class PluginLabelTest extends UnitTestCase {
       ->getMock();
     $item_list->expects($this->atLeastOnce())
       ->method('getIterator')
-      ->will($this->returnValue($iterator));
+      ->willReturn($iterator);
 
     $expected_build = [
       [

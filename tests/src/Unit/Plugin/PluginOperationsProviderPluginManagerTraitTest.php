@@ -60,7 +60,7 @@ class PluginOperationsProviderPluginManagerTraitTest extends UnitTestCase {
     $this->classResolver->expects($this->any())
       ->method('getInstanceFromDefinition')
       ->with($plugin_definitions['foo']['operations_provider'])
-      ->will($this->returnValue($operations_provider));
+      ->willReturn($operations_provider);
 
     $this->assertSame($operations_provider, $this->trait->getOperationsProvider('foo'));
     $this->assertNull($this->trait->getOperationsProvider('bar'));

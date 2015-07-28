@@ -108,7 +108,7 @@ class PluginSelectorManagerTest extends UnitTestCase {
     );
     $this->discovery->expects($this->once())
       ->method('getDefinitions')
-      ->will($this->returnValue($definitions));
+      ->willReturn($definitions);
     $this->moduleHandler->expects($this->once())
       ->method('alter')
       ->with('plugin_selector');

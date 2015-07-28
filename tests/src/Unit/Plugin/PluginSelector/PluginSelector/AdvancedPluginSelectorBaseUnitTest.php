@@ -75,7 +75,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     );
     $container->expects($this->any())
       ->method('get')
-      ->will($this->returnValueMap($map));
+      ->willReturnMap($map);
 
     /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase $class */
     $class = get_class($this->sut);
@@ -97,7 +97,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $plugin->expects($this->once())
       ->method('buildConfigurationForm')
       ->with([], $form_state)
-      ->will($this->returnValue($plugin_form));
+      ->willReturn($plugin_form);
 
 
     $method = new \ReflectionMethod($this->sut, 'buildPluginForm');
@@ -143,7 +143,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
 
     $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
-      ->will($this->returnValue([]));
+      ->willReturn([]);
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
     unset($build['container']['#plugin_selector_form_state_key']);
@@ -235,7 +235,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
       ->willReturnMap($map);
     $this->selectablePluginManager->expects($this->any())
       ->method('getDefinitions')
-      ->will($this->returnValue($plugin_definitions));
+      ->willReturn($plugin_definitions);
 
     $build = $this->sut->buildSelectorForm($form, $form_state);
     unset($build['container']['#plugin_selector_form_state_key']);
@@ -296,13 +296,13 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $plugin_a = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin_a->expects($this->any())
       ->method('getPluginId')
-      ->will($this->returnValue($plugin_id_a));
+      ->willReturn($plugin_id_a);
     $plugin_b = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin_b->expects($this->never())
       ->method('validateConfigurationForm');
     $plugin_b->expects($this->any())
       ->method('getPluginId')
-      ->will($this->returnValue($plugin_id_b));
+      ->willReturn($plugin_id_b);
 
     $map = array(
       array($plugin_id_a, [], $plugin_a),
@@ -310,7 +310,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     );
     $this->selectablePluginManager->expects($this->exactly(2))
       ->method('createInstance')
-      ->will($this->returnValueMap($map));
+      ->willReturnMap($map);
 
     // The plugin is set for the first time. The plugin form must not be
     // validated, as there is no input for it yet.
@@ -465,10 +465,10 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginId')
-      ->will($this->returnValue($plugin_id));
+      ->willReturn($plugin_id);
     $plugin->expects($this->once())
       ->method('buildConfigurationForm')
-      ->will($this->returnValue($plugin_form));
+      ->willReturn($plugin_form);
 
     $element = array(
       '#available_plugins' => array($plugin),
@@ -536,11 +536,11 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $plugin_selector->expects($this->once())
       ->method('buildPluginForm')
       ->with($form_state)
-      ->will($this->returnValue($plugin_form));
+      ->willReturn($plugin_form);
     $plugin_selector->expects($this->once())
       ->method('buildSelector')
       ->with($element, $form_state, array($plugin))
-      ->will($this->returnValue($selector));
+      ->willReturn($selector);
     $plugin_selector->setSelectedPlugin($plugin);
 
     $expected_build = array(
@@ -567,7 +567,7 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
   public function testBuildSelector() {
     $this->stringTranslation->expects($this->any())
       ->method('translate')
-      ->will($this->returnArgument(0));
+      ->willReturnArgument(0);
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
@@ -577,10 +577,10 @@ class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase 
     $plugin = $this->getMock(PluginInspectionInterface::class);
     $plugin->expects($this->any())
       ->method('getPluginId')
-      ->will($this->returnValue($plugin_id));
+      ->willReturn($plugin_id);
     $plugin->expects($this->any())
       ->method('getPluginLabel')
-      ->will($this->returnValue($plugin_label));
+      ->willReturn($plugin_label);
 
     $this->sut->setSelectedPlugin($plugin);
 

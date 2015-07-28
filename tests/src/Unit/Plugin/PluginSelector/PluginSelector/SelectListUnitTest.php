@@ -67,7 +67,7 @@ class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
   public function testBuildSelector() {
     $this->stringTranslation->expects($this->any())
       ->method('translate')
-      ->will($this->returnArgument(0));
+      ->willReturnArgument(0);
 
     $method = new \ReflectionMethod($this->sut, 'buildSelector');
     $method->setAccessible(TRUE);
