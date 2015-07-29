@@ -3,7 +3,7 @@
 /**
  * @file
  * Contains
- * \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\AdvancedPluginSelectorBaseUnitTest.
+ * \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\AdvancedPluginSelectorBaseTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group Plugin
  */
-class AdvancedPluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
+class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
 
   /**
    * The class under test.

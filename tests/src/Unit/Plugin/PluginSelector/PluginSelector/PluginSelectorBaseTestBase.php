@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseUnitTestBase.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseTestBase.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
@@ -18,7 +18,7 @@ use Drupal\Tests\UnitTestCase;
  * Provides a base for tests for classes that extend
  * \Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase.
  */
-abstract class PluginSelectorBaseUnitTestBase extends UnitTestCase {
+abstract class PluginSelectorBaseTestBase extends UnitTestCase {
 
   /**
    * The plugin definition of the class under test.

@@ -19,7 +19,7 @@ use Drupal\plugin\Plugin\Plugin\PluginSelector\Radios;
  *
  * @group Plugin
  */
-class RadiosUnitTest extends PluginSelectorBaseUnitTestBase {
+class RadiosTest extends PluginSelectorBaseTestBase {
 
   /**
    * The class under test.

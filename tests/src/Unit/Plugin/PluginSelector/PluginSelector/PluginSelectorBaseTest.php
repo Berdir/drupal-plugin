@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseUnitTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\PluginSelectorBaseTest.
  */
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
@@ -16,7 +16,7 @@ use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase;
  *
  * @group Plugin
  */
-class PluginSelectorBaseUnitTest extends PluginSelectorBaseUnitTestBase {
+class PluginSelectorBaseTest extends PluginSelectorBaseTestBase {
 
   /**
    * The class under test.

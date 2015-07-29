@@ -18,7 +18,7 @@ use Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList;
  *
  * @group Plugin
  */
-class SelectListUnitTest extends PluginSelectorBaseUnitTestBase {
+class SelectListTest extends PluginSelectorBaseTestBase {
 
   /**
    * The class under test.
