@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Contains \Drupal\plugin\Plugin.
+ * Contains \Drupal\plugin\PluginDiscovery\LimitedPluginDiscoveryInterface.
  */
 
-namespace Drupal\plugin\Plugin;
+namespace Drupal\plugin\PluginDiscovery;
 
 /**
- * Defines a filtered plugin manager.
+ * Defines a limited plugin discovery.
  */
-interface FilteredPluginManagerInterface {
+interface LimitedPluginDiscoveryInterface {
 
   /**
-   * Sets which plugins should be managed.
+   * Limits the plugins to discover.
    *
    * If this filter is set, any action for any plugin ID that is not part of the
    * filter must result in a
@@ -23,13 +23,13 @@ interface FilteredPluginManagerInterface {
    *
    * @return $this
    */
-  public function setPluginIdFilter(array $plugin_ids);
+  public function setDiscoveryLimit(array $plugin_ids);
 
   /**
-   * Resets which plugins should be managed.
+   * Resets the discovery limit.
    *
    * @return $this
    */
-  public function resetPluginIdFilter();
+  public function resetDiscoveryLimit();
 
 }
