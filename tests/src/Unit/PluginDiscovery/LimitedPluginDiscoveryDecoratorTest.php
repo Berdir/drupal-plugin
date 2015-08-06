@@ -90,6 +90,41 @@ class LimitedPluginDiscoveryDecoratorTest extends UnitTestCase {
     $this->assertEquals($plugin_definitions, $this->sut->getDefinitions());
   }
 
+  /**
+   * @covers ::getDefinitions
+   * @covers ::processDecoratedDefinitions
+   * @covers ::setDiscoveryLimit
+   * @covers ::resetDiscoveryLimit
+   */
+  public function testGetDefinitionsWithoutAllowedPlugins() {
+    $plugin_id_a = $this->randomMachineName();
+    $plugin_definition_a = [
+      'id' => $plugin_id_a,
+    ];
+    $plugin_id_b = $this->randomMachineName();
+    $plugin_definition_b = [
+      'id' => $plugin_id_b,
+    ];
+    $plugin_id_c = $this->randomMachineName();
+    $plugin_definition_c = [
+      'id' => $plugin_id_c,
+    ];
+
+    $plugin_definitions = [
+      $plugin_id_a => $plugin_definition_a,
+      $plugin_id_b => $plugin_definition_b,
+      $plugin_id_c => $plugin_definition_c,
+    ];
+
+    $this->pluginManager->expects($this->atLeastOnce())
+      ->method('getDefinitions')
+      ->willReturn($plugin_definitions);
+
+    $this->sut->setDiscoveryLimit([]);
+
+    $this->assertEquals([], $this->sut->getDefinitions());
+  }
+
 }
 
 /**

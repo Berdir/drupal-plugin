@@ -23,7 +23,7 @@ class LimitedPluginDiscoveryDecorator extends PluginDiscoveryDecorator implement
    * {@inheritdoc}
    */
   protected function processDecoratedDefinitions(array $decorated_definitions) {
-    if ($this->discoveryLimit) {
+    if (is_array($this->discoveryLimit)) {
       return array_intersect_key($decorated_definitions, array_flip($this->discoveryLimit));
     }
     else {
