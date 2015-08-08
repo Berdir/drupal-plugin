@@ -66,9 +66,9 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
     }
 
     $available_plugins = [];
-    foreach ($this->selectablePluginDiscovery->getDefinitions() as $plugin_definition) {
+    foreach ($this->selectablePluginManager->getDefinitions() as $plugin_definition) {
       $plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginId($plugin_definition);
-      $available_plugins[] = $this->selectablePluginType->getPluginManager()->createInstance($plugin_id);
+      $available_plugins[] = $this->selectablePluginManager->createInstance($plugin_id);
     }
 
     $plugin_selector_form_state_key = static::setPluginSelector($form_state, $this);
@@ -152,7 +152,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
         $this->setSelectedPlugin($this->getPreviouslySelectedPlugins()[$plugin_id]);
       }
       elseif ($plugin_id) {
-        $this->setSelectedPlugin($this->selectablePluginType->getPluginManager()->createInstance($plugin_id));
+        $this->setSelectedPlugin($this->selectablePluginManager->createInstance($plugin_id));
       }
       else {
         $this->resetSelectedPlugin();
