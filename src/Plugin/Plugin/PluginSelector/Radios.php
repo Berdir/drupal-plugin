@@ -7,6 +7,7 @@
 namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
 
 /**
  * Provides a plugin selector using a radio buttons.
@@ -38,7 +39,8 @@ class Radios extends AdvancedPluginSelectorBase {
     /** @var \Drupal\Component\Plugin\PluginInspectionInterface[] $plugins */
     $plugin_options = [];
     foreach ($plugins as $plugin) {
-      $plugin_options[$plugin->getPluginId()] = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginLabel($plugin->getPluginDefinition());
+      $plugin_definition = $this->selectablePluginType->ensureTypedPluginDefinition($plugin->getPluginDefinition());
+      $plugin_options[$plugin->getPluginId()] = $plugin_definition instanceof PluginLabelDefinitionInterface ? $plugin_definition->getLabel() : $plugin_definition->getId();
     }
     natcasesort($plugin_options);
     $element['container']['plugin_id'] = array(

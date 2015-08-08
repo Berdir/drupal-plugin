@@ -13,6 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\Radios;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
 
 /**
  * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\Radios
@@ -87,10 +88,10 @@ class RadiosTest extends PluginSelectorBaseTestBase {
 
     $plugin_id = $this->randomMachineName();
     $plugin_label = $this->randomMachineName();
-    $plugin_definition = [
-      'id' => $plugin_id,
-      'label' => $plugin_label,
-    ];
+    $plugin_definition = $this->getMock(PluginLabelDefinitionInterface::class);
+    $plugin_definition->expects($this->atLeastOnce())
+      ->method('getLabel')
+      ->willReturn($plugin_label);
     $plugin = $this->getMock(PluginInspectionInterface::class);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginDefinition')
@@ -99,9 +100,9 @@ class RadiosTest extends PluginSelectorBaseTestBase {
       ->method('getPluginId')
       ->willReturn($plugin_id);
 
-    $this->pluginDefinitionMapper->expects($this->any())
-      ->method('getPluginLabel')
-      ->willReturn($plugin_label);
+    $this->selectablePluginType->expects($this->atLeastOnce())
+      ->method('ensureTypedPluginDefinition')
+      ->willReturnArgument(0);
 
     $this->sut->setSelectedPlugin($plugin);
     $selector_title = $this->randomMachineName();

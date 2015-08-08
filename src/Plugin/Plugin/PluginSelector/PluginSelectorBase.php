@@ -11,6 +11,7 @@ use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\plugin\PluginDiscovery\TypedDefinitionEnsuringPluginDiscoveryDecorator;
 use Drupal\plugin\PluginTypeInterface;
 
 /**
@@ -30,9 +31,9 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   protected $previouslySelectedPlugins = [];
 
   /**
-   * The selectable plugin discovery.
+   * The plugin discovery of selectable plugins.
    *
-   * @var \Drupal\Component\Plugin\Discovery\DiscoveryInterface
+   * @var \Drupal\plugin\PluginDiscovery\TypedDiscoveryInterface
    */
   protected $selectablePluginDiscovery;
 
@@ -239,7 +240,7 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
    * {@inheritdoc}
    */
   public function setSelectablePluginType(PluginTypeInterface $plugin_type) {
-    $this->selectablePluginDiscovery = $plugin_type->getPluginManager();
+    $this->selectablePluginDiscovery = new TypedDefinitionEnsuringPluginDiscoveryDecorator($plugin_type);
     $this->selectablePluginFactory = $plugin_type->getPluginManager();
     $this->selectablePluginType = $plugin_type;
 
@@ -251,7 +252,7 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
    */
   public function setSelectablePluginDiscovery(DiscoveryInterface $plugin_discovery) {
     $this->validateSelectablePluginType();
-    $this->selectablePluginDiscovery = $plugin_discovery;
+    $this->selectablePluginDiscovery = new TypedDefinitionEnsuringPluginDiscoveryDecorator($this->selectablePluginType, $plugin_discovery);
 
     return $this;
   }

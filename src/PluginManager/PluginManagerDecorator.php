@@ -17,8 +17,6 @@ use Drupal\plugin\PluginDiscovery\PluginDiscoveryDecorator;
  */
 class PluginManagerDecorator extends PluginDiscoveryDecorator implements PluginManagerInterface {
 
-  use DependencySerializationTrait;
-
   /**
    * The decorated plugin factory.
    *

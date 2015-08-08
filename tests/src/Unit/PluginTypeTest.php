@@ -9,6 +9,9 @@ namespace Drupal\Tests\plugin\Unit;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\plugin\PluginDefinition\ArrayPluginDefinitionDecorator;
+use Drupal\plugin\PluginDefinition\PluginDefinitionDecoratorInterface;
+use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
 use Drupal\plugin\PluginType;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -123,6 +126,57 @@ class PluginTypeTest extends UnitTestCase {
    */
   public function testGetFieldType() {
     $this->assertSame($this->pluginTypeDefinition['field_type'], $this->sut->isFieldType());
+  }
+
+  /**
+   * @covers ::ensureTypedPluginDefinition
+   * @covers ::createFromDefinition
+   * @covers ::__construct
+   */
+  public function testEnsureTypedPluginDefinition() {
+    $decorated_plugin_definition = [
+      'foo' => $this->randomMachineName(),
+    ];
+
+    $this->pluginTypeDefinition['plugin_definition_decorator_class'] = ArrayPluginDefinitionDecorator::class;
+
+    $this->sut = PluginType::createFromDefinition($this->container, $this->pluginTypeDefinition);
+
+    $typed_plugin_definition = $this->sut->ensureTypedPluginDefinition($decorated_plugin_definition);
+
+    $this->assertInstanceOf(PluginDefinitionInterface::class, $typed_plugin_definition);
+    // We use ArrayPluginDefinitionDecorator for testing. The following
+    // assertion makes sure the method under test correctly passes on the
+    // decorated plugin definition to the decorator. The array handling is not
+    // part of this test.
+    /** @var \Drupal\plugin\PluginDefinition\ArrayPluginDefinitionDecorator $typed_plugin_definition */
+    $this->assertSame($decorated_plugin_definition, $typed_plugin_definition->getArrayDefinition());
+  }
+
+  /**
+   * @covers ::ensureTypedPluginDefinition
+   * @covers ::createFromDefinition
+   * @covers ::__construct
+   */
+  public function testEnsureTypedPluginDefinitionWithAlreadyTypedDefinition() {
+    $decorated_plugin_definition = $this->getMock(PluginDefinitionInterface::class);
+
+    $typed_plugin_definition = $this->sut->ensureTypedPluginDefinition($decorated_plugin_definition);
+
+    $this->assertInstanceOf(PluginDefinitionInterface::class, $typed_plugin_definition);
+  }
+
+  /**
+   * @covers ::ensureTypedPluginDefinition
+   *
+   * @expectedException \Exception
+   */
+  public function testEnsureTypedPluginDefinitionWithoutDecorator() {
+    $decorated_plugin_definition = [
+      'foo' => $this->randomMachineName(),
+    ];
+
+    $this->sut->ensureTypedPluginDefinition($decorated_plugin_definition);
   }
 
 }

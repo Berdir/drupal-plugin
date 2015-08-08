@@ -9,9 +9,7 @@ namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
-use Drupal\Core\DependencyInjection\ClassResolverInterface;
-use Drupal\plugin\Plugin\PluginDefinitionMapperInterface;
-use Drupal\plugin\PluginType;
+use Drupal\plugin\PluginTypeInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -26,13 +24,6 @@ abstract class PluginSelectorBaseTestBase extends UnitTestCase {
    * @var array
    */
   protected $pluginDefinition = [];
-
-  /**
-   * The plugin definition mapper.
-   *
-   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
-   */
-  protected $pluginDefinitionMapper;
 
   /**
    * The plugin ID of the class plugin under test.
@@ -74,20 +65,14 @@ abstract class PluginSelectorBaseTestBase extends UnitTestCase {
    *
    */
   public function setUp() {
-    $this->pluginDefinitionMapper = $this->getMock(PluginDefinitionMapperInterface::class);
-
     $this->pluginId = $this->randomMachineName();
-
-    $class_resolver = $this->getMock(ClassResolverInterface::class);
 
     $this->selectablePluginManager = $this->getMock(PluginManagerInterface::class);
 
-    $plugin_type_definition = [
-      'id' => $this->randomMachineName(),
-      'label' => $this->randomMachineName(),
-      'provider' => $this->randomMachineName(),
-    ];
-    $this->selectablePluginType = new PluginType($plugin_type_definition, $this->getStringTranslationStub(), $class_resolver, $this->selectablePluginManager);
+    $this->selectablePluginType = $this->getMock(PluginTypeInterface::class);
+    $this->selectablePluginType->expects($this->any())
+      ->method('getPluginManager')
+      ->willReturn($this->selectablePluginManager);
 
     $this->selectedPlugin = $this->getMock(PluginInspectionInterface::class);
   }

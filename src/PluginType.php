@@ -12,7 +12,7 @@ use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\StringTranslation\TranslationWrapper;
-use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
+use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -58,11 +58,16 @@ class PluginType implements PluginTypeInterface {
   protected $operationsProvider;
 
   /**
-   * The plugin definition mapper.
+   * The plugin definition decorator class.
    *
-   * @var \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
+   * @var string|null
+   *   A class that implements
+   *   \Drupal\plugin\PluginDefinition\PluginDefinitionDecoratorInterface or
+   *   NULL if definitions of plugins of this type do not have to be decorated
+   *   (e.g. already implement
+   *   \Drupal\plugin\PluginDefinition\PluginDefinitionInterface).
    */
-  protected $pluginDefinitionMapper;
+  protected $pluginDefinitionDecoratorClass;
 
   /**
    * The plugin type provider.
@@ -101,9 +106,10 @@ class PluginType implements PluginTypeInterface {
     if (array_key_exists('field_type', $definition)) {
       $this->fieldType = $definition['field_type'];
     }
-    $plugin_definition_mapper_class = isset($definition['plugin_definition_mapper_class']) ? $definition['plugin_definition_mapper_class'] : DefaultPluginDefinitionMapper::class;
-    $this->pluginDefinitionMapper = new $plugin_definition_mapper_class();
-    $operations_provider_class = isset($definition['operations_provider_class']) ? $definition['operations_provider_class'] : DefaultPluginTypeOperationsProvider::class;
+    if (array_key_exists('plugin_definition_decorator_class', $definition)) {
+      $this->pluginDefinitionDecoratorClass = $definition['plugin_definition_decorator_class'];
+    }
+    $operations_provider_class = array_key_exists('operations_provider_class', $definition) ? $definition['operations_provider_class'] : DefaultPluginTypeOperationsProvider::class;
     $this->operationsProvider = $class_resolver->getInstanceFromDefinition($operations_provider_class);
     $this->pluginManager = $plugin_manager;
     $this->provider = $definition['provider'];
@@ -154,8 +160,17 @@ class PluginType implements PluginTypeInterface {
   /**
    * {@inheritdoc}
    */
-  public function getPluginDefinitionMapper() {
-    return $this->pluginDefinitionMapper;
+  public function ensureTypedPluginDefinition($plugin_definition) {
+    if ($this->pluginDefinitionDecoratorClass && !($plugin_definition instanceof $this->pluginDefinitionDecoratorClass)) {
+      $plugin_definition_decorator_class = $this->pluginDefinitionDecoratorClass;
+      return $plugin_definition_decorator_class::createFromDecoratedDefinition($plugin_definition);
+    }
+    elseif ($plugin_definition instanceof PluginDefinitionInterface) {
+      return $plugin_definition;
+    }
+    else {
+      throw new \Exception(sprintf('A plugin definition of plugin type %s does not implement required %s, but its type also does not specify a plugin definition decorator.', $this->getId(), PluginDefinitionInterface::class));
+    }
   }
 
   /**

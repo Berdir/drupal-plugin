@@ -62,11 +62,18 @@ interface PluginTypeInterface {
   public function getPluginManager();
 
   /**
-   * Gets the plugin definition mapper.
+   * Ensures that a plugin definition is typed.
    *
-   * @return \Drupal\plugin\Plugin\PluginDefinitionMapperInterface
+   * @param \Drupal\plugin\PluginDefinition\PluginDefinitionInterface|mixed $plugin_definition
+   *   An original plugin definition of this type. It may already be typed.
+   *
+   * @return \Drupal\plugin\PluginDefinition\PluginDefinitionInterface
+   *   The typed plugin definition.
+   *
+   * @throws \InvalidArgumentException
+   *   Thrown when a typed definition could not be returned.
    */
-  public function getPluginDefinitionMapper();
+  public function ensureTypedPluginDefinition($plugin_definition);
 
   /**
    * Gets the operations provider.

@@ -10,10 +10,11 @@ namespace Drupal\Tests\plugin\Unit\Plugin\Field\FieldFormatter;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Drupal\plugin\Plugin\Field\FieldFormatter\PluginLabel;
 use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface;
 use Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemList;
+use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
 use Drupal\plugin\PluginTypeInterface;
 use Drupal\Tests\UnitTestCase;
 
@@ -51,16 +52,17 @@ class PluginLabelTest extends UnitTestCase {
    * @covers ::viewElements
    */
   public function testViewElements() {
-    $plugin_label_a = $this->randomMachineName();
-    $plugin_label_b = $this->randomMachineName();
+    $plugin_definition_label_a = $this->randomMachineName();
+    $plugin_definition_a = $this->getMock(PluginLabelDefinitionInterface::class);
+    $plugin_definition_a->expects($this->atLeastOnce())
+      ->method('getLabel')
+      ->willReturn($plugin_definition_label_a);
 
-    $plugin_definition_a = [
-      'label' => $plugin_label_a,
-    ];
-
-    $plugin_definition_b = [
-      'label' => $plugin_label_b,
-    ];
+    $plugin_definition_id_b = $this->randomMachineName();
+    $plugin_definition_b = $this->getMock(PluginDefinitionInterface::class);
+    $plugin_definition_b->expects($this->atLeastOnce())
+      ->method('getId')
+      ->willReturn($plugin_definition_id_b);
 
     $plugin_instance_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_instance_a->expects($this->atLeastOnce())
@@ -85,12 +87,10 @@ class PluginLabelTest extends UnitTestCase {
     /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface[]|\PHPUnit_Framework_MockObject_MockObject[] $items */
     $items = [$item_a, $item_b];
 
-    $plugin_definition_mapper = new DefaultPluginDefinitionMapper();
-
     $plugin_type = $this->getMock(PluginTypeInterface::class);
     $plugin_type->expects($this->atLeastOnce())
-      ->method('getPluginDefinitionMapper')
-      ->willReturn($plugin_definition_mapper);
+      ->method('ensureTypedPluginDefinition')
+      ->willReturnArgument(0);
 
     foreach ($items as $item) {
       $item->expects($this->atLeastOnce())
@@ -109,10 +109,10 @@ class PluginLabelTest extends UnitTestCase {
 
     $expected_build = [
       [
-        '#markup' => $plugin_label_a,
+        '#markup' => $plugin_definition_label_a,
       ],
       [
-        '#markup' => $plugin_label_b,
+        '#markup' => $plugin_definition_id_b,
       ],
     ];
 

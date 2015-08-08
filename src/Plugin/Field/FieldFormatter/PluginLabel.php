@@ -9,6 +9,7 @@ namespace Drupal\plugin\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
 
 /**
  * A plugin bag field formatter.
@@ -29,10 +30,9 @@ class PluginLabel extends FormatterBase {
     $build = [];
     /** @var \Drupal\plugin\Plugin\Field\FieldType\PluginCollectionItemInterface $item */
     foreach ($items as $delta => $item) {
-      $plugin_definition = $item->getContainedPluginInstance()->getPluginDefinition();
-      $mapper = $item->getPluginType()->getPluginDefinitionMapper();
+      $plugin_definition = $item->getPluginType()->ensureTypedPluginDefinition($item->getContainedPluginInstance()->getPluginDefinition());
       $build[$delta] = [
-        '#markup' => $mapper->getPluginLabel($plugin_definition),
+        '#markup' => $plugin_definition instanceof PluginLabelDefinitionInterface ? (string) $plugin_definition->getLabel() : $plugin_definition->getId(),
       ];
     }
 

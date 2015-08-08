@@ -12,6 +12,8 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList;
+use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
 
 /**
  * @coversDefaultClass \Drupal\plugin\Plugin\Plugin\PluginSelector\SelectList
@@ -53,16 +55,17 @@ class SelectListTest extends PluginSelectorBaseTestBase {
 
     $this->stringTranslation = $this->getStringTranslationStub();
 
+    $this->selectablePluginType->expects($this->any())
+      ->method('ensureTypedPluginDefinition')
+      ->willReturnArgument(0);
+
     $this->sut = new SelectList([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy);
     $this->sut->setSelectablePluginType($this->selectablePluginType);
   }
 
   /**
    * @covers ::buildSelector
-   * @covers ::buildHierarchy
-   * @covers ::buildHierarchyLevel
    * @covers ::buildOptionsLevel
-   * @covers ::sort
    */
   public function testBuildSelector() {
     $this->stringTranslation->expects($this->any())
@@ -74,20 +77,19 @@ class SelectListTest extends PluginSelectorBaseTestBase {
 
     $plugin_id_a = $this->randomMachineName();
     $plugin_label_a = $this->randomMachineName();
-    $plugin_definition_a = [
-      'id' => $plugin_id_a,
-      'label' => $plugin_label_a,
-    ];
+    $plugin_definition_a = $this->getMock(PluginLabelDefinitionInterface::class);
+    $plugin_definition_a->expects($this->atLeastOnce())
+      ->method('getLabel')
+      ->willReturn($plugin_label_a);
     $plugin_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_a->expects($this->atLeastOnce())
       ->method('getPluginId')
       ->willReturn($plugin_id_a);
     $plugin_id_b = $this->randomMachineName();
-    $plugin_label_b = $this->randomMachineName();
-    $plugin_definition_b = [
-      'id' => $plugin_id_b,
-      'label' => $plugin_label_b,
-    ];
+    $plugin_definition_b = $this->getMock(PluginDefinitionInterface::class);
+    $plugin_definition_b->expects($this->atLeastOnce())
+      ->method('getId')
+      ->willReturn($plugin_id_b);
     $plugin_b = $this->getMock(PluginInspectionInterface::class);
 
     $this->sut->setSelectedPlugin($plugin_a);
@@ -122,7 +124,7 @@ class SelectListTest extends PluginSelectorBaseTestBase {
       '#empty_value' => '',
       '#options' => array(
         $plugin_id_a => $plugin_label_a,
-        $plugin_id_b => $plugin_label_b,
+        $plugin_id_b => $plugin_id_b,
       ) ,
       '#required' => FALSE,
       '#title' => $selector_title,

@@ -11,9 +11,11 @@ default class takes the following:
 - description (optional): the human-readable US English plugin description.
 - plugin_manager_service_id (required): the ID of the plugin type's plugin 
   manager in the service container.
-- plugin_definition_mapper_class (optional): the fully qualified name of a class 
-  that implements `\Drupal\plugin\Plugin\PluginDefinitionMapperInterface`. 
-  Defaults to `\Drupal\plugin\Plugin\DefaultPluginDefinitionMapper`.
+- plugin_definition_decorator_class (optional): the fully qualified name of a class 
+  that implements 
+  `\Drupal\plugin\PluginDefinition\PluginDefinitionDecoratorInterface` if the 
+  original plugin definitions do not implement 
+  `\Drupal\plugin\PluginDefinition\PluginDefinitionInterface`.
 - operations_provider_class (optional): the fully qualified name of a class that
   implements `\Drupal\plugin\PluginTypeOperationsProviderInterface`. Defaults to
   `\Drupal\plugin\DefaultPluginTypeOperationsProvider`.

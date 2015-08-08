@@ -66,8 +66,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
     }
 
     $available_plugins = [];
-    foreach ($this->selectablePluginDiscovery->getDefinitions() as $plugin_definition) {
-      $plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getPluginId($plugin_definition);
+    foreach (array_keys($this->selectablePluginDiscovery->getDefinitions()) as $plugin_id) {
       $available_plugins[] = $this->selectablePluginFactory->createInstance($plugin_id);
     }
 

@@ -7,6 +7,10 @@
 
 namespace Drupal\plugin\Controller;
 
+use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
+use Drupal\plugin\PluginDefinition\PluginDescriptionDefinitionInterface;
+use Drupal\plugin\PluginDefinition\PluginLabelDefinitionInterface;
+use Drupal\plugin\PluginDiscovery\TypedDefinitionEnsuringPluginDiscoveryDecorator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -48,21 +52,25 @@ class ListPlugins extends ListBase {
       '#header' => [$this->t('Type'), $this->t('Description'), $this->t('Provider')],
       '#type' => 'table',
     ];
-    $plugin_definition_mapper = $plugin_type->getPluginDefinitionMapper();
-    $plugin_definitions = $plugin_type->getPluginManager()->getDefinitions();
-    uasort($plugin_definitions, function (array $plugin_definition_a, array $plugin_definition_b) use ($plugin_definition_mapper) {
-      return strnatcasecmp($plugin_definition_mapper->getPluginLabel($plugin_definition_a), $plugin_definition_mapper->getPluginLabel($plugin_definition_b));
-    });
-    foreach ($plugin_definitions as $plugin_id => $plugin_definition) {
-
-      $build[$plugin_id]['label'] = [
-        '#markup' => $plugin_definition_mapper->getPluginLabel($plugin_definition) ?: $plugin_definition_mapper->getPluginId($plugin_definition),
-      ];
-      $build[$plugin_id]['description'] = [
-        '#markup' => $plugin_definition_mapper->getPluginDescription($plugin_definition),
-      ];
-      $build[$plugin_id]['provider'] = [
-        '#markup' => $this->getProviderLabel($plugin_definition_mapper->getPluginProvider($plugin_definition)),
+    $plugin_discovery = new TypedDefinitionEnsuringPluginDiscoveryDecorator($plugin_type);
+    /** @var \Drupal\plugin\PluginDefinition\PluginDefinitionInterface[] $plugin_definitions */
+    $plugin_definitions = [];
+    foreach ($plugin_discovery->getDefinitions() as $plugin_definition) {
+      $label = $plugin_definition instanceof PluginLabelDefinitionInterface ? (string) $plugin_definition->getLabel() : $plugin_definition->getId();
+      $plugin_definitions[$label] = $plugin_definition;
+    }
+    uksort($plugin_definitions, 'strnatcasecmp');
+    foreach ($plugin_definitions as $label => $plugin_definition) {
+      $build[$plugin_definition->getId()] = [
+        'label' => [
+          '#markup' => $label,
+        ],
+        'description' => [
+          '#markup' => $plugin_definition instanceof PluginDescriptionDefinitionInterface ? (string) $plugin_definition->getDescription() : NULL,
+        ],
+        'provider' => [
+          '#markup' => $this->getProviderLabel($plugin_definition->getProvider()),
+        ],
       ];
     }
 

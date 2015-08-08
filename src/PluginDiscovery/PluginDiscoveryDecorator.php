@@ -10,12 +10,14 @@ namespace Drupal\plugin\PluginDiscovery;
 use Drupal\Component\Plugin\Discovery\CachedDiscoveryInterface;
 use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Component\Plugin\Discovery\DiscoveryTrait;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 
 /**
  * Decorates plugin discovery.
  */
 class PluginDiscoveryDecorator implements DiscoveryInterface, CachedDiscoveryInterface {
 
+  use DependencySerializationTrait;
   use DiscoveryTrait;
 
   /**
@@ -66,6 +68,8 @@ class PluginDiscoveryDecorator implements DiscoveryInterface, CachedDiscoveryInt
 
   /**
    * Processes the definitions from the decorated discovery.
+   *
+   * Any changes to the decorated definitions should be performed here.
    *
    * @param mixed[] $decorated_definitions
    *   The decorated plugin definitions, keyed by plugin ID.

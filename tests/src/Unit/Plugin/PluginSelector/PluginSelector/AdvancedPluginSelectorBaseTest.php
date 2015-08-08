@@ -174,7 +174,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $plugin = $this->getMock(PluginInspectionInterface::class);
 
     $plugin_definitions = [
-      [
+      $plugin_id => [
         'id' => $plugin_id,
       ],
     ];
@@ -218,10 +218,10 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $plugin_b = $this->getMock(PluginInspectionInterface::class);
 
     $plugin_definitions = [
-      [
+      $plugin_id_a => [
         'id' => $plugin_id_a,
       ],
-      [
+      $plugin_id_b => [
         'id' => $plugin_id_b,
       ],
     ];
@@ -230,7 +230,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
       [$plugin_id_a, [], $plugin_a],
       [$plugin_id_b, [], $plugin_b],
     ];
-    $this->selectablePluginManager->expects($this->any())
+    $this->selectablePluginManager->expects($this->atLeastOnce())
       ->method('createInstance')
       ->willReturnMap($map);
     $this->selectablePluginManager->expects($this->any())

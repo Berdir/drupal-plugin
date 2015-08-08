@@ -9,7 +9,6 @@ namespace Drupal\plugin;
 
 use Drupal\Component\Discovery\YamlDiscovery;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\plugin\Plugin\DefaultPluginDefinitionMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,16 +29,6 @@ class PluginTypeManager implements PluginTypeManagerInterface {
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
-
-  /**
-   * Plugin type definition defaults.
-   *
-   * @var mixed[]
-   */
-  protected $pluginTypeDefinitionDefaults = [
-    'class' => PluginType::class,
-    'plugin_definition_mapper_class' => DefaultPluginDefinitionMapper::class,
-  ];
 
   /**
    * The known plugin types.
@@ -97,15 +86,16 @@ class PluginTypeManager implements PluginTypeManagerInterface {
       // For every definition, set defaults and instantiate an object.
       foreach ($plugin_type_definitions_by_module as $module => $plugin_type_definitions) {
         $plugin_type_definition_defaults = [
-            'provider' => $module
-          ] + $this->pluginTypeDefinitionDefaults;
+          'provider' => $module
+        ];
         foreach ($plugin_type_definitions as $plugin_type_id => $plugin_type_definition) {
           $plugin_type_definition += $plugin_type_definition_defaults;
           if ($plugin_type_definition['provider'] == 'core' || $this->moduleHandler->moduleExists($plugin_type_definition['provider'])) {
             $plugin_type_definition['id'] = $plugin_type_id;
             /** @var \Drupal\plugin\PluginTypeInterface $class */
-            $class = $plugin_type_definition['class'];
-            $this->pluginTypes[$plugin_type_id] = $class::createFromDefinition($this->container, $plugin_type_definition);
+            $class = isset($plugin_type_definition['class']) ? $plugin_type_definition['class'] : PluginType::class;
+            $plugin_type = $class::createFromDefinition($this->container, $plugin_type_definition);
+            $this->pluginTypes[$plugin_type_id] = $plugin_type;
           }
         }
       }
