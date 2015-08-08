@@ -75,7 +75,9 @@ class AdvancedPluginSelectorBasePluginSelectorForm implements ContainerInjection
       $selectable_plugin_discovery->setDiscoveryLimit(explode(',', $allowed_selectable_plugin_ids));
       $selectable_plugin_manager = new PluginManagerDecorator($this->selectablePluginType->getPluginManager(), $selectable_plugin_discovery);
       $plugin_selector = $this->pluginSelectorManager->createInstance($plugin_id);
-      $plugin_selector->setSelectablePluginType($this->selectablePluginType, $selectable_plugin_manager);
+      $plugin_selector->setSelectablePluginType($this->selectablePluginType);
+      $plugin_selector->setSelectablePluginDiscovery($selectable_plugin_manager);
+      $plugin_selector->setSelectablePluginFactory($selectable_plugin_manager);
       $plugin_selector->setRequired();
       $form_state->set('plugin_selector', $plugin_selector);
     }

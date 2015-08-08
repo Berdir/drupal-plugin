@@ -7,8 +7,9 @@
 namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
+use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\plugin\PluginTypeInterface;
 
@@ -148,13 +149,36 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
    *
    * @param \Drupal\plugin\PluginTypeInterface $plugin_type
    *   The type of which to select plugins.
-   * @param \Drupal\Component\Plugin\PluginManagerInterface|null $plugin_manager
-   *   The plugin manager used to discover selectable plugins, or NULL to use
-   *   the plugin type's default plugin manager.
    *
    * @return $this
    */
-  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL);
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type);
+
+  /**
+   * Overrides the plugin type's discovery.
+   *
+   * @param \Drupal\Component\Plugin\Discovery\DiscoveryInterface
+   *
+   * @return $this
+   *
+   * @throws \RuntimeException
+   *   Thrown if the plugin type was not set using
+   *   self::setSelectablePluginType().
+   */
+  public function setSelectablePluginDiscovery(DiscoveryInterface $plugin_discovery);
+
+  /**
+   * Overrides the plugin type's factory.
+   *
+   * @param \Drupal\Component\Plugin\Factory\FactoryInterface $plugin_factory
+   *
+   * @return $this
+   *
+   * @throws \RuntimeException
+   *   Thrown if the plugin type was not set using
+   *   self::setSelectablePluginType().
+   */
+  public function setSelectablePluginFactory(FactoryInterface $plugin_factory);
 
   /**
    * Builds the selector form.
@@ -164,6 +188,10 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
    *
    * @return array
    *   The form structure.
+   *
+   * @throws \RuntimeException
+   *   Thrown if the plugin type was not set using
+   *   self::setSelectablePluginType().
    */
   public function buildSelectorForm(array $form, FormStateInterface $form_state);
 

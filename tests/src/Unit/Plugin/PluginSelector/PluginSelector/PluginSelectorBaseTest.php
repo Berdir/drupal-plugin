@@ -7,6 +7,8 @@
 
 namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
+use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\PluginSelectorBase;
@@ -150,6 +152,19 @@ class PluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $this->assertTrue($this->sut->isRequired());
     $this->sut->setRequired(FALSE);
     $this->assertFalse($this->sut->isRequired());
+  }
+
+  /**
+   * @covers ::setSelectablePluginType
+   * @covers ::setSelectablePluginDiscovery
+   * @covers ::setSelectablePluginFactory
+   */
+  public function testSetSelectablePluginType() {
+    $this->sut->setSelectablePluginType($this->selectablePluginType);
+
+    $this->sut->setSelectablePluginDiscovery($this->getMock(DiscoveryInterface::class));
+
+    $this->sut->setSelectablePluginFactory($this->getMock(FactoryInterface::class));
   }
 
   /**

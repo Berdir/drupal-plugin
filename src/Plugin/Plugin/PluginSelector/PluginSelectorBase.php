@@ -6,8 +6,9 @@
 
 namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
+use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\plugin\PluginTypeInterface;
@@ -29,11 +30,18 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   protected $previouslySelectedPlugins = [];
 
   /**
-   * The plugin manager of which to select plugins.
+   * The selectable plugin discovery.
    *
-   * @var \Drupal\Component\Plugin\PluginManagerInterface
+   * @var \Drupal\Component\Plugin\Discovery\DiscoveryInterface
    */
-  protected $selectablePluginManager;
+  protected $selectablePluginDiscovery;
+
+  /**
+   * The selectable plugin factory.
+   *
+   * @var \Drupal\Component\Plugin\Factory\FactoryInterface
+   */
+  protected $selectablePluginFactory;
 
   /**
    * The plugin type of which to select plugins.
@@ -230,8 +238,9 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * {@inheritdoc}
    */
-  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL) {
-    $this->selectablePluginManager = $plugin_manager ?: $plugin_type->getPluginManager();
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type) {
+    $this->selectablePluginDiscovery = $plugin_type->getPluginManager();
+    $this->selectablePluginFactory = $plugin_type->getPluginManager();
     $this->selectablePluginType = $plugin_type;
 
     return $this;
@@ -240,12 +249,41 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * {@inheritdoc}
    */
+  public function setSelectablePluginDiscovery(DiscoveryInterface $plugin_discovery) {
+    $this->validateSelectablePluginType();
+    $this->selectablePluginDiscovery = $plugin_discovery;
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setSelectablePluginFactory(FactoryInterface $plugin_factory) {
+    $this->validateSelectablePluginType();
+    $this->selectablePluginFactory = $plugin_factory;
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildSelectorForm(array $form, FormStateInterface $form_state) {
+    $this->validateSelectablePluginType();
+
+    return [];
+  }
+
+  /**
+   * Validates the selectable plugin type.
+   *
+   * @throw \RuntimeException
+   */
+  protected function validateSelectablePluginType() {
     if (!$this->selectablePluginType) {
       throw new \RuntimeException('A plugin type must be set through static::setSelectablePluginType() first.');
     }
-
-    return [];
   }
 
 }
