@@ -7,6 +7,7 @@
 namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -148,13 +149,13 @@ interface PluginSelectorInterface extends PluginInspectionInterface, Configurabl
    *
    * @param \Drupal\plugin\PluginTypeInterface $plugin_type
    *   The type of which to select plugins.
-   * @param \Drupal\Component\Plugin\PluginManagerInterface|null $plugin_manager
-   *   The plugin manager used to discover selectable plugins, or NULL to use
+   * @param \Drupal\Component\Plugin\Discovery\DiscoveryInterface|null $plugin_discovery
+   *   The plugin discovery used to discover selectable plugins, or NULL to use
    *   the plugin type's default plugin manager.
    *
    * @return $this
    */
-  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL);
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type, DiscoveryInterface $plugin_discovery = NULL);
 
   /**
    * Builds the selector form.

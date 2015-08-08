@@ -56,7 +56,7 @@ class SelectList extends AdvancedPluginSelectorBase {
   protected function buildHierarchy() {
     $parents = [];
     $children = [];
-    $definitions = $this->selectablePluginManager->getDefinitions();
+    $definitions = $this->selectablePluginDiscovery->getDefinitions();
     uasort($definitions, array($this, 'sort'));
     foreach ($definitions as $plugin_id => $definition) {
       $parent_plugin_id = $this->selectablePluginType->getPluginDefinitionMapper()->getParentPluginId($definition);
@@ -105,7 +105,7 @@ class SelectList extends AdvancedPluginSelectorBase {
    *   Keys are plugin IDs.
    */
   protected function buildOptionsLevel(array $hierarchy, $depth = 0) {
-    $definitions = $this->selectablePluginManager->getDefinitions();
+    $definitions = $this->selectablePluginDiscovery->getDefinitions();
     $options = [];
     $prefix = $depth ? str_repeat('-', $depth) . ' ' : '';
     foreach ($hierarchy as $plugin_id => $child_plugin_ids) {

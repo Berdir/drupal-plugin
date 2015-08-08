@@ -6,6 +6,7 @@
 
 namespace Drupal\plugin\Plugin\Plugin\PluginSelector;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -29,11 +30,11 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   protected $previouslySelectedPlugins = [];
 
   /**
-   * The plugin manager of which to select plugins.
+   * The selectable plugin discovery.
    *
-   * @var \Drupal\Component\Plugin\PluginManagerInterface
+   * @var \Drupal\Component\Plugin\Discovery\DiscoveryInterface
    */
-  protected $selectablePluginManager;
+  protected $selectablePluginDiscovery;
 
   /**
    * The plugin type of which to select plugins.
@@ -230,8 +231,8 @@ abstract class PluginSelectorBase extends PluginBase implements PluginSelectorIn
   /**
    * {@inheritdoc}
    */
-  public function setSelectablePluginType(PluginTypeInterface $plugin_type, PluginManagerInterface $plugin_manager = NULL) {
-    $this->selectablePluginManager = $plugin_manager ?: $plugin_type->getPluginManager();
+  public function setSelectablePluginType(PluginTypeInterface $plugin_type, DiscoveryInterface $plugin_discovery = NULL) {
+    $this->selectablePluginDiscovery = $plugin_discovery ?: $plugin_type->getPluginManager();
     $this->selectablePluginType = $plugin_type;
 
     return $this;
