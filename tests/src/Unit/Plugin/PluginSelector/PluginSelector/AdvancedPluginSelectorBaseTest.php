@@ -13,7 +13,6 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase;
 use Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\PluginSelectorBaseTestBase;
@@ -41,21 +40,10 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
   protected $stringTranslation;
 
   /**
-   * The response policy.
-   *
-   * @var \Drupal\Core\PageCache\ResponsePolicyInterface|\PHPUnit_Framework_MockObject_MockObject
-   */
-  protected $responsePolicy;
-
-  /**
    * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
-
-    $this->responsePolicy = $this->getMockBuilder(KillSwitch::class)
-      ->disableOriginalConstructor()
-      ->getMock();
 
     $this->stringTranslation = $this->getStringTranslationStub();
 
@@ -64,8 +52,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
         [],
         $this->pluginId,
         $this->pluginDefinition,
-        $this->stringTranslation,
-        $this->responsePolicy
+        $this->stringTranslation
       ))
       ->getMockForAbstractClass();
     $this->sut->setSelectablePluginType($this->selectablePluginType);
@@ -78,11 +65,6 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
   function testCreate() {
     $container = $this->getMock(ContainerInterface::class);
     $map = array(
-      [
-        'page_cache_kill_switch',
-        ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-        $this->responsePolicy
-      ],
       array(
         'string_translation',
         ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -605,8 +587,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
         [],
         $this->pluginId,
         $this->pluginDefinition,
-        $this->stringTranslation,
-        $this->responsePolicy
+        $this->stringTranslation
       ))
       ->getMockForAbstractClass();
     $this->sut->setSelectablePluginType($this->selectablePluginType);

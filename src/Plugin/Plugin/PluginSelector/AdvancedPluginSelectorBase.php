@@ -12,8 +12,6 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
-use Drupal\Core\PageCache\ResponsePolicyInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -27,13 +25,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements ContainerFactoryPluginInterface {
 
   /**
-   * The response policy.
-   *
-   * @var \Drupal\Core\PageCache\ResponsePolicyInterface
-   */
-  protected $responsePolicy;
-
-  /**
    * Constructs a new class instance.
    *
    * @param array $configuration
@@ -41,9 +32,8 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
    * @param array $plugin_definition
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, TranslationInterface $string_translation, ResponsePolicyInterface $response_policy) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, TranslationInterface $string_translation) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->responsePolicy = $response_policy;
     $this->stringTranslation = $string_translation;
   }
 
@@ -51,7 +41,7 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static($configuration, $plugin_id, $plugin_definition, $container->get('string_translation'), $container->get('page_cache_kill_switch'));
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get('string_translation'));
   }
 
   /**
@@ -59,12 +49,6 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
    */
   public function buildSelectorForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildSelectorForm($form, $form_state);
-
-    // Page caching breaks form rebuilds, so disable it.
-    $response_policy = $this->responsePolicy;
-    if ($response_policy instanceof KillSwitch) {
-      $response_policy->trigger();
-    }
 
     $available_plugins = [];
     $cacheability_metadata = CacheableMetadata::createFromRenderArray($form);
