@@ -2,19 +2,21 @@
 
 /**
  * @file
- * Contains
- * \Drupal\Tests\plugin\Unit\Plugin\Plugin\Plugin\AdvancedPluginSelectorBaseTest.
+ * Contains \Drupal\Tests\plugin\Unit\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBaseTest.
  */
 
-namespace Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector;
+namespace Drupal\Tests\plugin\Unit\Plugin\Plugin\PluginSelector;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase;
+use Drupal\Tests\plugin\Unit\Plugin\PluginSelector\PluginSelector\PluginSelectorBaseTestBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -58,7 +60,13 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $this->stringTranslation = $this->getStringTranslationStub();
 
     $this->sut = $this->getMockBuilder(AdvancedPluginSelectorBase::class)
-      ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
+      ->setConstructorArgs(array(
+        [],
+        $this->pluginId,
+        $this->pluginDefinition,
+        $this->stringTranslation,
+        $this->responsePolicy
+      ))
       ->getMockForAbstractClass();
     $this->sut->setSelectablePluginType($this->selectablePluginType);
   }
@@ -70,8 +78,16 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
   function testCreate() {
     $container = $this->getMock(ContainerInterface::class);
     $map = array(
-      ['page_cache_kill_switch', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->responsePolicy],
-      array('string_translation', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->stringTranslation),
+      [
+        'page_cache_kill_switch',
+        ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+        $this->responsePolicy
+      ],
+      array(
+        'string_translation',
+        ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+        $this->stringTranslation
+      ),
     );
     $container->expects($this->any())
       ->method('get')
@@ -93,7 +109,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
       '#foo' => $this->randomMachineName(),
     );
 
-    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
     $plugin->expects($this->once())
       ->method('buildConfigurationForm')
       ->with([], $form_state)
@@ -149,12 +165,22 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
+      '#cache' => [
+        'contexts' => [],
+        'tags' => [],
+        'max-age' => Cache::PERMANENT,
+      ],
       'container' => array(
         '#attributes' => array(
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [],
-        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
+        '#process' => [
+          [
+            AdvancedPluginSelectorBase::class,
+            'processBuildSelectorForm'
+          ]
+        ],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -191,17 +217,49 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
+      '#cache' => [
+        'contexts' => [],
+        'tags' => [],
+        'max-age' => 0,
+      ],
       'container' => array(
         '#attributes' => array(
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => [$plugin],
-        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
+        '#process' => [
+          [
+            AdvancedPluginSelectorBase::class,
+            'processBuildSelectorForm'
+          ]
+        ],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
     );
     $this->assertSame($expected_build, $build);
+  }
+
+  /**
+   * Configures a CacheableDependencyInterface mock.
+   *
+   * @param \PHPUnit_Framework_MockObject_MockObject $mock
+   *   The mock to configure. It must also implement
+   *   \Drupal\Core\Cache\CacheableDependencyInterface.
+   * @param string[] $contexts
+   * @param int $max_age
+   * @Param string[] $tags
+   */
+  protected function configureMockCacheableDependency(\PHPUnit_Framework_MockObject_MockObject $mock, array $contexts, $max_age, array $tags) {
+    $mock->expects($this->atLeastOnce())
+      ->method('getCacheContexts')
+      ->willReturn($contexts);
+    $mock->expects($this->atLeastOnce())
+      ->method('getCacheMaxAge')
+      ->willReturn($max_age);
+    $mock->expects($this->atLeastOnce())
+      ->method('getCacheTags')
+      ->willReturn($tags);
   }
 
   /**
@@ -211,11 +269,14 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
   public function testBuildSelectorFormWithMultipleAvailablePlugins() {
     $form = [];
     $form_state = $this->getMock(FormStateInterface::class);
+    $cache_contexts = [$this->randomMachineName()];
+    $cache_tags = [$this->randomMachineName()];
 
     $plugin_id_a = $this->randomMachineName();
     $plugin_a = $this->getMock(PluginInspectionInterface::class);
     $plugin_id_b = $this->randomMachineName();
-    $plugin_b = $this->getMock(PluginInspectionInterface::class);
+    $plugin_b = $this->getMock(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
+    $this->configureMockCacheableDependency($plugin_b, $cache_contexts, mt_rand(), $cache_tags);
 
     $plugin_definitions = [
       $plugin_id_a => [
@@ -241,12 +302,22 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     unset($build['container']['#plugin_selector_form_state_key']);
 
     $expected_build = array(
+      '#cache' => [
+        'contexts' => $cache_contexts,
+        'tags' => $cache_tags,
+        'max-age' => 0,
+      ],
       'container' => array(
         '#attributes' => array(
           'class' => array('plugin-selector-' . Html::getId($this->pluginId)),
         ),
         '#available_plugins' => array($plugin_a, $plugin_b),
-        '#process' => [[AdvancedPluginSelectorBase::class, 'processBuildSelectorForm']],
+        '#process' => [
+          [
+            AdvancedPluginSelectorBase::class,
+            'processBuildSelectorForm'
+          ]
+        ],
         '#tree' => TRUE,
         '#type' => 'container',
       ),
@@ -267,7 +338,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     );
     $form_state = $this->getMock(FormStateInterface::class);
 
-    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
     $plugin->expects($this->once())
       ->method('submitConfigurationForm')
       ->with($form['container']['plugin_form'], $form_state);
@@ -293,11 +364,11 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
       ),
     );
 
-    $plugin_a = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
+    $plugin_a = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
     $plugin_a->expects($this->any())
       ->method('getPluginId')
       ->willReturn($plugin_id_a);
-    $plugin_b = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
+    $plugin_b = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
     $plugin_b->expects($this->never())
       ->method('validateConfigurationForm');
     $plugin_b->expects($this->any())
@@ -434,21 +505,21 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $this->sut->setLabel($label);
 
     $expected_build = $element + array(
-      'select' => array(
-        'message' => array(
-          '#markup' => 'There are no available options.',
-          '#title' => $label,
-          '#type' => 'item',
-        ),
-        'container' => array(
-          '#type' => 'container',
-          'plugin_id' => array(
-            '#type' => 'value',
-            '#value' => NULL,
+        'select' => array(
+          'message' => array(
+            '#markup' => 'There are no available options.',
+            '#title' => $label,
+            '#type' => 'item',
+          ),
+          'container' => array(
+            '#type' => 'container',
+            'plugin_id' => array(
+              '#type' => 'value',
+              '#value' => NULL,
+            ),
           ),
         ),
-      ),
-    );
+      );
     $this->assertEquals($expected_build, $this->sut->buildNoAvailablePlugins($element, $form_state, $form));
   }
 
@@ -462,7 +533,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
       '#type' => $this->randomMachineName(),
     );
 
-    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPlugin::class);
+    $plugin = $this->getMockForAbstractClass(AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface::class);
     $plugin->expects($this->atLeastOnce())
       ->method('getPluginId')
       ->willReturn($plugin_id);
@@ -496,11 +567,11 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
         ),
       ),
       'plugin_form' => array(
-        '#attributes' => array(
-          'class' => array('plugin-selector-' . Html::getId($this->pluginId) . '-plugin-form'),
-        ),
-        '#type' => 'container',
-      ) + $plugin_form,
+          '#attributes' => array(
+            'class' => array('plugin-selector-' . Html::getId($this->pluginId) . '-plugin-form'),
+          ),
+          '#type' => 'container',
+        ) + $plugin_form,
     );
     $build = $this->sut->buildOneAvailablePlugin($element, $form_state, $form);
     unset($build['plugin_form']['#id']);
@@ -530,7 +601,13 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     /** @var \Drupal\plugin\Plugin\Plugin\PluginSelector\AdvancedPluginSelectorBase|\PHPUnit_Framework_MockObject_MockObject $plugin_selector */
     $plugin_selector = $this->getMockBuilder(AdvancedPluginSelectorBase::class)
       ->setMethods(array('buildPluginForm', 'buildSelector'))
-      ->setConstructorArgs(array([], $this->pluginId, $this->pluginDefinition, $this->stringTranslation, $this->responsePolicy))
+      ->setConstructorArgs(array(
+        [],
+        $this->pluginId,
+        $this->pluginDefinition,
+        $this->stringTranslation,
+        $this->responsePolicy
+      ))
       ->getMockForAbstractClass();
     $this->sut->setSelectablePluginType($this->selectablePluginType);
     $plugin_selector->expects($this->once())
@@ -546,7 +623,7 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
     $expected_build = array(
       '#available_plugins' => array($plugin),
       'select' => $selector,
-        'plugin_form' => $plugin_form,
+      'plugin_form' => $plugin_form,
     );
     $this->assertEquals($expected_build, $plugin_selector->buildMultipleAvailablePlugins($element, $form_state, $form));
   }
@@ -592,18 +669,32 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
 
     $expected_build_change = array(
       '#ajax' => array(
-        'callback' => array(AdvancedPluginSelectorBase::class, 'ajaxRebuildForm'),
+        'callback' => array(
+          AdvancedPluginSelectorBase::class,
+          'ajaxRebuildForm'
+        ),
       ),
       '#attributes' => array(
         'class' => array('js-hide')
       ),
-      '#limit_validation_errors' => array(array('foo', 'bar', 'select', 'plugin_id')),
+      '#limit_validation_errors' => array(
+        array(
+          'foo',
+          'bar',
+          'select',
+          'plugin_id'
+        )
+      ),
       '#name' => 'foo[bar][select][container][change]',
       '#submit' => [[AdvancedPluginSelectorBase::class, 'rebuildForm']],
       '#type' => 'submit',
       '#value' => 'Choose',
     );
-    $build = $method->invokeArgs($this->sut, array($element, $form_state, $available_plugins));
+    $build = $method->invokeArgs($this->sut, array(
+      $element,
+      $form_state,
+      $available_plugins
+    ));
     $this->assertArrayHasKey('plugin_id', $build['container']);
     $this->assertEquals($expected_build_change, $build['container']['change']);
     $this->assertSame('container', $build['container']['#type']);
@@ -611,8 +702,9 @@ class AdvancedPluginSelectorBaseTest extends PluginSelectorBaseTestBase {
 
 }
 
+
 /**
- * Provides a plugin that provides a form.
+ * Provides a plugin that provides a form and cacheability metadata.
  */
-abstract class AdvancedPluginSelectorBaseUnitTestPluginFormPlugin implements PluginInspectionInterface, PluginFormInterface {
+interface AdvancedPluginSelectorBaseUnitTestPluginFormPluginInterface extends PluginInspectionInterface, PluginFormInterface, CacheableDependencyInterface {
 }

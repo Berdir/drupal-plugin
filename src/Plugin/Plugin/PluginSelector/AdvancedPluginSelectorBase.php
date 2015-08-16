@@ -10,6 +10,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\PageCache\ResponsePolicyInterface;
@@ -66,9 +67,13 @@ abstract class AdvancedPluginSelectorBase extends PluginSelectorBase implements 
     }
 
     $available_plugins = [];
+    $cacheability_metadata = CacheableMetadata::createFromRenderArray($form);
     foreach (array_keys($this->selectablePluginDiscovery->getDefinitions()) as $plugin_id) {
-      $available_plugins[] = $this->selectablePluginFactory->createInstance($plugin_id);
+      $available_plugin = $this->selectablePluginFactory->createInstance($plugin_id);
+      $available_plugins[] = $available_plugin;
+      $cacheability_metadata = $cacheability_metadata->merge(CacheableMetadata::createFromObject($available_plugin));
     }
+    $cacheability_metadata->applyTo($form);
 
     $plugin_selector_form_state_key = static::setPluginSelector($form_state, $this);
     $form['container'] = array(
