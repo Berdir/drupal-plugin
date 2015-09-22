@@ -51,11 +51,12 @@ class PluginSelectorTest extends WebTestBase {
     $field_storage = FieldStorageConfig::load($field_storage_id);
     $this->assertNotNull($field_storage);
     $field_id = 'user.user.field_' . $field_name;
+    /** @var \Drupal\field\FieldConfigInterface $field */
     $field = FieldConfig::load($field_id);
     $this->assertNotNull($field);
-    $this->assertEqual($field->default_value[0]['plugin_type_id'], $selectable_plugin_type_id);
-    $this->assertEqual($field->default_value[0]['plugin_id'], $default_selected_plugin_id);
-    $this->assertTrue(is_array($field->default_value[0]['plugin_configuration']));
+    $this->assertEqual($field->getDefaultValueLiteral()[0]['plugin_type_id'], $selectable_plugin_type_id);
+    $this->assertEqual($field->getDefaultValueLiteral()[0]['plugin_id'], $default_selected_plugin_id);
+    $this->assertTrue(is_array($field->getDefaultValueLiteral()[0]['plugin_configuration']));
 
     // Test the widget when creating an entity.
     $entity_selected_plugin_id = 'system_breadcrumb_block';
