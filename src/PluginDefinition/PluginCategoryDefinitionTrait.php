@@ -17,7 +17,7 @@ trait PluginCategoryDefinitionTrait {
   /**
    * The plugin category.
    *
-   * @var \Drupal\Core\StringTranslation\TranslationWrapper|string|null
+   * @var \Drupal\Core\StringTranslation\TranslatableString|string|null
    */
   protected $category;
 

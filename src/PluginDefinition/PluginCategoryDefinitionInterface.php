@@ -18,7 +18,7 @@ interface PluginCategoryDefinitionInterface extends PluginDefinitionInterface {
    * Sets the category.
    *
    *
-   * @param \Drupal\Core\StringTranslation\TranslationWrapper|string $category
+   * @param \Drupal\Core\StringTranslation\TranslatableString|string $category
    *   The category.
    *
    * @return $this
@@ -28,7 +28,7 @@ interface PluginCategoryDefinitionInterface extends PluginDefinitionInterface {
   /**
    * Gets the category.
    *
-   * @return \Drupal\Core\StringTranslation\TranslationWrapper|string|null
+   * @return \Drupal\Core\StringTranslation\TranslatableString|string|null
    *   The category.
    */
   public function getCategory();

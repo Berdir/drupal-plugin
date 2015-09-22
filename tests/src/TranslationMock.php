@@ -8,6 +8,7 @@
 namespace Drupal\Tests\plugin;
 
 use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Core\StringTranslation\TranslatableString;
 use Drupal\Core\StringTranslation\TranslationInterface;
 
 /**
@@ -23,6 +24,13 @@ class TranslationMock implements TranslationInterface {
    */
   public function translate($string, array $args = array(), array $options = array()) {
     return SafeMarkup::format($string, $args);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function translateString(TranslatableString $translatable_string) {
+    return SafeMarkup::format($translatable_string->getUntranslatedString(), $translatable_string->getArguments());
   }
 
   /**

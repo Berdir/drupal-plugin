@@ -10,8 +10,8 @@ namespace Drupal\plugin;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
+use Drupal\Core\StringTranslation\TranslatableString;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\Core\StringTranslation\TranslationWrapper;
 use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,14 +39,14 @@ class PluginType implements PluginTypeInterface {
   /**
    * The human-readable label.
    *
-   * @var \Drupal\Core\StringTranslation\TranslationWrapper|string
+   * @var \Drupal\Core\StringTranslation\TranslatableString|string
    */
   protected $label;
 
   /**
    * The human-readable description.
    *
-   * @var \Drupal\Core\StringTranslation\TranslationWrapper|string|null
+   * @var \Drupal\Core\StringTranslation\TranslatableString|string|null
    */
   protected $description;
 
@@ -101,8 +101,8 @@ class PluginType implements PluginTypeInterface {
    */
   public function __construct(array $definition, TranslationInterface $string_translation, ClassResolverInterface $class_resolver, PluginManagerInterface $plugin_manager) {
     $this->id = $definition['id'];
-    $this->label = $definition['label'] = (new TranslationWrapper($definition['label']))->setStringTranslation($string_translation);
-    $this->description = $definition['description'] = isset($definition['description']) ? (new TranslationWrapper($definition['description']))->setStringTranslation($string_translation) : NULL;
+    $this->label = $definition['label'] = new TranslatableString($definition['label'], [], [], $string_translation);
+    $this->description = $definition['description'] = isset($definition['description']) ? new TranslatableString($definition['description'], [], [], $string_translation) : NULL;
     if (array_key_exists('field_type', $definition)) {
       $this->fieldType = $definition['field_type'];
     }
