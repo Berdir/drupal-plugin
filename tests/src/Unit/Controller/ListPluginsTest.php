@@ -117,7 +117,7 @@ class ListPluginsTest extends UnitTestCase {
       ->willReturn($plugin_type);
 
     $title = $this->sut->title($plugin_type_id);
-    $this->assertContains($plugin_type_label, $title);
+    $this->assertContains($plugin_type_label, (string) $title);
   }
 
   /**

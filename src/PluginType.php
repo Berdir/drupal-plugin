@@ -10,7 +10,7 @@ namespace Drupal\plugin;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\StringTranslation\TranslatableString;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\plugin\PluginDefinition\PluginDefinitionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -39,14 +39,14 @@ class PluginType implements PluginTypeInterface {
   /**
    * The human-readable label.
    *
-   * @var \Drupal\Core\StringTranslation\TranslatableString|string
+   * @var \Drupal\Core\StringTranslation\TranslatableMarkup|string
    */
   protected $label;
 
   /**
    * The human-readable description.
    *
-   * @var \Drupal\Core\StringTranslation\TranslatableString|string|null
+   * @var \Drupal\Core\StringTranslation\TranslatableMarkup|string|null
    */
   protected $description;
 
@@ -101,8 +101,8 @@ class PluginType implements PluginTypeInterface {
    */
   public function __construct(array $definition, TranslationInterface $string_translation, ClassResolverInterface $class_resolver, PluginManagerInterface $plugin_manager) {
     $this->id = $definition['id'];
-    $this->label = $definition['label'] = new TranslatableString($definition['label'], [], [], $string_translation);
-    $this->description = $definition['description'] = isset($definition['description']) ? new TranslatableString($definition['description'], [], [], $string_translation) : NULL;
+    $this->label = $definition['label'] = new TranslatableMarkup($definition['label'], [], [], $string_translation);
+    $this->description = $definition['description'] = isset($definition['description']) ? new TranslatableMarkup($definition['description'], [], [], $string_translation) : NULL;
     if (array_key_exists('field_type', $definition)) {
       $this->fieldType = $definition['field_type'];
     }

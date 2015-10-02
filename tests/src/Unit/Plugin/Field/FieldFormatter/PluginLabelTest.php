@@ -116,7 +116,9 @@ class PluginLabelTest extends UnitTestCase {
       ],
     ];
 
-    $this->assertSame($expected_build, $this->sut->viewElements($item_list));
+    $langcode = 'UA';
+
+    $this->assertSame($expected_build, $this->sut->viewElements($item_list, $langcode));
   }
 
 }
