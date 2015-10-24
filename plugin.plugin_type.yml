@@ -168,11 +168,6 @@ migrate_id_map:
   plugin_definition_decorator_class: \Drupal\plugin\PluginDefinition\ArrayPluginDefinitionDecorator
 
 # Migrate Drupal's plugin types.
-migrate_drupal_load:
-  label: Migration loader
-  provider: migrate_drupal
-  plugin_manager_service_id: plugin.manager.migrate.load
-  plugin_definition_decorator_class: \Drupal\plugin\PluginDefinition\ArrayPluginDefinitionDecorator
 migrate_drupal_cckfield:
   label: Migration CCK source
   provider: migrate_drupal
